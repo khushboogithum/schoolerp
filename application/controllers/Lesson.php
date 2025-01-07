@@ -4,7 +4,7 @@ if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
 
-class Lession extends Admin_Controller
+class Lesson extends Admin_Controller
 {
 
     public function __construct()
@@ -47,7 +47,7 @@ class Lession extends Admin_Controller
         // $vehroute_result      = $this->classsection_model->getByID();
         // $data['vehroutelist'] = $vehroute_result;
         $this->load->view('layout/header', $data);
-        $this->load->view('lession/lessionlist', $data);
+        $this->load->view('lesson/lessonlist', $data);
         $this->load->view('layout/footer', $data);
     }
 
