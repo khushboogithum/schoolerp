@@ -2366,3 +2366,14 @@ $lang['student_day_wise_attendance_report']= "Student Day Wise Attendance Report
 $lang['scan_location']= "Scan Location";
 $lang['digital_dairy']= "Digital Dairy";
 $lang['lesson']= "Lesson";
+$lang['note_book_type']= "Note book type";
+$lang['teaching_activity']= "Teaching Activity";
+$lang['todays_work']= "Today's Work";
+$lang['todays_work_report']= "Today's Work Report";
+$lang['syallabus_report']= "Syallabus Report";
+$lang['non_performer']= "Non Performer";
+$lang['student_work_report']= "Student Work Report";
+$lang['parents_report']= "Parents Report";
+$lang['ptm_report']= "PTM Report";
+
+$lang['lesson_no']= "Lesson No";

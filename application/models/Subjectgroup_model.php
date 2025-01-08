@@ -265,7 +265,7 @@ class Subjectgroup_model extends MY_Model {
             }
         }
 
-        $sql = "SELECT subject_group_subjects.*,subjects.name,subjects.code,subjects.type FROM `subject_group_subjects` INNER JOIN subjects on subjects.id=subject_group_subjects.subject_id WHERE subject_group_id =" . $this->db->escape($subject_group_id) . " and session_id =" . $this->db->escape($session_id) . "" . $subject_groupid_condition;
+        $sql = "SELECT subject_group_subjects.*,subjects.name,subjects.code,subjects.type,subjects.id as subject_id FROM `subject_group_subjects` INNER JOIN subjects on subjects.id=subject_group_subjects.subject_id WHERE subject_group_id =" . $this->db->escape($subject_group_id) . " and session_id =" . $this->db->escape($session_id) . "" . $subject_groupid_condition;
         $query = $this->db->query($sql);
 
         return $query->result();

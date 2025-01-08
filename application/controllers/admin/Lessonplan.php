@@ -153,6 +153,7 @@ class Lessonplan extends Admin_Controller
         $this->load->view('admin/lessonplan/lesson', $data);
         $this->load->view('layout/footer');
     }
+    
 
     public function createlesson()
     {
