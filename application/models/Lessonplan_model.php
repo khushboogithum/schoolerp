@@ -6,7 +6,6 @@ if (!defined('BASEPATH')) {
 
 class Lessonplan_model extends MY_model
 {
-
     public function __construct()
     {
         parent::__construct();
