@@ -4,7 +4,7 @@ if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
 
-class Lession extends Admin_Controller
+class Lesson extends Admin_Controller
 {
 
     public function __construct()
@@ -17,10 +17,10 @@ class Lession extends Admin_Controller
         if (!$this->rbac->hasPrivilege('class', 'can_view')) {
             access_denied();
         }
-        $this->session->set_userdata('top_menu', 'Lession');
-        $this->session->set_userdata('sub_menu', 'Lessions/index');
-        $data['title']      = 'Add Lession';
-        $data['title_list'] = 'Lession List';
+        $this->session->set_userdata('top_menu', 'Lesson');
+        $this->session->set_userdata('sub_menu', 'Lesson/index');
+        $data['title']      = 'Add Lesson';
+        $data['title_list'] = 'Lesson List';
 
         // $this->form_validation->set_rules(
         //     'class', $this->lang->line('class'), array(
@@ -47,7 +47,7 @@ class Lession extends Admin_Controller
         // $vehroute_result      = $this->classsection_model->getByID();
         // $data['vehroutelist'] = $vehroute_result;
         $this->load->view('layout/header', $data);
-        $this->load->view('lession/lessionlist', $data);
+        $this->load->view('lesson/lessonlist', $data);
         $this->load->view('layout/footer', $data);
     }
 
