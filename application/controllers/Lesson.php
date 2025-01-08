@@ -20,10 +20,10 @@ class Lesson extends Admin_Controller
         if (!$this->rbac->hasPrivilege('class', 'can_view')) {
             access_denied();
         }
-        $this->session->set_userdata('top_menu', 'Lession');
-        $this->session->set_userdata('sub_menu', 'Lessions/index');
-        $data['title']      = 'Add Lession';
-        $data['title_list'] = 'Lession List';
+        $this->session->set_userdata('top_menu', 'Lesson');
+        $this->session->set_userdata('sub_menu', 'Lesson/index');
+        $data['title']      = 'Add Lesson';
+        $data['title_list'] = 'Lesson List';
 
         $classlist         = $this->class_model->get();
         $data['classlist'] = $classlist;
