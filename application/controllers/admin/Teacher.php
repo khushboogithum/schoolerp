@@ -406,6 +406,7 @@ class Teacher extends Admin_Controller
             $data["tlist"] = $tlist;
         }
         
+        
         $teacherlist = $this->staff_model->getStaffbyrole($role = 2);
 
         $data['teacherlist'] = $teacherlist;

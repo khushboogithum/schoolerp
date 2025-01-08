@@ -10,6 +10,9 @@ class Lesson extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->library('form_validation');
+        $this->load->model('lessondiary_model');  // Load the model here
+
     }
 
     public function index()
@@ -22,33 +25,42 @@ class Lesson extends Admin_Controller
         $data['title']      = 'Add Lession';
         $data['title_list'] = 'Lession List';
 
-        // $this->form_validation->set_rules(
-        //     'class', $this->lang->line('class'), array(
-        //         'required',
-        //         array('class_exists', array($this->class_model, 'class_exists')),
-        //     )
-        // );
-        //$this->form_validation->set_rules('sections[]', $this->lang->line('section'), 'trim|required|xss_clean');
+        $classlist         = $this->class_model->get();
+        $data['classlist'] = $classlist;
 
-        // if ($this->form_validation->run() == false) {
+        $data['title'] = 'Add Lesson';
+        $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('subject_group_id', $this->lang->line('subject_group'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('subject_id', $this->lang->line('subject'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('lesson_number', $this->lang->line('lesson_no'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('lesson_name', $this->lang->line('lesson_name'), 'trim|required|xss_clean');
 
-        // } else {
-        //     $class       = $this->input->post('class');
-        //     $class_array = array(
-        //         'class' => $this->input->post('class'),
-        //     );
-        //     $sections = $this->input->post('sections');
-        //     $this->classsection_model->add($class_array, $sections);
-        //     $this->session->set_flashdata('msg', '<div class="alert alert-success text-left">' . $this->lang->line('success_message') . '</div>');
-        //     redirect('classes');
-        // }
-        // $vehicle_result       = $this->section_model->get();
-        // $data['vehiclelist']  = $vehicle_result;
-        // $vehroute_result      = $this->classsection_model->getByID();
-        // $data['vehroutelist'] = $vehroute_result;
+        if ($this->form_validation->run() == false) {
+           
+        }  else {
+                $data = array(
+                    'class_id'        => $this->input->post('class_id'),
+                    'section_id'      => $this->input->post('section_id'),                  
+                    'subject_group_id' => $this->input->post('subject_group_id'),
+                    'subject_id'       => $this->input->post('subject_id'),
+                    'lesson_number'    => $this->input->post('lesson_number'),
+                    'lesson_name'      => $this->input->post('lesson_name'),
+                    'created_by'      => '3',
+                );
+                $this->lessondiary_model->add_lesson($data);
+                return redirect('lesson');
+            
+        }
+
         $this->load->view('layout/header', $data);
         $this->load->view('lesson/lessonlist', $data);
         $this->load->view('layout/footer', $data);
+    }
+    public function createlesson()
+    {
+      
+        
     }
 
     public function delete($id)
@@ -147,3 +159,4 @@ class Lesson extends Admin_Controller
 
 
 }
+

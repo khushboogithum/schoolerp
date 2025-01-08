@@ -2375,3 +2375,5 @@ $lang['non_performer']= "Non Performer";
 $lang['student_work_report']= "Student Work Report";
 $lang['parents_report']= "Parents Report";
 $lang['ptm_report']= "PTM Report";
+
+$lang['lesson_no']= "Lesson No";
