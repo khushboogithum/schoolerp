@@ -3,72 +3,72 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Subject_model extends MY_Model {
+class Subject_model extends MY_Model
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
 
-        public function get($id = null) {
-        if($id!=null){
+    public function get($id = null)
+    {
+        if ($id != null) {
             $this->db->select()->from('subjects');
-                $this->db->where('subjects.id', $id);
-                $this->db->order_by('id');
-                 $query = $this->db->get();
-                return $query->row_array(); 
-        }else{
-$subject_condition = 0;
-        $userdata = $this->customlib->getUserData();
+            $this->db->where('subjects.id', $id);
+            $this->db->order_by('id');
+            $query = $this->db->get();
+            return $query->row_array();
+        } else {
+            $subject_condition = 0;
+            $userdata = $this->customlib->getUserData();
 
-        $role_id = $userdata["role_id"];
-
-
-        if (isset($role_id) && ($userdata["role_id"] == 2) && ($userdata["class_teacher"] == "yes")) {
-            if ($userdata["class_teacher"] == 'yes') {
+            $role_id = $userdata["role_id"];
 
 
+            if (isset($role_id) && ($userdata["role_id"] == 2) && ($userdata["class_teacher"] == "yes")) {
+                if ($userdata["class_teacher"] == 'yes') {
 
-                $my_classes = $this->teacher_model->my_classes($userdata['id']);
 
-        
-                if (!empty($my_classes)) {
-                    $subject_condition = 0;
-                } else {
-                    $subject_condition = 1;
-                    
+
+                    $my_classes = $this->teacher_model->my_classes($userdata['id']);
+
+
+                    if (!empty($my_classes)) {
+                        $subject_condition = 0;
+                    } else {
+                        $subject_condition = 1;
+                    }
+                    $my_subjects = $this->teacher_model->get_examsubjects($userdata['id']);
                 }
-        $my_subjects = $this->teacher_model->get_examsubjects($userdata['id']);
             }
-        }
-        
-       
-           
+
+
+
             if (!empty($my_subjects)) {
 
-foreach($my_subjects as $key=>$value){
-$my_subjects[]=$value;
-}
-                 $this->db->select()->from('subjects');
+                foreach ($my_subjects as $key => $value) {
+                    $my_subjects[] = $value;
+                }
+                $this->db->select()->from('subjects');
                 $this->db->where_in('subjects.id', $my_subjects);
                 $this->db->order_by('id');
-                 $query = $this->db->get();
-                return $query->result_array(); 
-            }elseif($subject_condition == 1 && empty($my_subjects)){
-               
-             return array();
-            }else{
-                 $this->db->select()->from('subjects');
-                 $this->db->order_by('id');
-                 $query = $this->db->get();
-                 return $query->result_array(); 
+                $query = $this->db->get();
+                return $query->result_array();
+            } elseif ($subject_condition == 1 && empty($my_subjects)) {
+
+                return array();
+            } else {
+                $this->db->select()->from('subjects');
+                $this->db->order_by('id');
+                $query = $this->db->get();
+                return $query->result_array();
             }
         }
-        
-        
-       
     }
 
-    public function remove($id) {
+    public function remove($id)
+    {
         $this->db->trans_start(); # Starting Transaction
         $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
@@ -90,7 +90,8 @@ $my_subjects[]=$value;
         }
     }
 
-    public function add($data) {
+    public function add($data)
+    {
         $this->db->trans_start(); # Starting Transaction
         $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
@@ -136,7 +137,8 @@ $my_subjects[]=$value;
         }
     }
 
-    function check_data_exists($data) {
+    function check_data_exists($data)
+    {
         $this->db->where('name', $data['name']);
         $query = $this->db->get('subjects');
         if ($query->num_rows() > 0) {
@@ -146,7 +148,8 @@ $my_subjects[]=$value;
         }
     }
 
-    function check_code_exists($data) {
+    function check_code_exists($data)
+    {
         $this->db->where('code', $data['code']);
         $query = $this->db->get('subjects');
         if ($query->num_rows() > 0) {
@@ -155,5 +158,4 @@ $my_subjects[]=$value;
             return FALSE;
         }
     }
-
 }

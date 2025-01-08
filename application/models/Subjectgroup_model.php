@@ -395,4 +395,12 @@ class Subjectgroup_model extends MY_Model {
         return $query->result();
     }
 
+    public function getsubjectGroup() {
+        $this->db->select()->from('subject_groups');
+        $this->db->order_by('id');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    
+
 }
