@@ -2383,5 +2383,10 @@ $lang['note_book_type']= "Note Book Type";
 $lang['edit_note_book_type']= "Edit Note Book Type";
 $lang['note_book_type_list']= "Note Book Type List";
 $lang['deleting_note_book']= "Do you want to delete this note book type";
+$lang['teacher_activity']= "Teacher Activity";
+$lang['lession_reading']= "Lession Reading";
+$lang['add_teacher_activity']= "Add Teacher Activity";
+$lang['teacher_activity_list']= "Teacher Activity List";
+$lang['edit_teacher_activity']= "Edit Teacher Activity";
 
 
