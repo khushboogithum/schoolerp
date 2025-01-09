@@ -70,13 +70,13 @@
                 <!-- general form elements -->
                 <div class="box box-primary">
                     <div class="box-header ptbnull">
-                        <h3 class="box-title titlefix"><?php echo $this->lang->line('lesson_list'); ?></h3>
+                        <h3 class="box-title titlefix"><?php echo $this->lang->line('note_book_type_list'); ?></h3>
                         <div class="box-tools pull-right">
                         </div><!-- /.box-tools -->
                     </div><!-- /.box-header -->
                     <div class="box-body">
                         <div class="table-responsive mailbox-messages overflow-visible">
-                            <div class="download_label"><?php echo $this->lang->line('class_list'); ?></div>
+                            <div class="download_label"><?php echo $this->lang->line('note_book_type_list'); ?></div>
                             <table class="table table-striped table-bordered table-hover example">
                                 <thead>
                                     <tr>
@@ -97,14 +97,14 @@
                                         <td><?php echo $notebookLists->remark; ?> </td>                                       </td>
                                         <td class="mailbox-date pull-right">
                                             <?php
-                                             if ($this->rbac->hasPrivilege('class', 'can_edit')) {
+                                             if ($this->rbac->hasPrivilege('note_book_type', 'can_edit')) {
                                             ?>
                                             <a href="<?php echo base_url(); ?>notebooktype/edit/<?php echo $notebookLists->note_book_type_id; ?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>">
                                                         <i class="fa fa-pencil"></i>
                                                     </a>
                                             <?php
                                               }
-                                             if ($this->rbac->hasPrivilege('class', 'can_delete')) {
+                                             if ($this->rbac->hasPrivilege('note_book_type', 'can_delete')) {
                                             ?>
                                               <a href="<?php echo base_url(); ?>notebooktype/delete/<?php echo $notebookLists->note_book_type_id; ?>"class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('delete'); ?>" onclick="return confirm('<?php echo $this->lang->line('deleting_note_book'); ?>');">
                                                         <i class="fa fa-remove"></i> 

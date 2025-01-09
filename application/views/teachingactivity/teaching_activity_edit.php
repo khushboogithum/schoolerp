@@ -73,7 +73,7 @@
 
                         <div class="box-footer">
 
-                            <button type="submit" class="btn btn-info pull-right"><?php echo $this->lang->line('add'); ?></button>
+                            <button type="submit" class="btn btn-info pull-right"><?php echo $this->lang->line('update'); ?></button>
                         </div>
                     </form>
                 </div>

@@ -92,7 +92,7 @@
                     </div><!-- /.box-header -->
                     <div class="box-body">
                         <div class="table-responsive mailbox-messages overflow-visible">
-                            <div class="download_label"><?php echo $this->lang->line('class_list'); ?></div>
+                            <div class="download_label"><?php echo $this->lang->line('teacher_activity_list'); ?></div>
                             <table class="table table-striped table-bordered table-hover example">
                                 <thead>
                                     <tr>

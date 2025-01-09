@@ -21,7 +21,7 @@
                         <h3 class="box-title"><?php echo $this->lang->line('edit_note_book_type'); ?></h3>
                     </div><!-- /.box-header -->
                     <form id="form1" action="<?php echo site_url('notebooktype/edit/'.$editnotbooktype[0]->note_book_type_id); ?>" method="post" accept-charset="utf-8">
-                    <input id="note_book_type_id" name="note_book_type_id" placeholder="" type="text" class="form-control" value="<?php echo $editnotbooktype[0]->note_book_type_id; ?>" />
+                    <input id="note_book_type_id" name="note_book_type_id" placeholder="" type="hidden" class="form-control" value="<?php echo $editnotbooktype[0]->note_book_type_id; ?>" />
                     <div class="box-body">
                             <?php
                             if ($this->session->flashdata('msg')) {
