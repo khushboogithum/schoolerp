@@ -2377,3 +2377,11 @@ $lang['parents_report']= "Parents Report";
 $lang['ptm_report']= "PTM Report";
 
 $lang['lesson_no']= "Lesson No";
+$lang['add_note_book_type']= "Add Note Book Type";
+$lang['lesson_no']= "Lesson No";
+$lang['note_book_type']= "Note Book Type";
+$lang['edit_note_book_type']= "Edit Note Book Type";
+$lang['note_book_type_list']= "Note Book Type List";
+$lang['deleting_note_book']= "Do you want to delete this note book type";
+
+
