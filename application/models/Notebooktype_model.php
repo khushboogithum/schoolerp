@@ -116,6 +116,7 @@ class Notebooktype_model extends MY_model
             $this->db->order_by('note_book_type.note_book_type_id', 'DESC');
         }
 
+        
         $query = $this->db->get()->result_object();
             return $query;
     }

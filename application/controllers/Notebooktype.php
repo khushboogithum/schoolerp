@@ -40,6 +40,8 @@ class Notebooktype extends Admin_Controller
                 'created_by'      => '3',
             );
             $this->Notebooktype_model->add_notebooktype($data);
+            $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
+          
             return redirect('notebooktype');
         }
 
@@ -98,7 +100,7 @@ class Notebooktype extends Admin_Controller
         $data = ['status' => 0];
 
         $this->Notebooktype_model->removeNoteBook($id,$data);
-
+        $this->session->set_flashdata('msg', '<div class="alert alert-success text-left">' . $this->lang->line('delete_message') . '</div>');
         redirect('notebooktype');
     }
 }

@@ -18,9 +18,9 @@
                 <!-- Horizontal Form -->
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title"><?php echo $this->lang->line('add_teacher_activity'); ?></h3>
+                        <h3 class="box-title"><?php echo $this->lang->line('edit_teacher_activity'); ?></h3>
                     </div><!-- /.box-header -->
-                    <form id="form1" action="<?php echo site_url('teachingactivity'); ?>" method="post" accept-charset="utf-8">
+                    <form id="form1" action="<?php echo site_url('teachingactivity/edit/'.$teachingactivityedit[0]->teaching_activity_id); ?>" method="post" accept-charset="utf-8">
                         <div class="box-body">
                             <?php
                             if ($this->session->flashdata('msg')) {
@@ -39,7 +39,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1"><?php echo $this->lang->line('lession_reading'); ?></label><small class="req"> *</small>
-                                        <input autofocus="" id="teaching_activity_title" name="teaching_activity_title" placeholder="" type="text" class="form-control" value="<?php echo set_value('teaching_activity_title'); ?>" />
+                                        <input autofocus="" id="teaching_activity_title" name="teaching_activity_title" placeholder="" type="text" class="form-control" value="<?php echo $teachingactivityedit[0]->teaching_activity_title; ?>" />
                                         <span class="text-danger"><?php echo form_error('teaching_activity_title'); ?></span>
                                     </div>
                                 </div>
@@ -51,7 +51,7 @@
                                             <?php
                                             foreach ($notebookList as $notebook) {
                                             ?>
-                                                <option value="<?php echo $notebook->note_book_type_id ?>"><?php echo $notebook->note_book_title ?></option>
+                                                <option <?php if($teachingactivityedit[0]->note_book_type_id==$notebook->note_book_type_id){ echo "selected";} ?> value="<?php echo $notebook->note_book_type_id ?>"><?php echo $notebook->note_book_title ?></option>
                                             <?php
                                             }
                                             ?>
@@ -62,7 +62,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1"><?php echo $this->lang->line('remarks'); ?></label><small class="req"> *</small>
-                                        <input autofocus="" id="remarks" name="remarks" placeholder="" type="text" class="form-control" value="<?php echo set_value('remarks'); ?>" />
+                                        <input autofocus="" id="remarks" name="remarks" placeholder="" type="text" class="form-control" value="<?php echo $teachingactivityedit[0]->remark ?>" />
                                         <span class="text-danger"><?php echo form_error('remarks'); ?></span>
                                     </div>
                                 </div>
