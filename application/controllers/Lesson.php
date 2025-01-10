@@ -125,6 +125,8 @@ class Lesson extends Admin_Controller
         $data['id'] = $id;
         $data['lesson'] = $this->lessondiary_model->getLessionByClassIdsectionId($classId,$sectionId);
         $data['lessonlist'] = $this->lessondiary_model->getviewsubjectgroup($classId,$sectionId);
+       // echo $lessionDetails[0]['class_id'];
+       // die();
         $data['classlist'] = $this->class_model->get();
         $data['sectionlist'] = $this->section_model->get();
         $data['subjectlist'] = $this->subject_model->get();
@@ -165,7 +167,8 @@ class Lesson extends Admin_Controller
 
         $data['title'] = 'Edit Lesson';
         $data['id'] = $id;
-        $data['lesson'] = $this->lessondiary_model->getLessionBysubjectGroup($subject_group_id,$subject_id);
+        $data['lesson']=$lessionDetails= $this->lessondiary_model->getLessionBysubjectGroup($subject_group_id,$subject_id);
+       
         $data['classlist'] = $this->class_model->get();
         $data['sectionlist'] = $this->section_model->get();
         $data['subjectlist'] = $this->subject_model->get();
