@@ -7,7 +7,6 @@
             <i class="fa fa-mortar-board"></i> <?php echo $this->lang->line('lesson'); ?>
         </h1>
     </section>
-
     <!-- Main content -->
     <section class="content">
         <div class="row">
@@ -20,7 +19,7 @@
                     <div class="box-header with-border">
                         <h3 class="box-title"><?php echo $this->lang->line('add_lesson'); ?></h3>
                     </div><!-- /.box-header -->
-                    <form id="form1" action="<?php echo site_url('lesson/viewlession/'.$lesson[0]['subject_group_id'].'/'.$lesson[0]['subject_id']) ?>" method="post" accept-charset="utf-8">
+                    <form id="form1" action="<?php echo site_url('lesson/viewlession/' . $lesson[0]['subject_group_id'] . '/' . $lesson[0]['subject_id']) ?>" method="post" accept-charset="utf-8">
                         <div class="box-body">
                             <?php
                             if ($this->session->flashdata('msg')) {
@@ -117,9 +116,9 @@
                         </div><!-- /.box-body -->
 
                         <div class="box-footer">
-
                             <button type="submit" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('add'); ?></button>
-                        </div>
+                            <a href="#" onclick="window.history.back()" class="btn btn-info pull-right"><?php echo $this->lang->line('back'); ?></button></a>
+                            </div>
                     </form>
                 </div>
 
@@ -165,7 +164,7 @@
                                                 <td><?= $lessonlists['lesson_number'] ?></td>
                                                 <td><?= $lessonlists['lesson_name'] ?></td>
                                                 <td class="mailbox-date pull-right">
-                                                <?php
+                                                    <?php
                                                     if ($this->rbac->hasPrivilege('lesson', 'can_view')) {
                                                     ?>
                                                         <!-- <a href="<?php echo base_url(); ?>lesson/view/<?php echo $lessonlists['lesson_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>">
@@ -340,7 +339,7 @@
                             code = " (" + obj.code + ") ";
                         }
 
-                        
+
                         div_data += "<option value=" + obj.subject_id + " " + sel + ">" + obj.name + code + "</option>";
                     });
                     $('#' + subject_target).html(div_data);

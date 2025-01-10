@@ -119,6 +119,8 @@
                         <div class="box-footer">
 
                             <button type="submit" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('update'); ?></button>
+                            <a href="#" onclick="window.history.back()" class="btn btn-info pull-right"><?php echo $this->lang->line('back'); ?></button></a>
+
                         </div>
                     </form>
                 </div>
