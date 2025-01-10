@@ -126,10 +126,10 @@
                                     <tr>
                                         <th><?php echo $this->lang->line('class'); ?></th>
                                         <th><?php echo $this->lang->line('section'); ?></th>
-                                        <th><?php echo $this->lang->line('subject_group'); ?></th>
+                                        <!-- <th><?php echo $this->lang->line('subject_group'); ?></th>
                                         <th><?php echo $this->lang->line('subject'); ?></th>
                                         <th><?php echo $this->lang->line('lesson_no'); ?></th>
-                                        <th><?php echo $this->lang->line('lesson_name'); ?></th>
+                                        <th><?php echo $this->lang->line('lesson_name'); ?></th> -->
 
                                         <th class="text-right noExport"><?php echo $this->lang->line('action'); ?></th>
                                     </tr>
@@ -140,14 +140,21 @@
                                         foreach ($lessonlist as $lessonlists) {
                                     ?>
                                             <tr>
-                                                <td class="mailbox-name"><?= $lessonlists['class'] ?></td>
+                                                <td class="mailbox-name"> <a href="<?php echo base_url(); ?>lesson/viewsubjectgroup/<?php echo $lessonlists['lesson_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>"><?= $lessonlists['class'] ?></a></td>
                                                 <td><?= $lessonlists['section'] ?></td>
-                                                <td><?= $lessonlists['subject_group'] ?></td>
-                                                <td><?= $lessonlists['subject_name'] ?></td>
+                                                <!-- <td><?= $lessonlists['subject_group'] ?></td> -->
+                                                <!-- <td><?= $lessonlists['subject_name'] ?></td>
                                                 <td><?= $lessonlists['lesson_number'] ?></td>
-                                                <td><?= $lessonlists['lesson_name'] ?></td>
+                                                <td><?= $lessonlists['lesson_name'] ?></td> -->
                                                 <td class="mailbox-date pull-right">
+                                                <?php
+                                                    if ($this->rbac->hasPrivilege('lesson', 'can_view')) {
+                                                    ?>
+                                                        <a href="<?php echo base_url(); ?>lesson/viewsubjectgroup/<?php echo $lessonlists['lesson_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>">
+                                                            <i class="fa fa-eye"></i>
+                                                        </a>
                                                     <?php
+                                                    }
                                                     if ($this->rbac->hasPrivilege('lesson', 'can_edit')) {
                                                     ?>
                                                         <a href="<?php echo base_url(); ?>lesson/edit/<?php echo $lessonlists['lesson_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>">

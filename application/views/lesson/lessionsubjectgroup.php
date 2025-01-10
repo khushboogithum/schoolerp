@@ -75,7 +75,7 @@
                                             <option value=""><?php echo $this->lang->line('select'); ?></option>
                                             <?php foreach ($subjectgrouplist as $subjectgroup) { ?>
                                                 <option value="<?php echo $subjectgroup['id']; ?>"
-                                                    <?php echo ($lesson['subject_group_id'] == $subjectgroup['id']) ? 'selected' : ''; ?>>
+                                                    >
                                                     <?php echo $subjectgroup['name']; ?>
                                                 </option>
                                             <?php } ?>
@@ -89,8 +89,7 @@
                                         <select id="subid" name="subject_id" class="form-control">
                                             <option value=""><?php echo $this->lang->line('select'); ?></option>
                                             <?php foreach ($subjectlist as $subject) { ?>
-                                                <option value="<?php echo $subject['id']; ?>"
-                                                    <?php echo ($lesson['subject_id'] == $subject['id']) ? 'selected' : ''; ?>>
+                                                <option value="<?php echo $subject['id']; ?>">
                                                     <?php echo $subject['name']; ?>
                                                 </option>
                                             <?php } ?>
@@ -101,14 +100,14 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1"><?php echo $this->lang->line('lesson_no'); ?></label><small class="req"> *</small>
-                                        <input autofocus="" id="lesson_number" name="lesson_number" placeholder="" type="number" class="form-control" value="<?php echo $lesson['lesson_number']; ?>" />
+                                        <input autofocus="" id="lesson_number" name="lesson_number" placeholder="" type="number" class="form-control" value="" />
                                         <span class="text-danger"><?php echo form_error('lesson_number'); ?></span>
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1"><?php echo $this->lang->line('lesson_name'); ?></label><small class="req"> *</small>
-                                        <input autofocus="" id="lesson_name" name="lesson_name" placeholder="" type="text" class="form-control" value="<?php echo $lesson['lesson_name']; ?>" />
+                                        <input autofocus="" id="lesson_name" name="lesson_name" placeholder="" type="text" class="form-control" value="" />
                                         <span class="text-danger"><?php echo form_error('lesson_name'); ?></span>
                                     </div>
                                 </div>
@@ -141,12 +140,12 @@
                             <table class="table table-striped table-bordered table-hover example">
                                 <thead>
                                     <tr>
-                                        <th><?php echo $this->lang->line('class'); ?></th>
-                                        <th><?php echo $this->lang->line('section'); ?></th>
+                                        <!-- <th><?php echo $this->lang->line('class'); ?></th>
+                                        <th><?php echo $this->lang->line('section'); ?></th> -->
                                         <th><?php echo $this->lang->line('subject_group'); ?></th>
                                         <th><?php echo $this->lang->line('subject'); ?></th>
-                                        <th><?php echo $this->lang->line('lesson_no'); ?></th>
-                                        <th><?php echo $this->lang->line('lesson_name'); ?></th>
+                                        <!-- <th><?php echo $this->lang->line('lesson_no'); ?></th>
+                                        <th><?php echo $this->lang->line('lesson_name'); ?></th> -->
 
                                         <th class="text-right noExport"><?php echo $this->lang->line('action'); ?></th>
                                     </tr>
@@ -157,17 +156,17 @@
                                         foreach ($lessonlist as $lessonlists) {
                                     ?>
                                             <tr>
-                                                <td class="mailbox-name"><?= $lessonlists['class'] ?></td>
-                                                <td><?= $lessonlists['section'] ?></td>
-                                                <td><?= $lessonlists['subject_group'] ?></td>
+                                                <!-- <td class="mailbox-name"><?= $lessonlists['class'] ?></td>
+                                                <td><?= $lessonlists['section'] ?></td> -->
+                                                <td><a href="<?php echo base_url(); ?>lesson/viewlession/<?php echo $lessonlists['lesson_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>"><?= $lessonlists['subject_group'] ?></a></td>
                                                 <td><?= $lessonlists['subject_name'] ?></td>
-                                                <td><?= $lessonlists['lesson_number'] ?></td>
-                                                <td><?= $lessonlists['lesson_name'] ?></td>
+                                                <!-- <td><?= $lessonlists['lesson_number'] ?></td>
+                                                <td><?= $lessonlists['lesson_name'] ?></td> -->
                                                 <td class="mailbox-date pull-right">
                                                 <?php
                                                     if ($this->rbac->hasPrivilege('lesson', 'can_view')) {
                                                     ?>
-                                                        <a href="<?php echo base_url(); ?>lesson/view/<?php echo $lessonlists['lesson_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>">
+                                                        <a href="<?php echo base_url(); ?>lesson/viewlession/<?php echo $lessonlists['lesson_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>">
                                                             <i class="fa fa-eye"></i>
                                                         </a>
                                                     <?php
@@ -339,6 +338,7 @@
                             code = " (" + obj.code + ") ";
                         }
 
+                        
                         div_data += "<option value=" + obj.subject_id + " " + sel + ">" + obj.name + code + "</option>";
                     });
                     $('#' + subject_target).html(div_data);
