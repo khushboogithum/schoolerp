@@ -15,34 +15,7 @@ class Teachingactivity_model extends MY_model
         $this->current_session_name = $this->setting_model->getCurrentSessionName();
         $this->start_month          = $this->setting_model->getStartMonth();
     }
-    // public function add_teachinActivity($data)
-    // {
-
-    //     $this->db->trans_start(); # Starting Transaction
-    //     $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
-    //         $this->db->insert('teaching_activity', $data);
-
-    //         $insert_id = $this->db->insert_id();
-    //         $message   = INSERT_RECORD_CONSTANT . " On lesson id " . $insert_id;
-    //         $action    = "Insert";
-    //         $record_id = $insert_id;
-
-
-    //     $this->log($message, $record_id, $action);
-
-    //     //======================Code End==============================
-
-    //     $this->db->trans_complete(); # Completing transaction
-    //     /* Optional */
-
-    //     if ($this->db->trans_status() === false) {
-    //         # Something went wrong.
-    //         $this->db->trans_rollback();
-    //         return false;
-    //     } else {
-    //         return $insert_id;
-    //     }
-    // }
+ 
     public function addTeachingActivityWithNotebooks($data, $notebookIds)
     {
         $this->db->trans_start();
