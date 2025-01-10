@@ -20,7 +20,7 @@
                     <div class="box-header with-border">
                         <h3 class="box-title"><?php echo $this->lang->line('edit_lesson'); ?></h3>
                     </div><!-- /.box-header -->
-                    <form id="form1" action="<?php echo site_url('lesson/edit/' . $id) ?>" method="post" accept-charset="utf-8">
+                    <form id="form1" action="<?php echo site_url('lesson') ?>" method="post" accept-charset="utf-8">
                         <div class="box-body">
                             <?php
                             if ($this->session->flashdata('msg')) {
@@ -44,7 +44,7 @@
                                             <option value=""><?php echo $this->lang->line('select'); ?></option>
                                             <?php foreach ($classlist as $class) { ?>
                                                 <option value="<?php echo $class['id']; ?>"
-                                                    <?php echo ($lesson['class_id'] == $class['id']) ? 'selected' : ''; ?>>
+                                                    <?php echo ($lesson[0]['class_id'] == $class['id']) ? 'selected' : ''; ?>>
                                                     <?php echo $class['class']; ?>
                                                 </option>
                                             <?php } ?>
@@ -60,7 +60,7 @@
                                             <option value=""><?php echo $this->lang->line('select'); ?></option>
                                             <?php foreach ($sectionlist as $section) { ?>
                                                 <option value="<?php echo $section['id']; ?>"
-                                                    <?php echo ($lesson['section_id'] == $section['id']) ? 'selected' : ''; ?>>
+                                                    <?php echo ($lesson[0]['section_id'] == $section['id']) ? 'selected' : ''; ?>>
                                                     <?php echo $section['section']; ?>
                                                 </option>
                                             <?php } ?>
@@ -75,7 +75,7 @@
                                             <option value=""><?php echo $this->lang->line('select'); ?></option>
                                             <?php foreach ($subjectgrouplist as $subjectgroup) { ?>
                                                 <option value="<?php echo $subjectgroup['id']; ?>"
-                                                    <?php echo ($lesson['subject_group_id'] == $subjectgroup['id']) ? 'selected' : ''; ?>>
+                                                    <?php echo ($lesson[0]['subject_group_id'] == $subjectgroup['id']) ? 'selected' : ''; ?>>
                                                     <?php echo $subjectgroup['name']; ?>
                                                 </option>
                                             <?php } ?>
@@ -90,7 +90,7 @@
                                             <option value=""><?php echo $this->lang->line('select'); ?></option>
                                             <?php foreach ($subjectlist as $subject) { ?>
                                                 <option value="<?php echo $subject['id']; ?>"
-                                                    <?php echo ($lesson['subject_id'] == $subject['id']) ? 'selected' : ''; ?>>
+                                                    <?php echo ($lesson[0]['subject_id'] == $subject['id']) ? 'selected' : ''; ?>>
                                                     <?php echo $subject['name']; ?>
                                                 </option>
                                             <?php } ?>

@@ -136,11 +136,14 @@
                                 </thead>
                                 <tbody>
                                     <?php
+                                    // echo "<pre>";
+                                    // print_r($lessonlist);
+                                    // die();
                                     if (!empty($lessonlist)) {
                                         foreach ($lessonlist as $lessonlists) {
                                     ?>
                                             <tr>
-                                                <td class="mailbox-name"> <a href="<?php echo base_url(); ?>lesson/viewsubjectgroup/<?php echo $lessonlists['lesson_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>"><?= $lessonlists['class'] ?></a></td>
+                                                <td class="mailbox-name"> <a href="<?php echo base_url(); ?>lesson/viewsubjectgroup/<?php echo $lessonlists['class_id']; ?>/<?php echo $lessonlists['section_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>"><?= $lessonlists['class'] ?></a></td>
                                                 <td><?= $lessonlists['section'] ?></td>
                                                 <!-- <td><?= $lessonlists['subject_group'] ?></td> -->
                                                 <!-- <td><?= $lessonlists['subject_name'] ?></td>
@@ -150,7 +153,7 @@
                                                 <?php
                                                     if ($this->rbac->hasPrivilege('lesson', 'can_view')) {
                                                     ?>
-                                                        <a href="<?php echo base_url(); ?>lesson/viewsubjectgroup/<?php echo $lessonlists['lesson_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>">
+                                                        <a href="<?php echo base_url(); ?>lesson/viewsubjectgroup/<?php echo $lessonlists['class_id']; ?>/<?php echo $lessonlists['section_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>">
                                                             <i class="fa fa-eye"></i>
                                                         </a>
                                                     <?php

@@ -20,7 +20,7 @@
                     <div class="box-header with-border">
                         <h3 class="box-title"><?php echo $this->lang->line('edit_lesson'); ?></h3>
                     </div><!-- /.box-header -->
-                    <form id="form1" action="<?php echo site_url('lesson/edit/' . $id) ?>" method="post" accept-charset="utf-8">
+                    <form id="form1" action="<?php echo site_url('lesson') ?>" method="post" accept-charset="utf-8">
                         <div class="box-body">
                             <?php
                             if ($this->session->flashdata('msg')) {
@@ -44,7 +44,7 @@
                                             <option value=""><?php echo $this->lang->line('select'); ?></option>
                                             <?php foreach ($classlist as $class) { ?>
                                                 <option value="<?php echo $class['id']; ?>"
-                                                    <?php echo ($lesson['class_id'] == $class['id']) ? 'selected' : ''; ?>>
+                                                    <?php echo ($lesson[0]['class_id'] == $class['id']) ? 'selected' : ''; ?>>
                                                     <?php echo $class['class']; ?>
                                                 </option>
                                             <?php } ?>
@@ -60,7 +60,7 @@
                                             <option value=""><?php echo $this->lang->line('select'); ?></option>
                                             <?php foreach ($sectionlist as $section) { ?>
                                                 <option value="<?php echo $section['id']; ?>"
-                                                    <?php echo ($lesson['section_id'] == $section['id']) ? 'selected' : ''; ?>>
+                                                    <?php echo ($lesson[0]['section_id'] == $section['id']) ? 'selected' : ''; ?>>
                                                     <?php echo $section['section']; ?>
                                                 </option>
                                             <?php } ?>
@@ -117,7 +117,7 @@
 
                         <div class="box-footer">
 
-                            <button type="submit" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('update'); ?></button>
+                            <button type="submit" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('add'); ?></button>
                         </div>
                     </form>
                 </div>
@@ -158,7 +158,7 @@
                                             <tr>
                                                 <!-- <td class="mailbox-name"><?= $lessonlists['class'] ?></td>
                                                 <td><?= $lessonlists['section'] ?></td> -->
-                                                <td><a href="<?php echo base_url(); ?>lesson/viewlession/<?php echo $lessonlists['lesson_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>"><?= $lessonlists['subject_group'] ?></a></td>
+                                                <td> <a href="<?php echo base_url(); ?>lesson/viewlession/<?php echo $lessonlists['subject_group_id']; ?>/<?php echo $lessonlists['subject_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>"><?= $lessonlists['subject_group'] ?></a></td>
                                                 <td><?= $lessonlists['subject_name'] ?></td>
                                                 <!-- <td><?= $lessonlists['lesson_number'] ?></td>
                                                 <td><?= $lessonlists['lesson_name'] ?></td> -->
@@ -166,7 +166,7 @@
                                                 <?php
                                                     if ($this->rbac->hasPrivilege('lesson', 'can_view')) {
                                                     ?>
-                                                        <a href="<?php echo base_url(); ?>lesson/viewlession/<?php echo $lessonlists['lesson_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>">
+                                                        <a href="<?php echo base_url(); ?>lesson/viewlession/<?php echo $lessonlists['subject_group_id']; ?>/<?php echo $lessonlists['subject_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>">
                                                             <i class="fa fa-eye"></i>
                                                         </a>
                                                     <?php
