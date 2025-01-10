@@ -2390,4 +2390,7 @@ $lang['add_teacher_activity']= "Add Teacher Activity";
 $lang['teacher_activity_list']= "Teacher Activity List";
 $lang['edit_teacher_activity']= "Edit Teacher Activity";
 
+$lang['todays_work_syllubus_report']= "Home work and Syllabus Report";
+$lang['add_todays_work']= "Add Todays Work";
+
 
