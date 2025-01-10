@@ -142,19 +142,19 @@ class Lesson extends Admin_Controller
             $this->load->view('lesson/lessionsubjectgroup', $data);
             $this->load->view('layout/footer', $data);
         } else {
-            $update_data = array(
-                'lesson_id'       => $id,
+            $data = array(
                 'class_id'        => $this->input->post('class_id'),
                 'section_id'      => $this->input->post('section_id'),
                 'subject_group_id' => $this->input->post('subject_group_id'),
-                'subject_id'      => $this->input->post('subject_id'),
-                'lesson_number'   => $this->input->post('lesson_number'),
-                'lesson_name'     => $this->input->post('lesson_name'),
+                'subject_id'       => $this->input->post('subject_id'),
+                'lesson_number'    => $this->input->post('lesson_number'),
+                'lesson_name'      => $this->input->post('lesson_name'),
+                'created_by'      => '3',
             );
-
-            $this->lessondiary_model->add_lesson($update_data);
-            $this->session->set_flashdata('msg', '<div class="alert alert-success text-left">' . $this->lang->line('update_message') . '</div>');
-            redirect('lesson');
+            $this->lessondiary_model->add_lesson($data);
+            $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
+           
+            redirect('lesson/viewsubjectgroup/'.$classId.'/'.$sectionId);
         }
     }
     public function viewlession($subject_group_id,$subject_id)
@@ -184,19 +184,19 @@ class Lesson extends Admin_Controller
             $this->load->view('lesson/viewlession', $data);
             $this->load->view('layout/footer', $data);
         } else {
-            $update_data = array(
-                'lesson_id'       => $id,
+            $data = array(
                 'class_id'        => $this->input->post('class_id'),
                 'section_id'      => $this->input->post('section_id'),
                 'subject_group_id' => $this->input->post('subject_group_id'),
-                'subject_id'      => $this->input->post('subject_id'),
-                'lesson_number'   => $this->input->post('lesson_number'),
-                'lesson_name'     => $this->input->post('lesson_name'),
+                'subject_id'       => $this->input->post('subject_id'),
+                'lesson_number'    => $this->input->post('lesson_number'),
+                'lesson_name'      => $this->input->post('lesson_name'),
+                'created_by'      => '3',
             );
-
-            $this->lessondiary_model->add_lesson($update_data);
-            $this->session->set_flashdata('msg', '<div class="alert alert-success text-left">' . $this->lang->line('update_message') . '</div>');
-            redirect('lesson');
+            $this->lessondiary_model->add_lesson($data);
+            $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
+           
+            redirect('lesson/viewlession/'.$subject_group_id.'/'.$subject_id);
         }
     }
 }
