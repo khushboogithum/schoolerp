@@ -108,27 +108,35 @@
                                     ?>
                                         <tr>
                                             <td class="mailbox-name">
-                                                <?php echo $teachingActivity->teaching_activity_title; ?>
+                                                <?php echo $teachingActivity['teaching_activity_title']; ?>
 
                                             </td>
                                             <td class="mailbox-name">
-                                                <?php echo $teachingActivity->note_book_title; ?>
+                                                <?php 
+                                               $note_book_type=$teachingActivity['note_book_type'];
+                                               foreach($note_book_type as $note_book_types){
 
+                                                echo "<div>" .ucfirst($note_book_types['note_book_title'])."</div>";
+
+                                               }
+                                                
+                                                
+                                                ?>
                                             </td>
-                                            <td><?php echo $teachingActivity->remark; ?> </td>
+                                            <td><?php echo $teachingActivity['remark']; ?> </td>
                                             </td>
                                             <td class="mailbox-date pull-right">
                                                 <?php
                                                 if ($this->rbac->hasPrivilege('class', 'can_edit')) {
                                                 ?>
-                                                    <a href="<?php echo base_url(); ?>teachingactivity/edit/<?php echo $teachingActivity->teaching_activity_id; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>">
+                                                    <a href="<?php echo base_url(); ?>teachingactivity/edit/<?php echo $teachingActivity['teaching_activity_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>">
                                                         <i class="fa fa-pencil"></i>
                                                     </a>
                                                 <?php
                                                 }
                                                 if ($this->rbac->hasPrivilege('class', 'can_delete')) {
                                                 ?>
-                                                    <a href="<?php echo base_url(); ?>teachingactivity/delete/<?php echo $teachingActivity->teaching_activity_id; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('delete'); ?>" onclick="return confirm('<?php echo $this->lang->line('delete_confirm'); ?>');">
+                                                    <a href="<?php echo base_url(); ?>teachingactivity/delete/<?php echo $teachingActivity['teaching_activity_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('delete'); ?>" onclick="return confirm('<?php echo $this->lang->line('delete_confirm'); ?>');">
                                                         <i class="fa fa-remove"></i>
                                                     </a>
                                                 <?php }

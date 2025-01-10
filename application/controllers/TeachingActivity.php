@@ -186,7 +186,7 @@ class TeachingActivity extends Admin_Controller
         $teachingActivityList = $this->Teachingactivity_model->teachingActivityList();
         $data['teachingActivityList'] = $teachingActivityList;
 
-        $teachingactivityedit = $this->Teachingactivity_model->getByID($id);
+        $teachingactivityedit = $this->Teachingactivity_model->teachingActivityList($id);
         $data['teachingactivityedit'] = $teachingactivityedit;
 
         $data['selected_notebook_ids'] = explode(',', $teachingactivityedit->note_book_type_id);

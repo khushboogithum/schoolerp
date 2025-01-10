@@ -160,16 +160,16 @@
                                                     }
                                                     if ($this->rbac->hasPrivilege('lesson', 'can_edit')) {
                                                     ?>
-                                                        <a href="<?php echo base_url(); ?>lesson/edit/<?php echo $lessonlists['lesson_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>">
+                                                        <!-- <a href="<?php echo base_url(); ?>lesson/edit/<?php echo $lessonlists['lesson_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>">
                                                             <i class="fa fa-pencil"></i>
-                                                        </a>
+                                                        </a> -->
                                                     <?php
                                                     }
                                                     if ($this->rbac->hasPrivilege('lesson', 'can_delete')) {
                                                     ?>
-                                                        <a href="<?php echo base_url(); ?>lesson/delete/<?php echo $lessonlists['lesson_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('delete'); ?>" onclick="return confirm('<?php echo $this->lang->line('delete_confirm'); ?>');">
+                                                        <!-- <a href="<?php echo base_url(); ?>lesson/delete/<?php echo $lessonlists['lesson_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('delete'); ?>" onclick="return confirm('<?php echo $this->lang->line('delete_confirm'); ?>');">
                                                             <i class="fa fa-remove"></i>
-                                                        </a>
+                                                        </a> -->
                                                     <?php }
                                                     ?>
                                                 </td>

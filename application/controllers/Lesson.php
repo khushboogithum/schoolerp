@@ -69,7 +69,7 @@ class Lesson extends Admin_Controller
 
         redirect('lesson');
     }
-    public function edit($id)
+    public function edit($subject_group_id,$subject_id,$id)
     {
         if (!$this->rbac->hasPrivilege('lesson', 'can_edit')) {
             access_denied();
@@ -77,14 +77,13 @@ class Lesson extends Admin_Controller
 
         $data['title'] = 'Edit Lesson';
         $data['id'] = $id;
+        $data['lessonlist'] = $this->lessondiary_model->viewlessionBysubjectgroup($subject_group_id,$subject_id);
         $data['lesson']=$lession = $this->lessondiary_model->get_lesson_by_id($id);
-        // echo $lession['section_id'];
-        // die();
         $data['classlist'] = $this->class_model->get();
         $data['sectionlist'] = $this->section_model->get();
         $data['subjectlist'] = $this->subject_model->get();
         $data['subjectgrouplist'] = $this->subjectgroup_model->getsubjectGroup();
-        $data['lessonlist'] = $this->lessondiary_model->get();
+        
       
         $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
@@ -108,9 +107,10 @@ class Lesson extends Admin_Controller
                 'lesson_name'     => $this->input->post('lesson_name'),
             );
 
+
             $this->lessondiary_model->add_lesson($update_data);
             $this->session->set_flashdata('msg', '<div class="alert alert-success text-left">' . $this->lang->line('update_message') . '</div>');
-            redirect('lesson');
+            redirect('lesson/viewlession/'.$subject_group_id.'/'.$subject_id);
         }
     }
 

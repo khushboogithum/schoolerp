@@ -20,7 +20,7 @@
                     <div class="box-header with-border">
                         <h3 class="box-title"><?php echo $this->lang->line('edit_lesson'); ?></h3>
                     </div><!-- /.box-header -->
-                    <form id="form1" action="<?php echo site_url('lesson/edit/' . $id) ?>" method="post" accept-charset="utf-8">
+                    <form id="form1" action="<?php echo site_url('lesson/edit/'.$lesson['subject_group_id'].'/'.$lesson['subject_id'].'/'. $id) ?>" method="post" accept-charset="utf-8">
                         <div class="box-body">
                             <?php
                             if ($this->session->flashdata('msg')) {
@@ -141,10 +141,10 @@
                             <table class="table table-striped table-bordered table-hover example">
                                 <thead>
                                     <tr>
-                                        <th><?php echo $this->lang->line('class'); ?></th>
+                                        <!-- <th><?php echo $this->lang->line('class'); ?></th>
                                         <th><?php echo $this->lang->line('section'); ?></th>
                                         <th><?php echo $this->lang->line('subject_group'); ?></th>
-                                        <th><?php echo $this->lang->line('subject'); ?></th>
+                                        <th><?php echo $this->lang->line('subject'); ?></th> -->
                                         <th><?php echo $this->lang->line('lesson_no'); ?></th>
                                         <th><?php echo $this->lang->line('lesson_name'); ?></th>
 
@@ -157,10 +157,10 @@
                                         foreach ($lessonlist as $lessonlists) {
                                     ?>
                                             <tr>
-                                                <td class="mailbox-name"><?= $lessonlists['class'] ?></td>
+                                                <!-- <td class="mailbox-name"><?= $lessonlists['class'] ?></td>
                                                 <td><?= $lessonlists['section'] ?></td>
                                                 <td><?= $lessonlists['subject_group'] ?></td>
-                                                <td><?= $lessonlists['subject_name'] ?></td>
+                                                <td><?= $lessonlists['subject_name'] ?></td> -->
                                                 <td><?= $lessonlists['lesson_number'] ?></td>
                                                 <td><?= $lessonlists['lesson_name'] ?></td>
                                                 <td class="mailbox-date pull-right">
