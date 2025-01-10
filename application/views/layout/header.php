@@ -66,6 +66,7 @@
     <link rel="stylesheet" href="<?php echo base_url(); ?>backend/fullcalendar/dist/fullcalendar.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>backend/fullcalendar/dist/fullcalendar.print.min.css"
         media="print">
+    <link href="<?php echo base_url(); ?>backend/sumoselect/sumoselect.min.css" rel="stylesheet" />    
     <script type="text/javascript">
     var baseurl = "<?php echo base_url(); ?>";
     var start_week = <?php echo $this->customlib->getStartWeek(); ?>;

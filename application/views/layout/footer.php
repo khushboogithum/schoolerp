@@ -28,6 +28,9 @@ $feesinbackdate = $this->customlib->getfeesinbackdate();
 <script src="<?php echo base_url(); ?>backend/plugins/timepicker/bootstrap-timepicker.min.js"></script>
 <script src="<?php echo base_url(); ?>backend/plugins/slimScroll/jquery.slimscroll.min.js"></script>
 <script src="<?php echo base_url(); ?>backend/dist/js/jquery.mCustomScrollbar.concat.min.js"></script>
+
+<!-- Include SumoSelect JS -->
+<script src="<?php echo base_url(); ?>backend/sumoselect/jquery.sumoselect.min.js"></script>
 <script type="text/javascript">
     $('body').tooltip({
         selector: '[data-toggle]',
