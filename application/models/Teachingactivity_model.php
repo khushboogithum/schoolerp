@@ -91,12 +91,13 @@ class Teachingactivity_model extends MY_model
             $message = UPDATE_RECORD_CONSTANT . " On teaching_activity id " . $insert_id;
             $action = "Update";
             $record_id = $insert_id;
+            
+        $this->db->where('teaching_activity_id', $id);
+        $this->db->delete('teaching_notebook');
         }
 
         $this->log($message, $record_id, $action);
 
-        $this->db->where('teaching_activity_id', $id);
-        $this->db->delete('teaching_notebook');
 
         if (!empty($notebookIds)) {
             $notebookData = [];
@@ -165,6 +166,8 @@ class Teachingactivity_model extends MY_model
             $message   = DELETE_RECORD_CONSTANT . " On teaching_activity id " . $insert_id;
             $action    = "Delete";
             $record_id = $insert_id;
+            $this->db->where('teaching_activity_id', $id);
+            $this->db->delete('teaching_notebook');
         }
 
         $this->log($message, $record_id, $action);
@@ -192,14 +195,44 @@ class Teachingactivity_model extends MY_model
         return $query;
     }
 
-    public function teachingActivityList()
+    public function teachingActivityList($id=null)
     {
-        $this->db->select('teaching_activity.*, note_book_type.note_book_title as note_book_title');
+        $this->db->select('teaching_activity.*');
         $this->db->from('teaching_activity');
-        $this->db->join('note_book_type', 'note_book_type.note_book_type_id = teaching_activity.note_book_type_id', 'left');
+        if($id!=null){  
+             $this->db->where('teaching_activity.teaching_activity_id',$id);
+        }
         $this->db->where('teaching_activity.status', '1');
         $this->db->order_by('teaching_activity.teaching_activity_id', 'DESC');
         $query = $this->db->get();
-        return $query->result();
+        $result=$query->result_array();
+        $finalArray=array();
+        foreach($result as $key=>$results){
+            $resultdata=array();
+            $resultdata['teaching_activity_id']=$results['teaching_activity_id'];
+            $resultdata['teaching_activity_title']=$results['teaching_activity_title'];
+            $resultdata['remark']=$results['remark'];
+            $resultdata['status']=$results['status'];
+            $resultdata['created_by']=$results['created_by'];
+            $resultdata['created_at']=$results['created_at'];
+            $resultdata['note_book_type']=$this->getNoteBookData($results['teaching_activity_id']);
+            $finalArray[]=$resultdata;
+        }
+        
+        return $finalArray;
+        // echo "<pre>";
+        // print_r($finalArray);
+        // die();
+    }
+
+    public function getNoteBookData($teaching_notebook_id)
+    {
+        $this->db->select('teaching_notebook.teaching_notebook_id,teaching_notebook.teaching_activity_id,teaching_notebook.note_book_type_id,note_book_type.note_book_title')->from('teaching_notebook');
+        $this->db->join('note_book_type', 'note_book_type.note_book_type_id = teaching_notebook.note_book_type_id');
+        $this->db->where('teaching_notebook.teaching_activity_id', $teaching_notebook_id);
+        $this->db->order_by('teaching_notebook.teaching_notebook_id', 'DESC');
+        $query = $this->db->get();
+        // echo $this->db->last_query();
+        return $vehicle_routes = $query->result_array();
     }
 }

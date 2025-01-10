@@ -20,7 +20,7 @@
                     <div class="box-header with-border">
                         <h3 class="box-title"><?php echo $this->lang->line('edit_teacher_activity'); ?></h3>
                     </div><!-- /.box-header -->
-                    <form id="form1" action="<?php echo site_url('teachingactivity/edit/' . $teachingactivityedit[0]->teaching_activity_id); ?>" method="post" accept-charset="utf-8">
+                    <form id="form1" action="<?php echo site_url('teachingactivity/edit/' . $teachingactivityedit[0]['teaching_activity_id']); ?>" method="post" accept-charset="utf-8">
                         <div class="box-body">
                             <?php
                             if ($this->session->flashdata('msg')) {
@@ -32,6 +32,7 @@
                             if (isset($error_message)) {
                                 echo "<div class='alert alert-danger'>" . $error_message . "</div>";
                             }
+
                             ?>
                             <?php echo $this->customlib->getCSRF(); ?>
                             <div class="row">
@@ -39,21 +40,33 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1"><?php echo $this->lang->line('lession_reading'); ?></label><small class="req"> *</small>
-                                        <input autofocus="" id="teaching_activity_title" name="teaching_activity_title" placeholder="" type="text" class="form-control" value="<?php echo $teachingactivityedit[0]->teaching_activity_title; ?>" />
+                                        <input autofocus="" id="teaching_activity_title" name="teaching_activity_title" placeholder="" type="text" class="form-control" value="<?php echo $teachingactivityedit[0]['teaching_activity_title']; ?>" />
                                         <span class="text-danger"><?php echo form_error('teaching_activity_title'); ?></span>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1"><?php echo $this->lang->line('note_book_type'); ?></label><small class="req"> *</small>
+                                        <?php
+                                        $note_book_type = $teachingactivityedit[0]['note_book_type'];
+                                        
+                                        $notebooktypeArray=array();
+                                        foreach ($note_book_type as $note_book_types) {
+
+                                            $notebooktypeArray[]=$note_book_types['note_book_type_id'];
+                                        }
+
+                                        ?>
                                         <select id="note_book_type_id" name="note_book_type_id[]" multiple class="form-control select2">
                                             <?php
-                                          //  print_r($noteBookIds);
+                                            //  print_r($noteBookIds);
+
+
                                             foreach ($notebookList as $notebook) {
                                             ?>
                                                 <option
                                                     value="<?php echo $notebook->note_book_type_id; ?>"
-                                                    <?php echo in_array($notebook->note_book_type_id, $selected_notebook_ids) ? 'selected' : ''; ?>>
+                                                    <?php echo in_array($notebook->note_book_type_id, $notebooktypeArray) ? 'selected' : ''; ?>>
                                                     <?php echo $notebook->note_book_title; ?>
                                                 </option>
                                             <?php
@@ -68,7 +81,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1"><?php echo $this->lang->line('remarks'); ?></label><small class="req"> *</small>
-                                        <input autofocus="" id="remarks" name="remarks" placeholder="" type="text" class="form-control" value="<?php echo $teachingactivityedit[0]->remark ?>" />
+                                        <input autofocus="" id="remarks" name="remarks" placeholder="" type="text" class="form-control" value="<?php echo $teachingactivityedit[0]['remark'] ?>" />
                                         <span class="text-danger"><?php echo form_error('remarks'); ?></span>
                                     </div>
                                 </div>
@@ -114,27 +127,34 @@
                                     ?>
                                         <tr>
                                             <td class="mailbox-name">
-                                                <?php echo $teachingActivity->teaching_activity_title; ?>
+                                                <?php echo $teachingActivity['teaching_activity_title']; ?>
 
                                             </td>
                                             <td class="mailbox-name">
-                                                <?php echo $teachingActivity->note_book_title; ?>
+                                                <?php
+                                                $note_book_type = $teachingActivity['note_book_type'];
+                                                foreach ($note_book_type as $note_book_types) {
 
+                                                    echo "<div>" . ucfirst($note_book_types['note_book_title']) . "</div>";
+                                                }
+
+
+                                                ?>
                                             </td>
-                                            <td><?php echo $teachingActivity->remark; ?> </td>
+                                            <td><?php echo $teachingActivity['remark']; ?> </td>
                                             </td>
                                             <td class="mailbox-date pull-right">
                                                 <?php
                                                 if ($this->rbac->hasPrivilege('class', 'can_edit')) {
                                                 ?>
-                                                    <a href="<?php echo base_url(); ?>teachingactivity/edit/<?php echo $teachingActivity->teaching_activity_id; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>">
+                                                    <a href="<?php echo base_url(); ?>teachingactivity/edit/<?php echo $teachingActivity['teaching_activity_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>">
                                                         <i class="fa fa-pencil"></i>
                                                     </a>
                                                 <?php
                                                 }
                                                 if ($this->rbac->hasPrivilege('class', 'can_delete')) {
                                                 ?>
-                                                    <a href="<?php echo base_url(); ?>teachingactivity/delete/<?php echo $teachingActivity->teaching_activity_id; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('delete'); ?>" onclick="return confirm('<?php echo $this->lang->line('deleting_note_book'); ?>');">
+                                                    <a href="<?php echo base_url(); ?>teachingactivity/delete/<?php echo $teachingActivity['teaching_activity_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('delete'); ?>" onclick="return confirm('<?php echo $this->lang->line('delete_confirm'); ?>');">
                                                         <i class="fa fa-remove"></i>
                                                     </a>
                                                 <?php }

@@ -159,6 +159,7 @@
                                             <tr>
                                                 <!-- <td class="mailbox-name"><?= $lessonlists['class'] ?></td>
                                                 <td><?= $lessonlists['section'] ?></td>
+                                
                                                 <td><?= $lessonlists['subject_group'] ?></td>
                                                 <td><?= $lessonlists['subject_name'] ?></td> -->
                                                 <td><?= $lessonlists['lesson_number'] ?></td>
@@ -167,14 +168,14 @@
                                                 <?php
                                                     if ($this->rbac->hasPrivilege('lesson', 'can_view')) {
                                                     ?>
-                                                        <a href="<?php echo base_url(); ?>lesson/view/<?php echo $lessonlists['lesson_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>">
+                                                        <!-- <a href="<?php echo base_url(); ?>lesson/view/<?php echo $lessonlists['lesson_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>">
                                                             <i class="fa fa-eye"></i>
-                                                        </a>
+                                                        </a> -->
                                                     <?php
                                                     }
                                                     if ($this->rbac->hasPrivilege('lesson', 'can_edit')) {
                                                     ?>
-                                                        <a href="<?php echo base_url(); ?>lesson/edit/<?php echo $lessonlists['lesson_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>">
+                                                        <a href="<?php echo base_url(); ?>lesson/edit/<?php echo $lessonlists['subject_group_id']; ?>/<?php echo $lessonlists['subject_id']; ?>/<?php echo $lessonlists['lesson_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>">
                                                             <i class="fa fa-pencil"></i>
                                                         </a>
                                                     <?php
