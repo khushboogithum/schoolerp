@@ -63,6 +63,7 @@ class Lesson extends Admin_Controller
         if (!$this->rbac->hasPrivilege('lesson', 'can_delete')) {
             access_denied();
         }
+
         $this->lessondiary_model->remove($id);
         $this->session->set_flashdata('msg', '<div class="alert alert-success text-left">' . $this->lang->line('delete_message') . '</div>');
 
@@ -113,20 +114,21 @@ class Lesson extends Admin_Controller
         }
     }
 
-    public function viewsubjectgroup($id)
+    public function viewsubjectgroup($classId,$sectionId)
     {
         if (!$this->rbac->hasPrivilege('lesson', 'can_edit')) {
             access_denied();
         }
 
+      
         $data['title'] = 'Edit Lesson';
         $data['id'] = $id;
-        $data['lesson'] = $this->lessondiary_model->get_lesson_by_id($id);
+        $data['lesson'] = $this->lessondiary_model->getLessionByClassIdsectionId($classId,$sectionId);
+        $data['lessonlist'] = $this->lessondiary_model->getviewsubjectgroup($classId,$sectionId);
         $data['classlist'] = $this->class_model->get();
         $data['sectionlist'] = $this->section_model->get();
         $data['subjectlist'] = $this->subject_model->get();
         $data['subjectgrouplist'] = $this->subjectgroup_model->getsubjectGroup();
-        $data['lessonlist'] = $this->lessondiary_model->get();
       
         $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
@@ -155,7 +157,7 @@ class Lesson extends Admin_Controller
             redirect('lesson');
         }
     }
-    public function viewlession($id)
+    public function viewlession($subject_group_id,$subject_id)
     {
         if (!$this->rbac->hasPrivilege('lesson', 'can_edit')) {
             access_denied();
@@ -163,12 +165,12 @@ class Lesson extends Admin_Controller
 
         $data['title'] = 'Edit Lesson';
         $data['id'] = $id;
-        $data['lesson'] = $this->lessondiary_model->get_lesson_by_id($id);
+        $data['lesson'] = $this->lessondiary_model->getLessionBysubjectGroup($subject_group_id,$subject_id);
         $data['classlist'] = $this->class_model->get();
         $data['sectionlist'] = $this->section_model->get();
         $data['subjectlist'] = $this->subject_model->get();
         $data['subjectgrouplist'] = $this->subjectgroup_model->getsubjectGroup();
-        $data['lessonlist'] = $this->lessondiary_model->get();
+        $data['lessonlist'] = $this->lessondiary_model->viewlessionBysubjectgroup($subject_group_id,$subject_id);
       
         $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');

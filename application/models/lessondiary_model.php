@@ -66,11 +66,52 @@ class lessondiary_model extends MY_model
         $this->db->join('subjects', 'subjects.id = lesson_diary.subject_id', 'left');
         $this->db->join('subject_groups', 'subject_groups.id = lesson_diary.subject_group_id', 'left');
         $this->db->where('lesson_diary.status', 1);
-        $this->db->order_by('lesson_diary.lesson_id', 'DESC');
+        $this->db->group_by('lesson_diary.section_id');
+        $this->db->group_by('lesson_diary.class_id');
+        $this->db->order_by('lesson_diary.class_id', 'ASC');
 
         $query = $this->db->get();
         return $query->result_array();
     }
+
+    public function getviewsubjectgroup($classId,$sectionId)
+    {
+        $this->db->select('lesson_diary.*, classes.class, sections.section, subjects.name as subject_name,subject_groups.name as subject_group');
+        $this->db->from('lesson_diary');
+        $this->db->join('classes', 'classes.id = lesson_diary.class_id', 'left');
+        $this->db->join('sections', 'sections.id = lesson_diary.section_id', 'left');
+        $this->db->join('subjects', 'subjects.id = lesson_diary.subject_id', 'left');
+        $this->db->join('subject_groups', 'subject_groups.id = lesson_diary.subject_group_id', 'left');
+        $this->db->where('lesson_diary.status', 1);
+        $this->db->where('lesson_diary.class_id',$classId);
+        $this->db->where('lesson_diary.section_id',$sectionId);
+        $this->db->group_by('lesson_diary.subject_group_id');
+        $this->db->group_by('lesson_diary.subject_id');
+        $this->db->order_by('lesson_diary.subject_group_id', 'ASC');
+
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function viewlessionBysubjectgroup($subject_group_id,$subject_id)
+    {
+        $this->db->select('lesson_diary.*, classes.class, sections.section, subjects.name as subject_name,subject_groups.name as subject_group');
+        $this->db->from('lesson_diary');
+        $this->db->join('classes', 'classes.id = lesson_diary.class_id', 'left');
+        $this->db->join('sections', 'sections.id = lesson_diary.section_id', 'left');
+        $this->db->join('subjects', 'subjects.id = lesson_diary.subject_id', 'left');
+        $this->db->join('subject_groups', 'subject_groups.id = lesson_diary.subject_group_id', 'left');
+        $this->db->where('lesson_diary.status', 1);
+        $this->db->where('lesson_diary.subject_group_id',$subject_group_id);
+        $this->db->where('lesson_diary.subject_id',$subject_id);
+        // $this->db->group_by('lesson_diary.subject_group_id');
+        // $this->db->group_by('lesson_diary.subject_id');
+        $this->db->order_by('lesson_diary.subject_group_id', 'ASC');
+
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+   
     
     public function remove($id)
     {
@@ -90,6 +131,41 @@ class lessondiary_model extends MY_model
         $query = $this->db->get();
         return $query->row_array();
     }
+
+
+    public function getLessionByClassIdsectionId($classId,$sectionId)
+    {
+        $this->db->select('lesson_diary.*, classes.class, sections.section, subjects.name as subject_name,subject_groups.name as subject_group');
+        $this->db->from('lesson_diary');
+        $this->db->join('classes', 'classes.id = lesson_diary.class_id', 'left');
+        $this->db->join('sections', 'sections.id = lesson_diary.section_id', 'left');
+        $this->db->join('subjects', 'subjects.id = lesson_diary.subject_id', 'left');
+        $this->db->join('subject_groups', 'subject_groups.id = lesson_diary.subject_group_id', 'left');
+        $this->db->where('lesson_diary.status', 1);
+        $this->db->where('lesson_diary.class_id',$classId);
+        $this->db->where('lesson_diary.section_id',$sectionId);
+        $this->db->limit(1);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function getLessionBysubjectGroup($subject_group_id,$subject_id)
+    {
+        $this->db->select('lesson_diary.*, classes.class, sections.section, subjects.name as subject_name,subject_groups.name as subject_group');
+        $this->db->from('lesson_diary');
+        $this->db->join('classes', 'classes.id = lesson_diary.class_id', 'left');
+        $this->db->join('sections', 'sections.id = lesson_diary.section_id', 'left');
+        $this->db->join('subjects', 'subjects.id = lesson_diary.subject_id', 'left');
+        $this->db->join('subject_groups', 'subject_groups.id = lesson_diary.subject_group_id', 'left');
+        $this->db->where('lesson_diary.status', 1);
+        $this->db->where('lesson_diary.subject_group_id',$subject_group_id);
+        $this->db->where('lesson_diary.subject_id',$subject_id);
+        $this->db->limit(1);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+  
+
     // public function getlessonBysubjectid($sub_id, $getlessonBysubjectid)
     // {
     //     return $this->db->select('*')->from('lesson')->where('subject_group_subject_id', $sub_id)->where('subject_group_class_sections_id', $getlessonBysubjectid)->get()->result_array();
