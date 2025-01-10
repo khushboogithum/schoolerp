@@ -1,5 +1,6 @@
 <?php $currency_symbol = $this->customlib->getSchoolCurrencyFormat(); ?>
 <!-- Content Wrapper. Contains page content -->
+
 <div class="content-wrapper">
 
     <section class="content-header">
@@ -45,20 +46,19 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1"><?php echo $this->lang->line('note_book_type'); ?></label><small class="req"> *</small>
-                                        <select autofocus="" id="note_book_type_id" name="note_book_type_id" class="form-control">
-                                            <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                            <?php
-                                            foreach ($notebookList as $notebook) {
-                                            ?>
-                                                <option value="<?php echo $notebook->note_book_type_id ?>"><?php echo $notebook->note_book_title ?></option>
-                                            <?php
-                                            }
-                                            ?>
+                                        <label for="exampleInputEmail1"><?php echo $this->lang->line('note_book_type'); ?></label><small class="req"> *</small><br>
+                                        <select id="note_book_type_id" name="note_book_type_id[]" multiple class="form-control select2">
+                                            <!-- <option value=""><?php echo $this->lang->line('select'); ?></option> -->
+                                            <?php foreach ($notebookList as $notebook) { ?>
+                                                <option value="<?php echo $notebook->note_book_type_id; ?>">
+                                                    <?php echo $notebook->note_book_title; ?>
+                                                </option>
+                                            <?php } ?>
                                         </select>
-                                        <span class="text-danger"><?php echo form_error('note_book_type_id'); ?></span>
+                                        <span class="text-danger"><?php echo form_error('note_book_type_id[]'); ?></span>
                                     </div>
                                 </div>
+
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1"><?php echo $this->lang->line('remarks'); ?></label><small class="req"> *</small>
@@ -161,3 +161,17 @@
         </div> <!-- /.row -->
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
+
+<script>
+    $(document).ready(function() {
+        $('#note_book_type_id').SumoSelect({
+            placeholder: "<?php echo $this->lang->line('select'); ?>",
+             allowClear: true,
+            // csvDispCount: 3, // Number of selected items to show
+            selectAll: true, // Enable Select All option
+            // okCancelInMulti: true, // Add OK/Cancel buttons in multi-select
+        });
+
+        console.log($('#note_book_type_id')); // Verify targeting of the element
+    });
+</script>

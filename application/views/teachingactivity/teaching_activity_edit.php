@@ -20,7 +20,7 @@
                     <div class="box-header with-border">
                         <h3 class="box-title"><?php echo $this->lang->line('edit_teacher_activity'); ?></h3>
                     </div><!-- /.box-header -->
-                    <form id="form1" action="<?php echo site_url('teachingactivity/edit/'.$teachingactivityedit[0]->teaching_activity_id); ?>" method="post" accept-charset="utf-8">
+                    <form id="form1" action="<?php echo site_url('teachingactivity/edit/' . $teachingactivityedit[0]->teaching_activity_id); ?>" method="post" accept-charset="utf-8">
                         <div class="box-body">
                             <?php
                             if ($this->session->flashdata('msg')) {
@@ -46,19 +46,25 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1"><?php echo $this->lang->line('note_book_type'); ?></label><small class="req"> *</small>
-                                        <select autofocus="" id="note_book_type_id" name="note_book_type_id" class="form-control">
-                                            <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                        <select id="note_book_type_id" name="note_book_type_id[]" multiple class="form-control select2">
                                             <?php
+                                          //  print_r($noteBookIds);
                                             foreach ($notebookList as $notebook) {
                                             ?>
-                                                <option <?php if($teachingactivityedit[0]->note_book_type_id==$notebook->note_book_type_id){ echo "selected";} ?> value="<?php echo $notebook->note_book_type_id ?>"><?php echo $notebook->note_book_title ?></option>
+                                                <option
+                                                    value="<?php echo $notebook->note_book_type_id; ?>"
+                                                    <?php echo in_array($notebook->note_book_type_id, $selected_notebook_ids) ? 'selected' : ''; ?>>
+                                                    <?php echo $notebook->note_book_title; ?>
+                                                </option>
                                             <?php
                                             }
                                             ?>
                                         </select>
-                                        <span class="text-danger"><?php echo form_error('note_book_type_id'); ?></span>
+
+                                        <span class="text-danger"><?php echo form_error('note_book_type_id[]'); ?></span>
                                     </div>
                                 </div>
+
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1"><?php echo $this->lang->line('remarks'); ?></label><small class="req"> *</small>
@@ -161,3 +167,16 @@
         </div> <!-- /.row -->
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
+<script>
+    $(document).ready(function() {
+        $('#note_book_type_id').SumoSelect({
+            placeholder: "<?php echo $this->lang->line('select'); ?>",
+            allowClear: true,
+            // csvDispCount: 3, // Number of selected items to show
+            selectAll: true, // Enable Select All option
+            // okCancelInMulti: true, // Add OK/Cancel buttons in multi-select
+        });
+
+        console.log($('#note_book_type_id')); // Verify targeting of the element
+    });
+</script>

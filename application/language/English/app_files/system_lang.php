@@ -2066,6 +2066,7 @@ $lang['submitted_by'] = "Submitted By";
 $lang['submitting'] = "Submitting...";	
 $lang['success'] = "Success";	
 $lang['success_message'] = "Record Saved Successfully";	
+$lang['error_message'] = "Someting went wrong";	
 $lang['success_message_for_client_to_see'] = "Success Message For Client To See";	
 $lang['summary'] = "Summary";	
 $lang['sun'] = "Sun";	
