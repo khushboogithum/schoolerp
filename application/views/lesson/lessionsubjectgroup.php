@@ -18,9 +18,9 @@
                 <!-- Horizontal Form -->
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title"><?php echo $this->lang->line('edit_lesson'); ?></h3>
+                        <h3 class="box-title"><?php echo $this->lang->line('add_lesson'); ?></h3>
                     </div><!-- /.box-header -->
-                    <form id="form1" action="<?php echo site_url('lesson') ?>" method="post" accept-charset="utf-8">
+                    <form id="form1" action="<?php echo site_url('lesson/viewsubjectgroup/'.$lesson[0]['class_id'].'/'.$lesson[0]['section_id']) ?>" method="post" accept-charset="utf-8">
                         <div class="box-body">
                             <?php
                             if ($this->session->flashdata('msg')) {
