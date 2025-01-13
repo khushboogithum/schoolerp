@@ -12,167 +12,216 @@
     <section class="content">
         <div class="row">
             <?php
-              if ($this->rbac->hasPrivilege('todayswork', 'can_add')) {
+            if ($this->rbac->hasPrivilege('todayswork', 'can_add')) {
             ?>
-            <div class="col-md-12">
-                <!-- Horizontal Form -->
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title"><?php echo $this->lang->line('todays_work_syllubus_report'); ?></h3>
-                    </div><!-- /.box-header -->
-                    <form id="form1" action="<?php echo site_url('todayswork'); ?>" method="post" accept-charset="utf-8">
-                        <div class="box-body">
-                            <?php
-                            if ($this->session->flashdata('msg')) {
-                                echo $this->session->flashdata('msg');
-                                $this->session->unset_userdata('msg');
-                            }
-                            ?>
-                            <?php
-                            if (isset($error_message)) {
-                                echo "<div class='alert alert-danger'>" . $error_message . "</div>";
-                            }
-                            ?>
-                            <?php echo $this->customlib->getCSRF(); ?>
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <div class="form-group">
+                <div class="col-md-12">
+                    <!-- Horizontal Form -->
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"><?php echo $this->lang->line('todays_work_syllubus_report'); ?></h3>
+                        </div><!-- /.box-header -->
+                        <form id="form1" action="<?php echo site_url('todayswork'); ?>" method="post" accept-charset="utf-8">
+                            <div class="box-body">
+                                <?php
+                                if ($this->session->flashdata('msg')) {
+                                    echo $this->session->flashdata('msg');
+                                    $this->session->unset_userdata('msg');
+                                }
+                                ?>
+                                <?php
+                                if (isset($error_message)) {
+                                    echo "<div class='alert alert-danger'>" . $error_message . "</div>";
+                                }
+                                ?>
+                                <?php echo $this->customlib->getCSRF(); ?>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1"><?php echo $this->lang->line('todays_date'); ?></label><small class="req"> *</small>
+                                            <input autofocus="" id="todays_date" name="todays_date" placeholder="" type="date" class="form-control" value="<?php echo set_value('todays_date'); ?>" />
+                                            <span class="text-danger"><?php echo form_error('todays_date'); ?></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label><?php echo $this->lang->line('class'); ?></label><small class="req"> *</small>
+                                            <select autofocus="" id="searchclassid" name="class_id" onchange="getSectionByClass(this.value, 0, 'secid')" class="form-control">
+                                                <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                                <?php
+                                                foreach ($classlist as $class) {
+                                                ?>
+                                                    <option <?php
+                                                            if ($class_id == $class["id"]) {
+                                                                echo "selected";
+                                                            }
+                                                            ?> value="<?php echo $class['id'] ?>"><?php echo $class['class'] ?></option>
+                                                <?php
+                                                }
+                                                ?>
+                                            </select>
+                                            <input type="hidden" id="lesson_subjectid" name="lesson_subjectid">
+                                            <span class="class_id_error text-danger"><?php echo form_error('class_id'); ?></span>
+                                        </div>
+                                    </div>
 
-                                        <label><?php echo $this->lang->line('class'); ?></label><small class="req"> *</small>
-                                        <select autofocus="" id="searchclassid" name="class_id" onchange="getSectionByClass(this.value, 0, 'secid')" class="form-control">
-                                            <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                            <?php
-                                            foreach ($classlist as $class) {
-                                            ?>
-                                                <option <?php
-                                                        if ($class_id == $class["id"]) {
-                                                            echo "selected";
-                                                        }
-                                                        ?> value="<?php echo $class['id'] ?>"><?php echo $class['class'] ?></option>
-                                            <?php
-                                            }
-                                            ?>
-                                        </select>
-                                        <input type="hidden" id="lesson_subjectid" name="lesson_subjectid">
-                                        <span class="class_id_error text-danger"><?php echo form_error('class_id'); ?></span>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label><?php echo $this->lang->line('section'); ?></label><small class="req"> *</small>
+                                            <select id="secid" name="section_id" class="form-control">
+                                                <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                            </select>
+                                            <span class="section_id_error text-danger"><?php echo form_error('section_id'); ?></span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label><?php echo $this->lang->line('section'); ?></label><small class="req"> *</small>
-                                        <select id="secid" name="section_id" class="form-control">
-                                            <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                        </select>
-                                        <span class="section_id_error text-danger"><?php echo form_error('section_id'); ?></span>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label><?php echo $this->lang->line('subject_group'); ?></label><small class="req"> *</small>
+                                            <select id="subject_group_id" name="subject_group_id" class="form-control">
+                                                <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                            </select>
+                                            <span class="section_id_error text-danger"><?php echo form_error('subject_group_id'); ?></span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label><?php echo $this->lang->line('subject_group'); ?></label><small class="req"> *</small>
-                                        <select id="subject_group_id" name="subject_group_id" class="form-control">
-                                            <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                        </select>
-                                        <span class="section_id_error text-danger"><?php echo form_error('subject_group_id'); ?></span>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label><?php echo $this->lang->line('subject'); ?></label><small class="req"> *</small>
+                                            <select id="subid" name="subject_id" class="form-control">
+                                                <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                            </select>
+                                            <span class="section_id_error text-danger"><?php echo form_error('subject_id'); ?></span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label><?php echo $this->lang->line('subject'); ?></label><small class="req"> *</small>
-                                        <select id="subid" name="subject_id" class="form-control">
-                                            <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                        </select>
-                                        <span class="section_id_error text-danger"><?php echo form_error('subject_id'); ?></span>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label><?php echo $this->lang->line('lesson_no'); ?></label><small class="req"> *</small>
+                                            <select id="lesson_number" name="lesson_number" class="form-control">
+                                                <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                            </select>
+                                            <span class="lesson_number_error text-danger"><?php echo form_error('lesson_number'); ?></span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1"><?php echo $this->lang->line('lesson_no'); ?></label><small class="req"> *</small>
-                                        <input autofocus="" id="lesson_number" name="lesson_number" placeholder="" type="number" class="form-control" value="<?php echo set_value('lesson_number'); ?>" />
-                                        <span class="text-danger"><?php echo form_error('lesson_number'); ?></span>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label><?php echo $this->lang->line('lesson_name'); ?></label><small class="req"> *</small>
+                                            <select id="lesson_name" name="lesson_name" class="form-control">
+                                                <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                            </select>
+                                            <span class="section_id_error text-danger"><?php echo form_error('lesson_name'); ?></span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1"><?php echo $this->lang->line('lesson_name'); ?></label><small class="req"> *</small>
-                                        <input autofocus="" id="lesson_name" name="lesson_name" placeholder="" type="text" class="form-control" value="<?php echo set_value('lesson_name'); ?>" />
-                                        <span class="text-danger"><?php echo form_error('lesson_name'); ?></span>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1"><?php echo $this->lang->line('class_work'); ?></label><small class="req"> *</small><br>
+                                            <select id="teaching_activity_id" name="teaching_activity_id[]" multiple class="form-control select2">
+
+                                                <?php $teachingActivity = ["Lesson Reading", "Word Meaning", "Explanation", "M.C.Q", "Fill Up"];
+                                                foreach ($teachingActivity as $teachingActivities) { ?>
+                                                    <option value="<?php echo $teachingActivities; ?>">
+                                                        <?php echo $teachingActivities; ?>
+                                                    </option>
+                                                <?php }  ?>
+                                            </select>
+                                            <span class="text-danger"><?php echo form_error('teaching_activity_id[]'); ?></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1"><?php echo $this->lang->line('class_work_note_book'); ?></label><small class="req"> *</small><br>
+                                            <select id="note_book_type_id" name="note_book_type_id[]" multiple class="form-control select2">
+                                                <?php $notebookList = ["Fair Copy", "Rough Copy", "Chat Paper", "Project Sheet"];
+                                                foreach ($notebookList as $notebook) { ?>
+                                                    <option value="<?php echo $notebook; ?>">
+                                                        <?php echo $notebook; ?>
+                                                    </option>
+                                                <?php }  ?>
+                                            </select>
+                                            <span class="text-danger"><?php echo form_error('note_book_type_id[]'); ?></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1"><?php echo $this->lang->line('home_work'); ?></label><small class="req"> *</small><br>
+                                            <select id="teaching_activity_home_work_id" name="teaching_activity_home_work_id[]" multiple class="form-control select2">
+                                                <?php $teachingActivity = ["Word Meaning", "Lesson Reading", "Explanation", "M.C.Q", "Fill Up"];
+                                                foreach ($teachingActivity as $teachingActivities) { ?>
+                                                    <option value="<?php echo $teachingActivities; ?>">
+                                                        <?php echo $teachingActivities; ?>
+                                                    </option>
+                                                <?php }  ?>
+                                            </select>
+                                            <span class="text-danger"><?php echo form_error('teaching_activity_home_work_id[]'); ?></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1"><?php echo $this->lang->line('home_work_note_book'); ?></label><small class="req"> *</small><br>
+                                            <select id="note_book_type_id_home_work" name="note_book_type_id_home_work[]" multiple class="form-control select2">
+                                                <?php $notebookHome = ["Practical Copy","Fair Copy", "Rough Copy", "Chat Paper", "Project Sheet"];
+                                                foreach ($notebookHome as $notebookhome) { ?>
+                                                    <option value="<?php echo $notebookhome; ?>">
+                                                        <?php echo $notebookhome; ?>
+                                                    </option>
+                                                <?php }  ?>
+                                            </select>
+                                            <span class="text-danger"><?php echo form_error('note_book_type_id_home_work[]'); ?></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="box-footer">
-                            <button type="submit" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('add'); ?></button>
-                            <button type="submit" class="btn btn-info pull-right"><?php echo $this->lang->line('import'); ?></button>
-                        </div>
-                    </form>
-                </div>
+                            <div class="box-footer">
+                                <button type="submit" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('add'); ?></button>
+                            </div>
+                        </form>
+                    </div>
 
-            </div>
-            <?php } 
+                </div>
+            <?php }
             ?>
             <div class="col-md-12">
                 <!-- general form elements -->
                 <div class="box box-primary">
                     <div class="box-header ptbnull">
-                        <h3 class="box-title titlefix"><?php echo $this->lang->line('todays_work'); ?></h3>
-                        <div class="box-tools pull-right">
-                        </div><!-- /.box-tools -->
+                        <h3 class="box-title titlefix"><?php echo $this->lang->line('todays_work_syllubus_report'); ?></h3>
+                        
                     </div><!-- /.box-header -->
                     <div class="box-body">
-                        <div class="table-responsive mailbox-messages overflow-visible">
-                            <div class="download_label"><?php echo $this->lang->line('todays_work'); ?></div>
-                            <table class="table table-striped table-bordered table-hover example">
+                        <div class="table-responsive overflow-visible">
+                            <table class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th><?php echo $this->lang->line('class'); ?></th>
-                                        <th><?php echo $this->lang->line('section'); ?></th>
-                                        <!-- <th><?php echo $this->lang->line('subject_group'); ?></th>
                                         <th><?php echo $this->lang->line('subject'); ?></th>
-                                        <th><?php echo $this->lang->line('lesson_no'); ?></th>
-                                        <th><?php echo $this->lang->line('lesson_name'); ?></th> -->
-
-                                        <th class="text-right noExport"><?php echo $this->lang->line('action'); ?></th>
+                                        <th><?php echo $this->lang->line('total_lesson'); ?></th>
+                                        <th><?php echo $this->lang->line('now_going_on'); ?></th>
+                                        <th><?php echo $this->lang->line('class_work'); ?></th>
+                                        <th><?php echo $this->lang->line('home_work'); ?></th>
+                                        <th><?php echo $this->lang->line('syllabus_percentage'); ?></th> 
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    // echo "<pre>";
-                                    // print_r($lessonlist);
-                                    // die();
-                                    if (!empty($lessonlist)) {
-                                        foreach ($lessonlist as $lessonlists) {
+                                    $todayList = [
+                                        [
+                                            "subject" => "Hindi",
+                                            "total_lesson" => "15",
+                                            "now_going_on" => "Lesson-3 Bad Man",
+                                            "class_work" => "Explanation",
+                                            "home_work" => "One Page Writing",
+                                            "syllabus_percentage" => "45%"
+                                        ]
+                                    ];                                   
+                                     if (!empty($todayList)) {
+                                        foreach ($todayList as $todayLists) {
                                     ?>
                                             <tr>
-                                                <td class="mailbox-name"> <a href="<?php echo base_url(); ?>lesson/viewsubjectgroup/<?php echo $lessonlists['class_id']; ?>/<?php echo $lessonlists['section_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>"><?= $lessonlists['class'] ?></a></td>
-                                                <td><?= $lessonlists['section'] ?></td>
-                                                <!-- <td><?= $lessonlists['subject_group'] ?></td> -->
-                                                <!-- <td><?= $lessonlists['subject_name'] ?></td>
-                                                <td><?= $lessonlists['lesson_number'] ?></td>
-                                                <td><?= $lessonlists['lesson_name'] ?></td> -->
-                                                <td class="mailbox-date pull-right">
-                                                <?php
-                                                    if ($this->rbac->hasPrivilege('lesson', 'can_view')) {
-                                                    ?>
-                                                        <a href="<?php echo base_url(); ?>lesson/viewsubjectgroup/<?php echo $lessonlists['class_id']; ?>/<?php echo $lessonlists['section_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('view'); ?>">
-                                                            <i class="fa fa-eye"></i>
-                                                        </a>
-                                                    <?php
-                                                    }
-                                                    if ($this->rbac->hasPrivilege('lesson', 'can_edit')) {
-                                                    ?>
-                                                        <a href="<?php echo base_url(); ?>lesson/edit/<?php echo $lessonlists['lesson_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>">
-                                                            <i class="fa fa-pencil"></i>
-                                                        </a>
-                                                    <?php
-                                                    }
-                                                    if ($this->rbac->hasPrivilege('lesson', 'can_delete')) {
-                                                    ?>
-                                                        <a href="<?php echo base_url(); ?>lesson/delete/<?php echo $lessonlists['lesson_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('delete'); ?>" onclick="return confirm('<?php echo $this->lang->line('delete_confirm'); ?>');">
-                                                            <i class="fa fa-remove"></i>
-                                                        </a>
-                                                    <?php }
-                                                    ?>
-                                                </td>
+                                                <td><?= $todayLists['subject'] ?></td>
+                                                <td><?= $todayLists['total_lesson'] ?></td> 
+                                                <td><?= $todayLists['now_going_on'] ?></td>
+                                                <td><?= $todayLists['class_work'] ?></td>
+                                                <td><?= $todayLists['home_work'] ?></td> 
+                                                <td><?= $todayLists['syllabus_percentage'] ?></td> 
+                                                
                                             </tr>
                                         <?php
                                         }
@@ -188,13 +237,14 @@
                                     ?>
 
                                 </tbody>
-                            </table><!-- /.table -->
-                        </div><!-- /.mail-box-messages -->
-                    </div><!-- /.box-body -->
-                </div>
-            </div><!--/.col (left) -->
-            <!-- right column -->
+                            </table>
+                        </div>
+                       <div> <a type="" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('submit'); ?></a></div><br><br>
+                        <div><button type="submit" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('go_for_student_work_report'); ?></button></div>
 
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row">
             <!-- left column -->
@@ -206,6 +256,30 @@
         </div> <!-- /.row -->
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
+<script>
+    $(document).ready(function() {
+        const selectors = [
+            '#teaching_activity_id',
+            '#note_book_type_id',
+            '#teaching_activity_home_work_id',
+            '#note_book_type_id_home_work'
+        ];
+
+        selectors.forEach(selector => {
+            if ($(selector).length) {
+                $(selector).SumoSelect({
+                    placeholder: "<?php echo $this->lang->line('select'); ?>",
+                    allowClear: true,
+                    selectAll: true
+                });
+                console.log(`${selector} initialized`);
+            } else {
+                console.warn(`${selector} not found in DOM`);
+            }
+        });
+    });
+</script>
+
 <script>
     $(document).ready(function(e) {
 
