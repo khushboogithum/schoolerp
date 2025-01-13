@@ -13,7 +13,6 @@ class Todayswork_model extends MY_model
         $this->current_session_name = $this->setting_model->getCurrentSessionName();
       
     }
-
     // public function add_lesson($data)
     // {
     //     // print_r($data);
@@ -56,26 +55,6 @@ class Todayswork_model extends MY_model
     //         return $insert_id;
     //     }
     // }
-    // public function get()
-    // {
-    //     $this->db->select('lesson_diary.*, classes.class, sections.section, subjects.name as subject_name,subject_groups.name as subject_group');
-    //     $this->db->from('lesson_diary');
-    //     $this->db->join('classes', 'classes.id = lesson_diary.class_id', 'left');
-    //     $this->db->join('sections', 'sections.id = lesson_diary.section_id', 'left');
-    //     $this->db->join('subjects', 'subjects.id = lesson_diary.subject_id', 'left');
-    //     $this->db->join('subject_groups', 'subject_groups.id = lesson_diary.subject_group_id', 'left');
-    //     $this->db->where('lesson_diary.status', 1);
-    //     $this->db->order_by('lesson_diary.lesson_id', 'DESC');
-
-    //     $query = $this->db->get();
-    //     return $query->result_array();
-    // }
     
-    // public function remove($id)
-    // {
-    //     $this->db->where('lesson_id', $id); 
-    //     $this->db->update('lesson_diary', ['status' => 0]);
-    // }
     
-  
 }
