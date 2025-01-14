@@ -13,6 +13,26 @@ class Todayswork_model extends MY_model
         $this->current_session_name = $this->setting_model->getCurrentSessionName();
       
     }
+
+
+    public function getLessionDetailsBySubjectId($subject_id){
+        $this->db->select('lesson_diary.*');
+        $this->db->from('lesson_diary');
+        $this->db->where('lesson_diary.subject_id', $subject_id);
+        $query = $this->db->get();
+        //echo $this->db->last_query();
+        return $query->result_array();
+    }
+
+    public function getLessionDetailsByLessionId($lession_id){
+        $this->db->select('lesson_diary.*');
+        $this->db->from('lesson_diary');
+        $this->db->where('lesson_diary.lesson_id', $lession_id);
+        $query = $this->db->get();
+        // echo $this->db->last_query();
+        // die();
+        return $query->result_array();
+    }
     // public function add_lesson($data)
     // {
     //     // print_r($data);
