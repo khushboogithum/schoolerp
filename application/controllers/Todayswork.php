@@ -56,12 +56,16 @@ class Todayswork extends Admin_Controller
         $this->load->view('layout/footer', $data);
     }
 
-    public function delete($id)
-    {
-       
-    }
-    public function edit($id)
+    public function studentworkreport()
     {
         
+        $this->session->set_userdata('top_menu', 'todayswork');
+        $this->session->set_userdata('sub_menu', 'todayswork/index');
+        $data['title']      = 'Student Work Report';
+        $data['title_list'] = 'Student Work Report';
+
+        $this->load->view('layout/header', $data);
+        $this->load->view('todayswork/studentworkreport', $data);
+        $this->load->view('layout/footer', $data);
     }
 }

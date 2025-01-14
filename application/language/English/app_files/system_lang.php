@@ -2402,5 +2402,6 @@ $lang['total_lesson']= "Total Lesson";
 $lang['now_going_on']= "Now Going On";
 $lang['syllabus_percentage']= "Syllabus Percentage";
 $lang['go_for_student_work_report']= "Go for Student Report";
+$lang['student_work_report']= "Student Work Report";
 
 
