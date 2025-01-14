@@ -68,4 +68,5 @@ class Todayswork extends Admin_Controller
         $this->load->view('todayswork/studentworkreport', $data);
         $this->load->view('layout/footer', $data);
     }
+    
 }
