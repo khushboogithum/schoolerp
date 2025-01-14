@@ -164,4 +164,29 @@ class lessondiary_model extends MY_model
         $query = $this->db->get();
         return $query->result_array();
     }
+
+    public function getSectionListClassId($class_id)
+    {
+        $this->db->select('class_sections.class_id,class_sections.section_id,sections.section,sections.id');
+        $this->db->from('class_sections');
+        $this->db->join('sections', 'sections.id = class_sections.section_id', 'left');
+        $this->db->where('class_sections.class_id', $class_id);
+        $query = $this->db->get();
+        // echo $this->db->last_query();
+        // die();
+        return $query->result_array();
+    }
+
+    public function getSubjectGroupBySectionId($section_id)
+    {
+        $this->db->select('subject_group_class_sections.subject_group_id,subject_group_class_sections.class_section_id,subject_groups.name,subject_groups.id');
+        $this->db->from('subject_group_class_sections');
+        $this->db->join('subject_groups', 'subject_groups.id = subject_group_class_sections.subject_group_id', 'left');
+        $this->db->where('subject_group_class_sections.class_section_id', $section_id);
+        $query = $this->db->get();
+        echo $this->db->last_query();
+        die();
+        return $query->result_array();
+    }
 }
+

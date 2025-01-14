@@ -58,7 +58,9 @@
                                         <label><?php echo $this->lang->line('section'); ?></label><small class="req"> *</small>
                                         <select id="secid" name="section_id" class="form-control">
                                             <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                            <?php foreach ($sectionlist as $section) { ?>
+                                            <?php 
+
+                                            foreach ($sectionlist as $section) { ?>
                                                 <option value="<?php echo $section['id']; ?>"
                                                     <?php echo ($lesson[0]['section_id'] == $section['id']) ? 'selected' : ''; ?>>
                                                     <?php echo $section['section']; ?>
@@ -73,8 +75,9 @@
                                         <label><?php echo $this->lang->line('subject_group'); ?></label><small class="req"> *</small>
                                         <select id="subject_group_id" name="subject_group_id" class="form-control">
                                             <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                            <?php foreach ($subjectgrouplist as $subjectgroup) { ?>
-                                                <option value="<?php echo $subjectgroup['id']; ?>"
+                                            <?php
+                                            foreach ($subjectgrouplist as $subjectgroup) { ?>
+                                                <option value="<?php echo $subjectgroup['subject_group_id']; ?>"
                                                     >
                                                     <?php echo $subjectgroup['name']; ?>
                                                 </option>
@@ -88,11 +91,7 @@
                                         <label><?php echo $this->lang->line('subject'); ?></label><small class="req"> *</small>
                                         <select id="subid" name="subject_id" class="form-control">
                                             <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                            <?php foreach ($subjectlist as $subject) { ?>
-                                                <option value="<?php echo $subject['id']; ?>">
-                                                    <?php echo $subject['name']; ?>
-                                                </option>
-                                            <?php } ?>
+                                            
                                         </select>
                                         <span class="section_id_error text-danger"><?php echo form_error('subject_id'); ?></span>
                                     </div>

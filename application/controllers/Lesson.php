@@ -12,6 +12,7 @@ class Lesson extends Admin_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('lessondiary_model');  // Load the model here
+        $this->load->model('Subjectgroup_model');
 
     }
 
@@ -78,12 +79,15 @@ class Lesson extends Admin_Controller
         $data['title'] = 'Edit Lesson';
         $data['id'] = $id;
         $data['lessonlist'] = $this->lessondiary_model->viewlessionBysubjectgroup($subject_group_id,$subject_id);
-        $data['lesson']=$lession = $this->lessondiary_model->get_lesson_by_id($id);
+        $data['lesson']=$lessionDetails = $this->lessondiary_model->get_lesson_by_id($id);
+        $class_id=$lessionDetails['class_id'];
+        $section_id=$lessionDetails['section_id'];
+        $subject_group_id=$lessionDetails['subject_group_id'];
         $data['classlist'] = $this->class_model->get();
-        $data['sectionlist'] = $this->section_model->get();
-        $data['subjectlist'] = $this->subject_model->get();
-        $data['subjectgrouplist'] = $this->subjectgroup_model->getsubjectGroup();
-        
+        $data['sectionlist'] = $this->lessondiary_model->getSectionListClassId($class_id);
+        $data['subjectlist'] = $this->subjectgroup_model->getGroupsubjects($subject_group_id,$session_id);
+        $data['subjectgrouplist'] = $this->Subjectgroup_model->getGroupByClassandSection($class_id, $section_id,$session_id=NULL);;
+      
       
         $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
@@ -108,6 +112,7 @@ class Lesson extends Admin_Controller
             );
 
 
+
             $this->lessondiary_model->add_lesson($update_data);
             $this->session->set_flashdata('msg', '<div class="alert alert-success text-left">' . $this->lang->line('update_message') . '</div>');
             redirect('lesson/viewlession/'.$subject_group_id.'/'.$subject_id);
@@ -124,13 +129,14 @@ class Lesson extends Admin_Controller
         $data['title'] = 'Edit Lesson';
         $data['id'] = $id;
         $data['lesson'] = $this->lessondiary_model->getLessionByClassIdsectionId($classId,$sectionId);
-        $data['lessonlist'] = $this->lessondiary_model->getviewsubjectgroup($classId,$sectionId);
-       // echo $lessionDetails[0]['class_id'];
-       // die();
+        $data['lessonlist']=$lessionDetails= $this->lessondiary_model->getviewsubjectgroup($classId,$sectionId);
+        $class_id=$lessionDetails[0]['class_id'];
+        $section_id=$lessionDetails[0]['section_id'];
+        $subject_group_id=$lessionDetails[0]['subject_group_id'];
         $data['classlist'] = $this->class_model->get();
-        $data['sectionlist'] = $this->section_model->get();
-        $data['subjectlist'] = $this->subject_model->get();
-        $data['subjectgrouplist'] = $this->subjectgroup_model->getsubjectGroup();
+        $data['sectionlist'] = $this->lessondiary_model->getSectionListClassId($class_id);
+        $data['subjectlist'] = $this->subjectgroup_model->getGroupsubjects($subject_group_id,$session_id);
+        $data['subjectgrouplist'] = $this->Subjectgroup_model->getGroupByClassandSection($class_id, $section_id,$session_id=NULL);;
       
         $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
@@ -168,11 +174,14 @@ class Lesson extends Admin_Controller
         $data['title'] = 'Edit Lesson';
         $data['id'] = $id;
         $data['lesson']=$lessionDetails= $this->lessondiary_model->getLessionBysubjectGroup($subject_group_id,$subject_id);
-       
+
+        $class_id=$lessionDetails[0]['class_id'];
+        $section_id=$lessionDetails[0]['section_id'];
+        $subject_group_id=$lessionDetails[0]['subject_group_id'];
         $data['classlist'] = $this->class_model->get();
-        $data['sectionlist'] = $this->section_model->get();
-        $data['subjectlist'] = $this->subject_model->get();
-        $data['subjectgrouplist'] = $this->subjectgroup_model->getsubjectGroup();
+        $data['sectionlist'] = $this->lessondiary_model->getSectionListClassId($class_id);
+        $data['subjectlist'] = $this->subjectgroup_model->getGroupsubjects($subject_group_id,$session_id);
+        $data['subjectgrouplist'] = $this->Subjectgroup_model->getGroupByClassandSection($class_id, $section_id,$session_id=NULL);
         $data['lessonlist'] = $this->lessondiary_model->viewlessionBysubjectgroup($subject_group_id,$subject_id);
       
         $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');

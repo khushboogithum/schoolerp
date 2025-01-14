@@ -74,8 +74,8 @@
                                         <select id="subject_group_id" name="subject_group_id" class="form-control">
                                             <option value=""><?php echo $this->lang->line('select'); ?></option>
                                             <?php foreach ($subjectgrouplist as $subjectgroup) { ?>
-                                                <option value="<?php echo $subjectgroup['id']; ?>"
-                                                    <?php echo ($lesson[0]['subject_group_id'] == $subjectgroup['id']) ? 'selected' : ''; ?>>
+                                                <option value="<?php echo $subjectgroup['subject_group_id']; ?>"
+                                                    <?php echo ($lesson[0]['subject_group_id'] == $subjectgroup['subject_group_id']) ? 'selected' : ''; ?>>
                                                     <?php echo $subjectgroup['name']; ?>
                                                 </option>
                                             <?php } ?>
@@ -89,9 +89,9 @@
                                         <select id="subid" name="subject_id" class="form-control">
                                             <option value=""><?php echo $this->lang->line('select'); ?></option>
                                             <?php foreach ($subjectlist as $subject) { ?>
-                                                <option value="<?php echo $subject['id']; ?>"
-                                                    <?php echo ($lesson[0]['subject_id'] == $subject['id']) ? 'selected' : ''; ?>>
-                                                    <?php echo $subject['name']; ?>
+                                                <option value="<?php echo $subject->subject_id; ?>"
+                                                    <?php echo ($lesson[0]['subject_id'] == $subject->subject_id) ? 'selected' : ''; ?>>
+                                                    <?php echo $subject->name; ?>
                                                 </option>
                                             <?php } ?>
                                         </select>
