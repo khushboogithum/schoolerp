@@ -2362,6 +2362,7 @@ $lang['thanks_for_contacting_us'] = "Thanks for contacting us";
 $lang['your_payment_processing']= "your payment processing";
 $lang['biometric']= "Biometric";
 $lang['manual']= "Manual";
+$lang['back']= "Back";
 $lang['staff_day_wise_attendance_report']= "Staff Day Wise Attendance Report";
 $lang['student_day_wise_attendance_report']= "Student Day Wise Attendance Report";
 $lang['scan_location']= "Scan Location";
@@ -2389,5 +2390,18 @@ $lang['lession_reading']= "Lession Reading";
 $lang['add_teacher_activity']= "Add Teacher Activity";
 $lang['teacher_activity_list']= "Teacher Activity List";
 $lang['edit_teacher_activity']= "Edit Teacher Activity";
+
+$lang['todays_work_syllubus_report']= "Home work and Syllabus Report";
+$lang['add_todays_work']= "Add Todays Work";
+$lang['todays_date']= "Date";
+$lang['class_work']= "Class Work";
+$lang['class_work_note_book']= "Class Work Note Book";
+$lang['home_work_note_book']= "Home Work Note Book";
+$lang['home_work']= "Home Work";
+$lang['total_lesson']= "Total Lesson";
+$lang['now_going_on']= "Now Going On";
+$lang['syllabus_percentage']= "Syllabus Percentage";
+$lang['go_for_student_work_report']= "Go for Student Report";
+$lang['student_work_report']= "Student Work Report";
 
 
