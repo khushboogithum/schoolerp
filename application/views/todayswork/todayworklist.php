@@ -116,12 +116,16 @@
                                             <label for="exampleInputEmail1"><?php echo $this->lang->line('class_work'); ?></label><small class="req"> *</small><br>
                                             <select id="teaching_activity_id" name="teaching_activity_id[]" multiple class="form-control select2">
 
-                                                <?php $teachingActivity = ["Lesson Reading", "Word Meaning", "Explanation", "M.C.Q", "Fill Up"];
-                                                foreach ($teachingActivity as $teachingActivities) { ?>
-                                                    <option value="<?php echo $teachingActivities; ?>">
-                                                        <?php echo $teachingActivities; ?>
-                                                    </option>
-                                                <?php }  ?>
+                                                <?php
+                                                if (!empty($teachingClassWork)) {
+                                                    foreach ($teachingClassWork as $classwork) { ?>
+                                                        <option value="<?php echo $classwork['teaching_activity_id']; ?>">
+                                                            <?php echo $classwork['teaching_activity_title']; ?>
+                                                        </option>
+                                                <?php }
+                                                } else {
+                                                    echo "<option value=''>No Teaching Activities Found</option>";
+                                                } ?>
                                             </select>
                                             <span class="text-danger"><?php echo form_error('teaching_activity_id[]'); ?></span>
                                         </div>
@@ -130,12 +134,12 @@
                                         <div class="form-group">
                                             <label for="exampleInputEmail1"><?php echo $this->lang->line('class_work_note_book'); ?></label><small class="req"> *</small><br>
                                             <select id="note_book_type_id" name="note_book_type_id[]" multiple class="form-control select2">
-                                                <?php $notebookList = ["Fair Copy", "Rough Copy", "Chat Paper", "Project Sheet"];
+                                                <?php /*$notebookList = ["Fair Copy", "Rough Copy", "Chat Paper", "Project Sheet"];
                                                 foreach ($notebookList as $notebook) { ?>
                                                     <option value="<?php echo $notebook; ?>">
                                                         <?php echo $notebook; ?>
                                                     </option>
-                                                <?php }  ?>
+                                                <?php }  */?>
                                             </select>
                                             <span class="text-danger"><?php echo form_error('note_book_type_id[]'); ?></span>
                                         </div>
@@ -144,12 +148,16 @@
                                         <div class="form-group">
                                             <label for="exampleInputEmail1"><?php echo $this->lang->line('home_work'); ?></label><small class="req"> *</small><br>
                                             <select id="teaching_activity_home_work_id" name="teaching_activity_home_work_id[]" multiple class="form-control select2">
-                                                <?php $teachingActivity = ["Word Meaning", "Lesson Reading", "Explanation", "M.C.Q", "Fill Up"];
-                                                foreach ($teachingActivity as $teachingActivities) { ?>
-                                                    <option value="<?php echo $teachingActivities; ?>">
-                                                        <?php echo $teachingActivities; ?>
-                                                    </option>
-                                                <?php }  ?>
+                                            <?php
+                                                if (!empty($teachingClassWork)) {
+                                                    foreach ($teachingClassWork as $classwork) { ?>
+                                                        <option value="<?php echo $classwork['teaching_activity_id']; ?>">
+                                                            <?php echo $classwork['teaching_activity_title']; ?>
+                                                        </option>
+                                                <?php }
+                                                } else {
+                                                    echo "<option value=''>No Teaching Activities Found</option>";
+                                                } ?>
                                             </select>
                                             <span class="text-danger"><?php echo form_error('teaching_activity_home_work_id[]'); ?></span>
                                         </div>
@@ -417,73 +425,106 @@
 
     $(document).on('change', '#subid', function() {
         var subid = $('#subid').val();
-       // console.log(subid);
+        // console.log(subid);
         var div_lession_no = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
         // var div_lession_name = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
         $.ajax({
-                type: 'POST',
-                url: base_url + 'todayswork/getlessionData',
-                data: {
-                    'subject_id': subid
-                },
-                dataType: 'JSON',
-                beforeSend: function() {
-                    // setting a timeout
-                    $('#lesson_number').html("").addClass('dropdownloading');
-                },
-                success: function(data) {
-                    console.log(data);
-                    $.each(data, function(i, obj) {
-                        var sel = "";
-                        div_lession_no += "<option value=" + obj.lesson_id + " " + sel + ">" + obj.lesson_number + "</option>";
-                       
-                    });
-                    $('#lesson_number').html(div_lession_no);
-                },
-                error: function(xhr) { // if error occured
-                    alert("<?php echo $this->lang->line('error_occurred_please_try_again'); ?>");
+            type: 'POST',
+            url: base_url + 'todayswork/getlessionData',
+            data: {
+                'subject_id': subid
+            },
+            dataType: 'JSON',
+            beforeSend: function() {
+                // setting a timeout
+                $('#lesson_number').html("").addClass('dropdownloading');
+            },
+            success: function(data) {
+                console.log(data);
+                $.each(data, function(i, obj) {
+                    var sel = "";
+                    div_lession_no += "<option value=" + obj.lesson_id + " " + sel + ">" + obj.lesson_number + "</option>";
 
-                },
-                complete: function() {
-                    $('#lesson_number').removeClass('dropdownloading');
-                    // $('#lesson_name').removeClass('dropdownloading');
-                }
-            });
+                });
+                $('#lesson_number').html(div_lession_no);
+            },
+            error: function(xhr) { // if error occured
+                alert("<?php echo $this->lang->line('error_occurred_please_try_again'); ?>");
+
+            },
+            complete: function() {
+                $('#lesson_number').removeClass('dropdownloading');
+                // $('#lesson_name').removeClass('dropdownloading');
+            }
+        });
     });
 
 
     $(document).on('change', '#lesson_number', function() {
         var lesson_number = $('#lesson_number').val();
-       // console.log(lesson_number);
+        // console.log(lesson_number);
         var div_lession_name = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
         $.ajax({
-                type: 'POST',
-                url: base_url + 'todayswork/getlessionDataByLessionId',
-                data: {
-                    'lesson_id': lesson_number
-                },
-               dataType: 'JSON',
-                beforeSend: function() {
-                    $('#lesson_name').html("").addClass('dropdownloading');
-                },
-                success: function(data) {
-                    console.log(data);
-                    $.each(data, function(i, obj) {
-                        var sel = "";
-                        div_lession_name += "<option value=" + obj.lesson_id + " " + sel + ">" + obj.lesson_name+ "</option>";
-                    });
-                     $('#lesson_name').html(div_lession_name);
-                },
-                error: function(xhr) { // if error occured
-                    alert("<?php echo $this->lang->line('error_occurred_please_try_again'); ?>");
+            type: 'POST',
+            url: base_url + 'todayswork/getlessionDataByLessionId',
+            data: {
+                'lesson_id': lesson_number
+            },
+            dataType: 'JSON',
+            beforeSend: function() {
+                $('#lesson_name').html("").addClass('dropdownloading');
+            },
+            success: function(data) {
+                console.log(data);
+                $.each(data, function(i, obj) {
+                    var sel = "";
+                    div_lession_name += "<option value=" + obj.lesson_id + " " + sel + ">" + obj.lesson_name + "</option>";
+                });
+                $('#lesson_name').html(div_lession_name);
+            },
+            error: function(xhr) { // if error occured
+                alert("<?php echo $this->lang->line('error_occurred_please_try_again'); ?>");
 
-                },
-                complete: function() {
-                    $('#lesson_name').removeClass('dropdownloading');
-                }
-            });
+            },
+            complete: function() {
+                $('#lesson_name').removeClass('dropdownloading');
+            }
+        });
     });
 
 
-    
+    $(document).on('change', '#teaching_activity_id', function() {
+        var lesson_number = $('#teaching_activity_id').val();
+        // console.log(lesson_number);
+        var div_lession_name = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+        $.ajax({
+            type: 'POST',
+            url: base_url + 'todayswork/getNotebooksByClasswork',
+            data: {
+                'teaching_activity_id': teaching_activity_id
+            },
+            dataType: 'JSON',
+            beforeSend: function() {
+                $('#teaching_activity_id').html("").addClass('dropdownloading');
+            },
+            success: function(data) {
+                console.log(data);
+                $.each(data, function(i, obj) {
+                    var sel = "";
+                    class_note_book += "<option value=" + obj.note_book_type_id + " " + sel + ">" + obj.note_book_type_id + "</option>";
+                });
+                $('#note_book_type_id').html(note_book);
+            },
+            error: function(xhr) { // if error occured
+                alert("<?php echo $this->lang->line('error_occurred_please_try_again'); ?>");
+
+            },
+            complete: function() {
+                $('#note_book_type_id').removeClass('dropdownloading');
+            }
+        });
+    });
+   
+});
+
 </script>

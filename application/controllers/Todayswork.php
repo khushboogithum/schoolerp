@@ -11,8 +11,7 @@ class Todayswork extends Admin_Controller
     {
         parent::__construct();
         $this->load->library('form_validation');
-        $this->load->model('Todayswork_model');  
-
+        $this->load->model('Todayswork_model');
     }
 
     public function index()
@@ -27,6 +26,11 @@ class Todayswork extends Admin_Controller
 
         $classlist         = $this->class_model->get();
         $data['classlist'] = $classlist;
+
+        $classwork = $this->Todayswork_model->getClasswork();
+        $data['teachingClassWork'] = $classwork;
+        // echo "hello ";
+        // print_r($data['classwork']);
 
         // $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
         // $this->form_validation->set_rules('section_id', $this->lang->line('section'), 'trim|required|xss_clean');
@@ -58,7 +62,7 @@ class Todayswork extends Admin_Controller
 
     public function studentworkreport()
     {
-        
+
         $this->session->set_userdata('top_menu', 'todayswork');
         $this->session->set_userdata('sub_menu', 'todayswork/index');
         $data['title']      = 'Student Work Report';
@@ -68,17 +72,28 @@ class Todayswork extends Admin_Controller
         $this->load->view('todayswork/studentworkreport', $data);
         $this->load->view('layout/footer', $data);
     }
-    public function getlessionData(){
+    public function getlessionData()
+    {
         $subject_id = $this->input->post('subject_id');
         $data     = $this->Todayswork_model->getLessionDetailsBySubjectId($subject_id);
         echo json_encode($data);
-
     }
 
-    public function getlessionDataByLessionId(){
-         $lession_id = $this->input->post('lesson_id');
+    public function getlessionDataByLessionId()
+    {
+        $lession_id = $this->input->post('lesson_id');
         $data     = $this->Todayswork_model->getLessionDetailsByLessionId($lession_id);
-         echo json_encode($data);
-
+        echo json_encode($data);
     }
+
+    public function getNotebooksByClasswork() {
+        $teaching_activity_id = $this->input->post('teaching_activity_id');
+    
+            $this->load->model('Todayswork_model');
+            $data = $this->Todayswork_model->getNotebookByClasswork($teaching_activity_id);
+            echo json_encode($data);
+           
+        
+    }
+    
 }
