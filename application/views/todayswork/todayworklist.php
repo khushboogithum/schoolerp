@@ -158,7 +158,7 @@
                                         <div class="form-group">
                                             <label for="exampleInputEmail1"><?php echo $this->lang->line('home_work_note_book'); ?></label><small class="req"> *</small><br>
                                             <select id="note_book_type_id_home_work" name="note_book_type_id_home_work[]" multiple class="form-control select2">
-                                                <?php $notebookHome = ["Practical Copy","Fair Copy", "Rough Copy", "Chat Paper", "Project Sheet"];
+                                                <?php $notebookHome = ["Practical Copy", "Fair Copy", "Rough Copy", "Chat Paper", "Project Sheet"];
                                                 foreach ($notebookHome as $notebookhome) { ?>
                                                     <option value="<?php echo $notebookhome; ?>">
                                                         <?php echo $notebookhome; ?>
@@ -184,11 +184,11 @@
                 <div class="box box-primary">
                     <div class="box-header ptbnull">
                         <h3 class="box-title titlefix"><?php echo $this->lang->line('todays_work_syllubus_report'); ?></h3>
-                        
+
                     </div><!-- /.box-header -->
                     <div class="box-body">
-                        <div class="table-responsive overflow-visible">
-                            <table class="table table-striped table-bordered table-hover">
+                        <div class="table-responsive mailbox-messages overflow-visible">
+                            <table class="table table-striped table-bordered table-hover example">
                                 <thead>
                                     <tr>
                                         <th><?php echo $this->lang->line('subject'); ?></th>
@@ -196,7 +196,7 @@
                                         <th><?php echo $this->lang->line('now_going_on'); ?></th>
                                         <th><?php echo $this->lang->line('class_work'); ?></th>
                                         <th><?php echo $this->lang->line('home_work'); ?></th>
-                                        <th><?php echo $this->lang->line('syllabus_percentage'); ?></th> 
+                                        <th><?php echo $this->lang->line('syllabus_percentage'); ?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -210,18 +210,18 @@
                                             "home_work" => "One Page Writing",
                                             "syllabus_percentage" => "45%"
                                         ]
-                                    ];                                   
-                                     if (!empty($todayList)) {
+                                    ];
+                                    if (!empty($todayList)) {
                                         foreach ($todayList as $todayLists) {
                                     ?>
                                             <tr>
                                                 <td><?= $todayLists['subject'] ?></td>
-                                                <td><?= $todayLists['total_lesson'] ?></td> 
+                                                <td><?= $todayLists['total_lesson'] ?></td>
                                                 <td><?= $todayLists['now_going_on'] ?></td>
                                                 <td><?= $todayLists['class_work'] ?></td>
-                                                <td><?= $todayLists['home_work'] ?></td> 
-                                                <td><?= $todayLists['syllabus_percentage'] ?></td> 
-                                                
+                                                <td><?= $todayLists['home_work'] ?></td>
+                                                <td><?= $todayLists['syllabus_percentage'] ?></td>
+
                                             </tr>
                                         <?php
                                         }
@@ -239,7 +239,7 @@
                                 </tbody>
                             </table>
                         </div>
-                       <div> <a type="" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('submit'); ?></a></div><br><br>
+                        <div> <a type="" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('submit'); ?></a></div><br><br>
                         <div><button type="submit" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('go_for_student_work_report'); ?></button></div>
 
                     </div>
