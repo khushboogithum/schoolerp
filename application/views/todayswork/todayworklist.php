@@ -413,4 +413,77 @@
             });
         }
     }
+
+
+    $(document).on('change', '#subid', function() {
+        var subid = $('#subid').val();
+       // console.log(subid);
+        var div_lession_no = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+        // var div_lession_name = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+        $.ajax({
+                type: 'POST',
+                url: base_url + 'todayswork/getlessionData',
+                data: {
+                    'subject_id': subid
+                },
+                dataType: 'JSON',
+                beforeSend: function() {
+                    // setting a timeout
+                    $('#lesson_number').html("").addClass('dropdownloading');
+                },
+                success: function(data) {
+                    console.log(data);
+                    $.each(data, function(i, obj) {
+                        var sel = "";
+                        div_lession_no += "<option value=" + obj.lesson_id + " " + sel + ">" + obj.lesson_number + "</option>";
+                       
+                    });
+                    $('#lesson_number').html(div_lession_no);
+                },
+                error: function(xhr) { // if error occured
+                    alert("<?php echo $this->lang->line('error_occurred_please_try_again'); ?>");
+
+                },
+                complete: function() {
+                    $('#lesson_number').removeClass('dropdownloading');
+                    // $('#lesson_name').removeClass('dropdownloading');
+                }
+            });
+    });
+
+
+    $(document).on('change', '#lesson_number', function() {
+        var lesson_number = $('#lesson_number').val();
+       // console.log(lesson_number);
+        var div_lession_name = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+        $.ajax({
+                type: 'POST',
+                url: base_url + 'todayswork/getlessionDataByLessionId',
+                data: {
+                    'lesson_id': lesson_number
+                },
+               dataType: 'JSON',
+                beforeSend: function() {
+                    $('#lesson_name').html("").addClass('dropdownloading');
+                },
+                success: function(data) {
+                    console.log(data);
+                    $.each(data, function(i, obj) {
+                        var sel = "";
+                        div_lession_name += "<option value=" + obj.lesson_id + " " + sel + ">" + obj.lesson_name+ "</option>";
+                    });
+                     $('#lesson_name').html(div_lession_name);
+                },
+                error: function(xhr) { // if error occured
+                    alert("<?php echo $this->lang->line('error_occurred_please_try_again'); ?>");
+
+                },
+                complete: function() {
+                    $('#lesson_name').removeClass('dropdownloading');
+                }
+            });
+    });
+
+
+    
 </script>
