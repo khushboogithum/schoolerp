@@ -63,6 +63,7 @@ class Todayswork extends Admin_Controller
     public function studentworkreport()
     {
 
+
         $this->session->set_userdata('top_menu', 'todayswork');
         $this->session->set_userdata('sub_menu', 'todayswork/index');
         $data['title']      = 'Student Work Report';
@@ -88,8 +89,7 @@ class Todayswork extends Admin_Controller
 
     public function getNotebooksByClasswork() {
         $teaching_activity_id = $this->input->post('teaching_activity_id');
-    
-            $this->load->model('Todayswork_model');
+        //print_r($teaching_activity_id);
             $data = $this->Todayswork_model->getNotebookByClasswork($teaching_activity_id);
             echo json_encode($data);
            

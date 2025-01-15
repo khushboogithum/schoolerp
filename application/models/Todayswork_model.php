@@ -15,6 +15,7 @@ class Todayswork_model extends MY_model
     }
 
 
+
     public function getLessionDetailsBySubjectId($subject_id){
         $this->db->select('lesson_diary.*');
         $this->db->from('lesson_diary');
@@ -48,6 +49,7 @@ class Todayswork_model extends MY_model
         $this->db->join('note_book_type', 'teaching_notebook.note_book_type_id = note_book_type.note_book_type_id', 'left');
         $this->db->where_in('teaching_notebook.teaching_activity_id', $teaching_activity_id);
         $query = $this->db->get();
+        //echo $this->db->last_query();
     
         return $query->result_array();
     }
