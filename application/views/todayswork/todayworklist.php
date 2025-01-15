@@ -465,6 +465,7 @@
         // console.log(lesson_number);
         var div_lession_name = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
         $.ajax({
+
             type: 'POST',
             url: base_url + 'todayswork/getlessionDataByLessionId',
             data: {
@@ -493,38 +494,46 @@
     });
 
 
-    $(document).on('change', '#teaching_activity_id', function() {
-        var lesson_number = $('#teaching_activity_id').val();
-        // console.log(lesson_number);
-        var div_lession_name = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
-        $.ajax({
-            type: 'POST',
-            url: base_url + 'todayswork/getNotebooksByClasswork',
-            data: {
-                'teaching_activity_id': teaching_activity_id
-            },
-            dataType: 'JSON',
-            beforeSend: function() {
-                $('#teaching_activity_id').html("").addClass('dropdownloading');
-            },
-            success: function(data) {
-                console.log(data);
-                $.each(data, function(i, obj) {
-                    var sel = "";
-                    class_note_book += "<option value=" + obj.note_book_type_id + " " + sel + ">" + obj.note_book_type_id + "</option>";
-                });
-                $('#note_book_type_id').html(note_book);
-            },
-            error: function(xhr) { // if error occured
-                alert("<?php echo $this->lang->line('error_occurred_please_try_again'); ?>");
+    
 
-            },
-            complete: function() {
-                $('#note_book_type_id').removeClass('dropdownloading');
-            }
-        });
+
+
+    $('#teaching_activity_id').on('change', function() {
+    var teaching_activity_id = [];
+    $("#teaching_activity_id option:selected").each(function() {
+        teaching_activity_id.push($(this).val());
     });
-   
+
+    var note_book = '';
+    $.ajax({
+        type: 'POST',
+        url: base_url + 'todayswork/getNotebooksByClasswork',
+        data: {
+            'teaching_activity_id': teaching_activity_id
+        },
+        dataType: 'JSON',
+        beforeSend: function() {
+           // $('#note_book_type_id').html("").addClass('dropdownloading');
+        },
+        success: function(data) {
+            console.log(data);
+            $.each(data, function(i, obj) {
+                note_book += "<option value='" + obj.note_book_type_id + "'>" + obj.note_book_title + "</option>";
+            });
+            $('#note_book_type_id').html(note_book);
+                $('#note_book_type_id')[0].sumo.reload();
+            $('.sumo_note_book_type_id').find('.CaptionCont').removeClass('SumoUnder ');
+        },
+        error: function(xhr) {
+            alert("<?php echo $this->lang->line('error_occurred_please_try_again'); ?>");
+        },
+        complete: function() {
+        }
+    });
 });
+
+
+   
+
 
 </script>
