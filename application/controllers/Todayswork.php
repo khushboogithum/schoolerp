@@ -68,10 +68,6 @@ class Todayswork extends Admin_Controller
         $this->load->view('todayswork/studentworkreport', $data);
         $this->load->view('layout/footer', $data);
     }
-<<<<<<< HEAD
-    
-=======
-
     public function getlessionData(){
         $subject_id = $this->input->post('subject_id');
         $data     = $this->Todayswork_model->getLessionDetailsBySubjectId($subject_id);
@@ -85,5 +81,4 @@ class Todayswork extends Admin_Controller
          echo json_encode($data);
 
     }
->>>>>>> 4790ddc2e96ffeda739883186337e4edd3db1ff9
 }
