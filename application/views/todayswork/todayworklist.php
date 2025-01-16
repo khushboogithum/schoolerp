@@ -166,12 +166,12 @@
                                         <div class="form-group">
                                             <label for="exampleInputEmail1"><?php echo $this->lang->line('home_work_note_book'); ?></label><small class="req"> *</small><br>
                                             <select id="note_book_type_id_home_work" name="note_book_type_id_home_work[]" multiple class="form-control select2">
-                                                <?php $notebookHome = ["Practical Copy", "Fair Copy", "Rough Copy", "Chat Paper", "Project Sheet"];
+                                                <?php /*$notebookHome = ["Practical Copy", "Fair Copy", "Rough Copy", "Chat Paper", "Project Sheet"];
                                                 foreach ($notebookHome as $notebookhome) { ?>
                                                     <option value="<?php echo $notebookhome; ?>">
                                                         <?php echo $notebookhome; ?>
                                                     </option>
-                                                <?php }  ?>
+                                                <?php } */ ?>
                                             </select>
                                             <span class="text-danger"><?php echo form_error('note_book_type_id_home_work[]'); ?></span>
                                         </div>
@@ -440,7 +440,7 @@
                 $('#lesson_number').html("").addClass('dropdownloading');
             },
             success: function(data) {
-                console.log(data);
+               // console.log(data);
                 $.each(data, function(i, obj) {
                     var sel = "";
                     div_lession_no += "<option value=" + obj.lesson_id + " " + sel + ">" + obj.lesson_number + "</option>";
@@ -476,7 +476,7 @@
                 $('#lesson_name').html("").addClass('dropdownloading');
             },
             success: function(data) {
-                console.log(data);
+                //console.log(data);
                 $.each(data, function(i, obj) {
                     var sel = "";
                     div_lession_name += "<option value=" + obj.lesson_id + " " + sel + ">" + obj.lesson_name + "</option>";
@@ -492,11 +492,6 @@
             }
         });
     });
-
-
-    
-
-
 
     $('#teaching_activity_id').on('change', function() {
     var teaching_activity_id = [];
@@ -516,7 +511,7 @@
            // $('#note_book_type_id').html("").addClass('dropdownloading');
         },
         success: function(data) {
-            console.log(data);
+           // console.log(data);
             $.each(data, function(i, obj) {
                 note_book += "<option value='" + obj.note_book_type_id + "'>" + obj.note_book_title + "</option>";
             });
@@ -532,7 +527,40 @@
     });
 });
 
+$('#teaching_activity_home_work_id').on('change', function() {
+   
+    var teaching_activity_home_work_id = [];
+    $("#teaching_activity_home_work_id option:selected").each(function() {
+        teaching_activity_home_work_id.push($(this).val());
+    });
 
+    var home_work_note_book = '';
+    $.ajax({
+        type: 'POST',
+        url: base_url + 'todayswork/getNotebooksByHomeswork',
+        data: {
+            'teaching_activity_home_work_id': teaching_activity_home_work_id
+        },
+        dataType: 'JSON',
+        beforeSend: function() {
+           // $('#note_book_type_id').html("").addClass('dropdownloading');
+        },
+        success: function(data) {
+            console.log(data);
+            $.each(data, function(i, obj) {
+                home_work_note_book += "<option value='" + obj.note_book_type_id_home_work + "'>" + obj.note_book_title + "</option>";
+            });
+            $('#note_book_type_id_home_work').html(home_work_note_book);
+            $('#note_book_type_id_home_work')[0].sumo.reload();
+            $('.sumo_note_book_type_id_home_work').find('.CaptionCont').removeClass('SumoUnder ');
+        },
+        error: function(xhr) {
+            alert("<?php echo $this->lang->line('error_occurred_please_try_again'); ?>");
+        },
+        complete: function() {
+        }
+    });
+});
    
 
 
