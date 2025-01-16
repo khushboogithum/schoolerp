@@ -93,7 +93,14 @@ class Todayswork extends Admin_Controller
             $data = $this->Todayswork_model->getNotebookByClasswork($teaching_activity_id);
             echo json_encode($data);
            
-        
     }
+    public function getNotebooksByHomeswork() {
+        $teaching_activity_home_work_id = $this->input->post('teaching_activity_home_work_id');
+        //print_r($teaching_activity_id);
+            $data = $this->Todayswork_model->getNotebookByHomework($teaching_activity_home_work_id);
+            echo json_encode($data);
+           
+    }
+    
     
 }

@@ -53,6 +53,16 @@ class Todayswork_model extends MY_model
     
         return $query->result_array();
     }
+    public function getNotebookByHomework($teaching_activity_home_work_id) {
+        $this->db->select('note_book_type.note_book_type_id, note_book_type.note_book_title');
+        $this->db->from('teaching_notebook');
+        $this->db->join('note_book_type', 'teaching_notebook.note_book_type_id = note_book_type.note_book_type_id', 'left');
+        $this->db->where_in('teaching_notebook.teaching_activity_id', $teaching_activity_home_work_id);
+        $query = $this->db->get();
+        //echo $this->db->last_query();
+    
+        return $query->result_array();
+    }
     
     // public function add_lesson($data)
     // {
