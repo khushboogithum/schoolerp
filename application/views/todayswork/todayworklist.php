@@ -28,6 +28,7 @@
                                     $this->session->unset_userdata('msg');
                                 }
                                 ?>
+
                                 <?php
                                 if (isset($error_message)) {
                                     echo "<div class='alert alert-danger'>" . $error_message . "</div>";
@@ -38,8 +39,8 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1"><?php echo $this->lang->line('todays_date'); ?></label><small class="req"> *</small>
-                                            <input autofocus="" id="todays_date" name="todays_date" placeholder="" type="date" class="form-control" value="<?php echo set_value('todays_date'); ?>" />
-                                            <span class="text-danger"><?php echo form_error('todays_date'); ?></span>
+                                            <input autofocus="" id="work_date" name="work_date" placeholder="" type="date" class="form-control" value="<?php echo set_value('todays_date'); ?>" />
+                                            <span class="text-danger"><?php echo form_error('work_date'); ?></span>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
@@ -479,7 +480,7 @@
                 //console.log(data);
                 $.each(data, function(i, obj) {
                     var sel = "";
-                    div_lession_name += "<option value=" + obj.lesson_id + " " + sel + ">" + obj.lesson_name + "</option>";
+                    div_lession_name += "<option value=" + obj.lesson_name + " " + sel + ">" + obj.lesson_name + "</option>";
                 });
                 $('#lesson_name').html(div_lession_name);
             },
@@ -548,7 +549,7 @@ $('#teaching_activity_home_work_id').on('change', function() {
         success: function(data) {
             console.log(data);
             $.each(data, function(i, obj) {
-                home_work_note_book += "<option value='" + obj.note_book_type_id_home_work + "'>" + obj.note_book_title + "</option>";
+                home_work_note_book += "<option value='" + obj.note_book_type_id + "'>" + obj.note_book_title + "</option>";
             });
             $('#note_book_type_id_home_work').html(home_work_note_book);
             $('#note_book_type_id_home_work')[0].sumo.reload();
@@ -562,6 +563,4 @@ $('#teaching_activity_home_work_id').on('change', function() {
     });
 });
    
-
-
 </script>
