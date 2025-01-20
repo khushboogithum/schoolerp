@@ -99,7 +99,7 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1"><?php echo $this->lang->line('lesson_no'); ?></label><small class="req"> *</small>
-                                        <input autofocus="" id="lesson_number" name="lesson_number" placeholder="" type="number" class="form-control" value="" />
+                                        <input autofocus="" id="lesson_number" name="lesson_number" placeholder="" type="text" class="form-control" value="" />
                                         <span class="text-danger"><?php echo form_error('lesson_number'); ?></span>
                                     </div>
                                 </div>

@@ -29,8 +29,27 @@ class Todayswork extends Admin_Controller
 
         $classwork = $this->Todayswork_model->getClasswork();
         $data['teachingClassWork'] = $classwork;
-        // echo "hello ";
-        // print_r($data['classwork']);
+
+        $todaysWorkList = $this->Todayswork_model->todaysWorkList();
+        $workData = [];
+
+        foreach ($todaysWorkList as $work) {
+            $subject_id = $work['subject_id'];
+            $lesson_id = $work['lesson_id'];
+
+            $countLessonsBySubject = $this->Todayswork_model->countLessonsBySubject($subject_id);
+            $work['total_lessons'] = $countLessonsBySubject;
+
+            if ($work['total_lessons'] > 0) {
+                $work['syllabus_percentage'] = round(($lesson_id / $work['total_lessons']) * 100, 2);
+            } else {
+                $work['syllabus_percentage'] = 0;
+            }
+
+            $workData[] = $work;
+        }
+
+        $data['todaysWork'] = $workData;
 
         $this->form_validation->set_rules('work_date', $this->lang->line('work_date'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
@@ -42,7 +61,7 @@ class Todayswork extends Admin_Controller
 
         $this->form_validation->set_rules('teaching_activity_id[]', $this->lang->line('teaching_activity_id'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('note_book_type_id[]', $this->lang->line('note_book_type_id'), 'trim|required|xss_clean');
-        
+
         $this->form_validation->set_rules('teaching_activity_home_work_id[]', $this->lang->line('teaching_activity_home_work_id'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('note_book_type_id_home_work[]', $this->lang->line('note_book_type_id_home_work'), 'trim|required|xss_clean');
         if ($this->form_validation->run() == false) {
@@ -67,10 +86,7 @@ class Todayswork extends Admin_Controller
             $teaching_activity_home_work_id = $this->input->post('teaching_activity_home_work_id');
             $note_book_type_id = $this->input->post('note_book_type_id');
             $note_book_type_id_home_work = $this->input->post('note_book_type_id_home_work');
-            // echo "skkk";
-            // print_r($note_book_type_id_home_work);
-            // die();
-            $insert_id = $this->Todayswork_model->addTodaysClassWork($todays_data, $teaching_activity_id,$teaching_activity_home_work_id,$note_book_type_id,$note_book_type_id_home_work);
+            $insert_id = $this->Todayswork_model->addTodaysClassWork($todays_data, $teaching_activity_id, $teaching_activity_home_work_id, $note_book_type_id, $note_book_type_id_home_work);
 
             if ($insert_id) {
                 $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
@@ -81,23 +97,8 @@ class Todayswork extends Admin_Controller
                 redirect('todayswork');
             }
         }
-
-        
     }
 
-    public function studentworkreport()
-    {
-
-
-        $this->session->set_userdata('top_menu', 'todayswork');
-        $this->session->set_userdata('sub_menu', 'todayswork/index');
-        $data['title']      = 'Student Work Report';
-        $data['title_list'] = 'Student Work Report';
-
-        $this->load->view('layout/header', $data);
-        $this->load->view('todayswork/studentworkreport', $data);
-        $this->load->view('layout/footer', $data);
-    }
     public function getlessionData()
     {
         $subject_id = $this->input->post('subject_id');
@@ -112,19 +113,37 @@ class Todayswork extends Admin_Controller
         echo json_encode($data);
     }
 
-    public function getNotebooksByClasswork() {
+    public function getNotebooksByClasswork()
+    {
         $teaching_activity_id = $this->input->post('teaching_activity_id');
         //print_r($teaching_activity_id);
-            $data = $this->Todayswork_model->getNotebookByClasswork($teaching_activity_id);
-            echo json_encode($data);
-           
+        $data = $this->Todayswork_model->getNotebookByClasswork($teaching_activity_id);
+        echo json_encode($data);
     }
-    public function getNotebooksByHomeswork() {
+    public function getNotebooksByHomeswork()
+    {
         $teaching_activity_home_work_id = $this->input->post('teaching_activity_home_work_id');
         //print_r($teaching_activity_id);
-            $data = $this->Todayswork_model->getNotebookByHomework($teaching_activity_home_work_id);
-            echo json_encode($data);
-           
+        $data = $this->Todayswork_model->getNotebookByHomework($teaching_activity_home_work_id);
+        echo json_encode($data);
     }
-       
+    public function todayStudentWorkReport()
+    {
+        $today_work_id = $this->input->post('today_work_id');
+        $data = ['today_status' => 1];
+        $this->Todayswork_model->goForStudentWorkReport($today_work_id, $data);
+        $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('submit_message') . '</div>');
+        redirect('todayswork');
+    }
+    public function studentworkreport()
+    {
+        $this->session->set_userdata('top_menu', 'todayswork');
+        $this->session->set_userdata('sub_menu', 'todayswork/index');
+        $data['title']      = 'Student Work Report';
+        $data['title_list'] = 'Student Work Report';
+
+        $this->load->view('layout/header', $data);
+        $this->load->view('todayswork/studentworkreport', $data);
+        $this->load->view('layout/footer', $data);
+    }
 }

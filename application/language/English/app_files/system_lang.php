@@ -2065,6 +2065,7 @@ $lang['submitted'] = "Submitted";
 $lang['submitted_by'] = "Submitted By";	
 $lang['submitting'] = "Submitting...";	
 $lang['success'] = "Success";	
+$lang['submit_message'] = "Record Saved Successfully. Click Go to the student work report";	
 $lang['success_message'] = "Record Saved Successfully";	
 $lang['error_message'] = "Someting went wrong";	
 $lang['success_message_for_client_to_see'] = "Success Message For Client To See";	
@@ -2402,10 +2403,15 @@ $lang['total_lesson']= "Total Lesson";
 $lang['now_going_on']= "Now Going On";
 $lang['syllabus_percentage']= "Syllabus Percentage";
 $lang['student_work_percentage']= "Student Work Percentage";
-$lang['go_for_student_work_report']= "Go for Student Report";
+$lang['go_for_student_work_report']= "Go for Student Work Report";
 $lang['student_work_report']= "Student Work Report";
 $lang['final_submit']= "Final Submit";
 $lang['go_for_all_student_work_report']= "Go for All Student Work Report";
 $lang['submitted_for_approval']= "Submitted for approval";
+$lang['all_student_work_report']= "All Student Work Report";
+$lang['student_work_report']= "Student Work Report";
+$lang['subject_wise_home_work_percentage']= "Subject wise home work percentage";
+$lang['download_pdf']= "Download PDF";
+
 
 

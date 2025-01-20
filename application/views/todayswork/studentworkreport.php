@@ -7,7 +7,7 @@
             <div class="col-md-12">
                 <div class="box box-primary">
                     <div class="box-header ptbnull">
-                        <h3 class="box-title titlefix" style="margin-left:40%;">Student Work Report - Hindi</h3>
+                        <h3 class="box-title titlefix" style="margin-left:40%;"><?php echo $this->lang->line('student_work_report'); ?> - Hindi</h3>
                     </div>
                     <div class="box-body">
                         <div class="table-responsive overflow-visible">
@@ -32,6 +32,7 @@
                                 input[type="text"] {
                                     margin: 0;
                                     padding: 5px;
+                                    
                                 }
                             </style>
 
@@ -59,41 +60,71 @@
                                     <tr>
                                         <td>1</td>
                                         <td>Arpan Sharma</td>
-                                        <td><input type="checkbox" /></td>
-                                        <td><input type="checkbox" /></td>
-                                        <td><input type="checkbox" /></td>
-                                        <td><input type="checkbox" /></td>
-                                        <td><input type="checkbox" /></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
                                         <td><input type="text" class="form-control" placeholder="Text .........." /></td>
                                     </tr>
                                     <tr>
                                         <td>2</td>
                                         <td>Anshu Sharma</td>
-                                        <td><input type="checkbox" /></td>
-                                        <td><input type="checkbox" /></td>
-                                        <td><input type="checkbox" /></td>
-                                        <td><input type="checkbox" /></td>
-                                        <td><input type="checkbox" /></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
                                         <td><input type="text" class="form-control" placeholder="Text .........." /></td>
                                     </tr>
                                     <tr>
                                         <td>3</td>
                                         <td>Ayush</td>
-                                        <td><input type="checkbox" /></td>
-                                        <td><input type="checkbox" /></td>
-                                        <td><input type="checkbox" /></td>
-                                        <td><input type="checkbox" /></td>
-                                        <td><input type="checkbox" /></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
                                         <td><input type="text" class="form-control" placeholder="Text .........." /></td>
                                     </tr>
                                     <tr>
                                         <td>4</td>
                                         <td>Khushi</td>
-                                        <td><input type="checkbox" /></td>
-                                        <td><input type="checkbox" /></td>
-                                        <td><input type="checkbox" /></td>
-                                        <td><input type="checkbox" /></td>
-                                        <td><input type="checkbox" /></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="text" class="form-control" placeholder="Text .........." /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>Khushi</td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="text" class="form-control" placeholder="Text .........." /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>Khushi</td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="text" class="form-control" placeholder="Text .........." /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>7</td>
+                                        <td>Khushi</td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
+                                        <td><input type="checkbox" checked name="" value=""/></td>
                                         <td><input type="text" class="form-control" placeholder="Text .........." /></td>
                                     </tr>
                                     <!-- Add more rows as needed -->
@@ -104,6 +135,7 @@
                             </table>
 
                         </div>
+                        <div><a href="" class="btn btn-info pull-right" style="margin-top:2%;" ><?php echo $this->lang->line('final_submit'); ?></a></div>
                     </div>
                 </div>
             </div>
