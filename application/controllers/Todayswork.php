@@ -70,14 +70,14 @@ class Todayswork extends Admin_Controller
             $this->load->view('todayswork/todayworklist', $data);
             $this->load->view('layout/footer', $data);
         } else {
-
+            $lessonNumber = $this->Todayswork_model->getlessonnumber($this->input->post('lesson_number'));
             $todays_data = array(
                 'work_date'        => $this->input->post('work_date'),
                 'class_id'           => $this->input->post('class_id'),
                 'section_id'         => $this->input->post('section_id'),
                 'subject_group_id'   => $this->input->post('subject_group_id'),
                 'subject_id'         => $this->input->post('subject_id'),
-                'lesson_id'         => $this->input->post('lesson_number'),
+                'lesson_id'         => $lessonNumber,
                 'lesson_name'       => $this->input->post('lesson_name'),
                 'created_by'        => 3,
             );
@@ -141,6 +141,10 @@ class Todayswork extends Admin_Controller
         $this->session->set_userdata('sub_menu', 'todayswork/index');
         $data['title']      = 'Student Work Report';
         $data['title_list'] = 'Student Work Report';
+
+        $class_id = $this->input->get('class_id');
+        $data['subject_name'] = $this->input->get('subject_name');
+        $data['student_data'] = $this->Todayswork_model->getStudents($class_id);
 
         $this->load->view('layout/header', $data);
         $this->load->view('todayswork/studentworkreport', $data);

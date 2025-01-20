@@ -1659,7 +1659,6 @@ class Student extends Admin_Controller
         if (!$this->rbac->hasPrivilege('student', 'can_view')) {
             access_denied();
         }
-
         $this->session->set_userdata('top_menu', 'Student Information');
         $this->session->set_userdata('sub_menu', 'student/search');
         $data['title']           = 'Student Search';

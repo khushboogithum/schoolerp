@@ -210,7 +210,11 @@
                                 </thead>
                                 <tbody>
                                     <?php
+                                    //print_r($todaysWork);
                                     $todayWorkId = $todaysWork[0]['today_work_id'];
+                                    $classid = $todaysWork[0]['class_id'];
+                                    $subjectname = $todaysWork[0]['subject_name'];
+                                    $classSubjectID='?class_id='.$classid.'&subject_name='.$subjectname;
 
                                     if (!empty($todaysWork)) {
                                         foreach ($todaysWork as $todayLists) {
@@ -218,7 +222,7 @@
                                             <tr>
                                                 <td><?= $todayLists['subject_name'] ?></td>
                                                 <td><?= $todayLists['total_lessons'] ?></td>
-                                                <td><?= $todayLists['lesson_number'] ?>-<?= $todayLists['lesson_name'] ?></td>
+                                                <td>Lesson-<?= $todayLists['lesson_number'] ?> <?= $todayLists['lesson_name'] ?></td>
                                                 <td>
                                                     <?php
                                                     $class_work = $todayLists['class_work'];
@@ -254,7 +258,7 @@
                             <input type="hidden" class="form-control" name="today_work_id" value="<?=$todayWorkId?>"/>
                             <div> <button type="submit"  class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('submit'); ?></button></div><br><br>
                         </form>
-                        <div><a href="<?php echo site_url('todayswork/studentworkreport'); ?>" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('go_for_student_work_report'); ?></a></div>
+                        <div><a href="<?php echo site_url('todayswork/studentworkreport'); ?><?=$classSubjectID?>" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('go_for_student_work_report'); ?></a></div>
                     </div>
                 </div>
             </div>
