@@ -115,38 +115,33 @@
                             </thead>
                             <tbody>
                                 <?php
-                                $todayList = [
-                                    [
-                                        "subject" => "Hindi",
-                                        "total_lesson" => "15",
-                                        "now_going_on" => "Lesson-3 Bad Man",
-                                        "class_work" => "Explanation",
-                                        "home_work" => "One Page Writing",
-                                        "syllabus_percentage" => "45%",
-                                        "student_work_percentage" => "95%",
-                                    ],
-                                    [
-                                        "subject" => "English",
-                                        "total_lesson" => "10",
-                                        "now_going_on" => "Lesson-2 Sweet Boy",
-                                        "class_work" => "Explanation,Lesson reading",
-                                        "home_work" => "One Page Writing",
-                                        "syllabus_percentage" => "40%",
-                                        "student_work_percentage" => "90%",
-                                    ]
-                                ];
-                                if (!empty($todayList)) {
-                                    foreach ($todayList as $todayLists) {
+                                //$todayWorkId = $todaysWork[0]['today_work_id'];
+
+                                if (!empty($todaysWork)) {
+                                    foreach ($todaysWork as $todayLists) {
                                 ?>
                                         <tr>
-                                            <td><?= $todayLists['subject'] ?></td>
-                                            <td><?= $todayLists['total_lesson'] ?></td>
-                                            <td><?= $todayLists['now_going_on'] ?></td>
-                                            <td><?= $todayLists['class_work'] ?></td>
-                                            <td><?= $todayLists['home_work'] ?></td>
-                                            <td><?= $todayLists['syllabus_percentage'] ?></td>
-                                            <td><?= $todayLists['student_work_percentage'] ?></td>
-
+                                            <td><?= $todayLists['subject_name'] ?></td>
+                                            <td><?= $todayLists['total_lessons'] ?></td>
+                                            <td><?= $todayLists['lesson_number'] ?>-<?= $todayLists['lesson_name'] ?></td>
+                                            <td>
+                                                <?php
+                                                $class_work = $todayLists['class_work'];
+                                                foreach ($class_work as $class_works) {
+                                                    echo "<div>" . ucfirst($class_works['teaching_activity_title']) . "</div>";
+                                                }
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                $home_work = $todayLists['home_work'];
+                                                foreach ($home_work as $home_works) {
+                                                    echo "<div>" . ucfirst($home_works['teaching_activity_title']) . "</div>";
+                                                }
+                                                ?>
+                                            </td>
+                                            <td><?= $todayLists['syllabus_percentage'] ?>%</td>
+                                            <td>NA</td>
                                         </tr>
                                     <?php
                                     }
@@ -154,21 +149,19 @@
                                     <tr class="odd">
                                         <td valign="top" colspan="8" class="dataTables_empty">
                                             <div align="center">No data available in table <br> <br><img src="https://smart-school.in/ssappresource/images/addnewitem.svg" width="150"><br><br> <span class="text-success bolds"><i class="fa fa-arrow-left"></i> Add new record or search with different criteria.</span>
-                                                <div></div>
                                             </div>
                                         </td>
                                     </tr>
-                                <?php  }
-                                ?>
-
+                                <?php } ?>
                             </tbody>
                         </table>
                     </div>
-
-                    <input type="checkbox" /> <?php echo $this->lang->line('submitted_for_approval'); ?>
-                    <div> <a type="" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('final_submit'); ?></a></div><br><br>
-                    <div><button type="submit" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('go_for_all_student_work_report'); ?></button></div>
-
+                    <form id="form1" action="<?php echo site_url('todaysworkreport/allStudentWorkReport'); ?>" method="post" accept-charset="utf-8">
+                            <input type="hidden" class="form-control" name="today_work_id" value="<?=$todayWorkId?>"/>
+                            <div> <button type="submit"  class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('final_submit'); ?></button></div><br><br>
+                        </form>
+                       
+                        <div><a href="<?php echo site_url('todaysworkreport/allstudentworkreports'); ?>" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('go_for_all_student_work_report'); ?></a></div>
                 </div>
             </div>
         </div>

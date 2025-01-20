@@ -140,7 +140,7 @@
                                                     <option value="<?php echo $notebook; ?>">
                                                         <?php echo $notebook; ?>
                                                     </option>
-                                                <?php }  */?>
+                                                <?php }  */ ?>
                                             </select>
                                             <span class="text-danger"><?php echo form_error('note_book_type_id[]'); ?></span>
                                         </div>
@@ -149,7 +149,7 @@
                                         <div class="form-group">
                                             <label for="exampleInputEmail1"><?php echo $this->lang->line('home_work'); ?></label><small class="req"> *</small><br>
                                             <select id="teaching_activity_home_work_id" name="teaching_activity_home_work_id[]" multiple class="form-control select2">
-                                            <?php
+                                                <?php
                                                 if (!empty($teachingClassWork)) {
                                                     foreach ($teachingClassWork as $classwork) { ?>
                                                         <option value="<?php echo $classwork['teaching_activity_id']; ?>">
@@ -192,12 +192,12 @@
                 <!-- general form elements -->
                 <div class="box box-primary">
                     <div class="box-header ptbnull">
-                        <h3 class="box-title titlefix"><?php echo $this->lang->line('todays_work_syllubus_report'); ?></h3>
+                        <h3 class="box-title titlefix" style="margin-left: 35%;"><?php echo $this->lang->line('todays_work_syllubus_report'); ?></h3>
+                    </div>
 
-                    </div><!-- /.box-header -->
                     <div class="box-body">
-                        <div class="table-responsive mailbox-messages overflow-visible">
-                            <table class="table table-striped table-bordered table-hover example">
+                        <div class="table-responsive mailbox-messages ">
+                            <table class="table table-striped table-bordered table-hover ">
                                 <thead>
                                     <tr>
                                         <th><?php echo $this->lang->line('subject'); ?></th>
@@ -210,27 +210,32 @@
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $todayList = [
-                                        [
-                                            "subject" => "Hindi",
-                                            "total_lesson" => "15",
-                                            "now_going_on" => "Lesson-3 Bad Man",
-                                            "class_work" => "Explanation",
-                                            "home_work" => "One Page Writing",
-                                            "syllabus_percentage" => "45%"
-                                        ]
-                                    ];
-                                    if (!empty($todayList)) {
-                                        foreach ($todayList as $todayLists) {
+                                    $todayWorkId = $todaysWork[0]['today_work_id'];
+
+                                    if (!empty($todaysWork)) {
+                                        foreach ($todaysWork as $todayLists) {
                                     ?>
                                             <tr>
-                                                <td><?= $todayLists['subject'] ?></td>
-                                                <td><?= $todayLists['total_lesson'] ?></td>
-                                                <td><?= $todayLists['now_going_on'] ?></td>
-                                                <td><?= $todayLists['class_work'] ?></td>
-                                                <td><?= $todayLists['home_work'] ?></td>
-                                                <td><?= $todayLists['syllabus_percentage'] ?></td>
-
+                                                <td><?= $todayLists['subject_name'] ?></td>
+                                                <td><?= $todayLists['total_lessons'] ?></td>
+                                                <td><?= $todayLists['lesson_number'] ?>-<?= $todayLists['lesson_name'] ?></td>
+                                                <td>
+                                                    <?php
+                                                    $class_work = $todayLists['class_work'];
+                                                    foreach ($class_work as $class_works) {
+                                                        echo "<div>" . ucfirst($class_works['teaching_activity_title']) . "</div>";
+                                                    }
+                                                    ?>
+                                                </td>
+                                                <td>
+                                                    <?php
+                                                    $home_work = $todayLists['home_work'];
+                                                    foreach ($home_work as $home_works) {
+                                                        echo "<div>" . ucfirst($home_works['teaching_activity_title']) . "</div>";
+                                                    }
+                                                    ?>
+                                                </td>
+                                                <td><?= $todayLists['syllabus_percentage'] ?>%</td>
                                             </tr>
                                         <?php
                                         }
@@ -238,33 +243,24 @@
                                         <tr class="odd">
                                             <td valign="top" colspan="8" class="dataTables_empty">
                                                 <div align="center">No data available in table <br> <br><img src="https://smart-school.in/ssappresource/images/addnewitem.svg" width="150"><br><br> <span class="text-success bolds"><i class="fa fa-arrow-left"></i> Add new record or search with different criteria.</span>
-                                                    <div></div>
                                                 </div>
                                             </td>
                                         </tr>
-                                    <?php  }
-                                    ?>
-
+                                    <?php } ?>
                                 </tbody>
                             </table>
                         </div>
-                        <div> <a type="" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('submit'); ?></a></div><br><br>
-                        <div><button type="submit" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('go_for_student_work_report'); ?></button></div>
-
+                        <form id="form1" action="<?php echo site_url('todayswork/todayStudentWorkReport'); ?>" method="post" accept-charset="utf-8">
+                            <input type="hidden" class="form-control" name="today_work_id" value="<?=$todayWorkId?>"/>
+                            <div> <button type="submit"  class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('submit'); ?></button></div><br><br>
+                        </form>
+                        <div><a href="<?php echo site_url('todayswork/studentworkreport'); ?>" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('go_for_student_work_report'); ?></a></div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <!-- left column -->
-
-            <!-- right column -->
-            <div class="col-md-12">
-
-            </div><!--/.col (right) -->
-        </div> <!-- /.row -->
-    </section><!-- /.content -->
-</div><!-- /.content-wrapper -->
+    </section>
+</div>
 <script>
     $(document).ready(function() {
         const selectors = [
@@ -441,7 +437,7 @@
                 $('#lesson_number').html("").addClass('dropdownloading');
             },
             success: function(data) {
-               // console.log(data);
+                // console.log(data);
                 $.each(data, function(i, obj) {
                     var sel = "";
                     div_lession_no += "<option value=" + obj.lesson_id + " " + sel + ">" + obj.lesson_number + "</option>";
@@ -495,72 +491,69 @@
     });
 
     $('#teaching_activity_id').on('change', function() {
-    var teaching_activity_id = [];
-    $("#teaching_activity_id option:selected").each(function() {
-        teaching_activity_id.push($(this).val());
-    });
+        var teaching_activity_id = [];
+        $("#teaching_activity_id option:selected").each(function() {
+            teaching_activity_id.push($(this).val());
+        });
 
-    var note_book = '';
-    $.ajax({
-        type: 'POST',
-        url: base_url + 'todayswork/getNotebooksByClasswork',
-        data: {
-            'teaching_activity_id': teaching_activity_id
-        },
-        dataType: 'JSON',
-        beforeSend: function() {
-           // $('#note_book_type_id').html("").addClass('dropdownloading');
-        },
-        success: function(data) {
-           // console.log(data);
-            $.each(data, function(i, obj) {
-                note_book += "<option value='" + obj.note_book_type_id + "'>" + obj.note_book_title + "</option>";
-            });
-            $('#note_book_type_id').html(note_book);
+        var note_book = '';
+        $.ajax({
+            type: 'POST',
+            url: base_url + 'todayswork/getNotebooksByClasswork',
+            data: {
+                'teaching_activity_id': teaching_activity_id
+            },
+            dataType: 'JSON',
+            beforeSend: function() {
+                // $('#note_book_type_id').html("").addClass('dropdownloading');
+            },
+            success: function(data) {
+                // console.log(data);
+                $.each(data, function(i, obj) {
+                    note_book += "<option value='" + obj.note_book_type_id + "'>" + obj.note_book_title + "</option>";
+                });
+                $('#note_book_type_id').html(note_book);
                 $('#note_book_type_id')[0].sumo.reload();
-            $('.sumo_note_book_type_id').find('.CaptionCont').removeClass('SumoUnder ');
-        },
-        error: function(xhr) {
-            alert("<?php echo $this->lang->line('error_occurred_please_try_again'); ?>");
-        },
-        complete: function() {
-        }
-    });
-});
-
-$('#teaching_activity_home_work_id').on('change', function() {
-   
-    var teaching_activity_home_work_id = [];
-    $("#teaching_activity_home_work_id option:selected").each(function() {
-        teaching_activity_home_work_id.push($(this).val());
+                $('.sumo_note_book_type_id').find('.CaptionCont').removeClass('SumoUnder ');
+            },
+            error: function(xhr) {
+                alert("<?php echo $this->lang->line('error_occurred_please_try_again'); ?>");
+            },
+            complete: function() {}
+        });
     });
 
-    var home_work_note_book = '';
-    $.ajax({
-        type: 'POST',
-        url: base_url + 'todayswork/getNotebooksByHomeswork',
-        data: {
-            'teaching_activity_home_work_id': teaching_activity_home_work_id
-        },
-        dataType: 'JSON',
-        beforeSend: function() {
-           // $('#note_book_type_id').html("").addClass('dropdownloading');
-        },
-        success: function(data) {
-            console.log(data);
-            $.each(data, function(i, obj) {
-                home_work_note_book += "<option value='" + obj.note_book_type_id + "'>" + obj.note_book_title + "</option>";
-            });
-            $('#note_book_type_id_home_work').html(home_work_note_book);
-            $('#note_book_type_id_home_work')[0].sumo.reload();
-            $('.sumo_note_book_type_id_home_work').find('.CaptionCont').removeClass('SumoUnder ');
-        },
-        error: function(xhr) {
-            alert("<?php echo $this->lang->line('error_occurred_please_try_again'); ?>");
-        },
-        complete: function() {
-        }
+    $('#teaching_activity_home_work_id').on('change', function() {
+
+        var teaching_activity_home_work_id = [];
+        $("#teaching_activity_home_work_id option:selected").each(function() {
+            teaching_activity_home_work_id.push($(this).val());
+        });
+
+        var home_work_note_book = '';
+        $.ajax({
+            type: 'POST',
+            url: base_url + 'todayswork/getNotebooksByHomeswork',
+            data: {
+                'teaching_activity_home_work_id': teaching_activity_home_work_id
+            },
+            dataType: 'JSON',
+            beforeSend: function() {
+                // $('#note_book_type_id').html("").addClass('dropdownloading');
+            },
+            success: function(data) {
+                console.log(data);
+                $.each(data, function(i, obj) {
+                    home_work_note_book += "<option value='" + obj.note_book_type_id + "'>" + obj.note_book_title + "</option>";
+                });
+                $('#note_book_type_id_home_work').html(home_work_note_book);
+                $('#note_book_type_id_home_work')[0].sumo.reload();
+                $('.sumo_note_book_type_id_home_work').find('.CaptionCont').removeClass('SumoUnder ');
+            },
+            error: function(xhr) {
+                alert("<?php echo $this->lang->line('error_occurred_please_try_again'); ?>");
+            },
+            complete: function() {}
+        });
     });
-});
-   
 </script>
