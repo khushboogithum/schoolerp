@@ -1,3 +1,4 @@
+
 <aside class="main-sidebar" id="alert2">
     <?php if ($this->rbac->hasPrivilege('student', 'can_view')) { ?>
         <form class="navbar-form navbar-left search-form2" role="search"

@@ -3,6 +3,7 @@
 if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
+$tz = 'Asia/Kolkata'; date_default_timezone_set($tz);
 
 class Todayswork_model extends MY_model
 {
@@ -17,11 +18,7 @@ class Todayswork_model extends MY_model
     {
         $this->db->trans_start();
         $this->db->trans_strict(false);
-        // echo "<pre>";
-        // print_r($data);
-        //      echo "hello";
-        //     print_r($homenoteIds);
-        //    die();
+     
         $this->db->insert('today_work', $data);
         $today_work_id = $this->db->insert_id();
         // echo $this->db->last_query();
@@ -144,7 +141,7 @@ class Todayswork_model extends MY_model
     public function todaysWorkList()
     {
         $today = date('Y-m-d');
-        $this->db->select('today_work.today_work_id, today_work.work_date, today_work.subject_id, today_work.lesson_id, subjects.name as subject_name, today_work.lesson_name, lesson_diary.lesson_number');
+        $this->db->select('today_work.today_work_id, today_work.work_date,today_work.class_id, today_work.subject_id, today_work.lesson_id, subjects.name as subject_name, today_work.lesson_name, lesson_diary.lesson_number');
         $this->db->from('today_work');
         $this->db->join("subjects", "subjects.id = today_work.subject_id");
         $this->db->join("lesson_diary", "lesson_diary.lesson_id = today_work.lesson_id");
@@ -164,7 +161,14 @@ class Todayswork_model extends MY_model
             return [];
         }
     }
-
+    public function getlessonnumber($lesson_id){
+        $this->db->select('lesson_number');
+        $this->db->from('lesson_diary');
+        $this->db->where('lesson_id', $lesson_id);
+        $query = $this->db->get();
+        $result = $query->row_array();
+        return $result['lesson_number'];
+    }
     public function countLessonsBySubject($subject_id)
     {
         $this->db->select('COUNT(*) as total_lessons');
@@ -228,5 +232,17 @@ class Todayswork_model extends MY_model
         } else {
             return $insert_id;
         }
+    }
+    //Student Report
+    public function getStudents($class_id)
+    {
+        $this->db->select('classes.id AS `class_id`,student_session.id as student_session_id,students.id,students.firstname,students.middlename,  students.lastname')->from('students');
+        $this->db->join('student_session', 'student_session.student_id = students.id');
+        $this->db->join('classes', 'student_session.class_id = classes.id');
+        $this->db->where('student_session.class_id', $class_id);
+        $this->db->where('students.is_active', 'yes');
+        $this->db->order_by('students.firstname','ASC');
+        $query = $this->db->get();
+        return $query->result_array();
     }
 }
