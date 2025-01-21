@@ -122,5 +122,43 @@ class Todaysworkreport_model extends MY_model
         return $query->result_array();
     }
 
+    public function getTodayReportData()
+    {
+        $finaldata = array();
+        $this->db->select('student_work_report.*');
+        $this->db->from('student_work_report');
+        $this->db->where('student_work_report.status', 1);
+        $query = $this->db->get();
+        $results = $query->result_array();
+        $subject_array = []; 
+        
+        foreach ($results as $result) {
+            $student_name = trim($result['student_name']);
+            $subject_name = trim($result['subject_name']);
+            if (!isset($subject_array[$subject_name])) {
+                $subject_array[$subject_name] = $subject_name; 
+            }
+        
+            $finaldata[$student_name][$subject_array[$subject_name]] = [
+                'fair_copy' => $result['fair_copy'],
+                'learning_work' => $result['learning_work'],
+                'writing_work' => $result['writing_work'],
+            ];
+
+            $finaldata[$student_name]['discipline'] = [
+                'dress' => $result['dress'],
+                'conduct' => $result['conduct'],
+            ];
+        
+        }
+        
+        echo "<pre>";
+        print_r($finaldata);
+        die();
+        
+        //echo $this->db->last_query();
+        return $finaldata;
+    }
+
     
 }

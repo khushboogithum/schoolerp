@@ -12,6 +12,7 @@
                     <div class="box-body">
                         <div class="table-responsive overflow-visible">
                             <style>
+
                                 table {
                                     width: 100%;
                                     border-collapse: collapse;
@@ -57,6 +58,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <form method="post" action="<?=site_url('todayswork/studentworkreport') ?>">
+                                        
+                                    <input type="hidden" name="subject_name" value="<?=$subject_name ?>" />
+                                    <input type="hidden" name="class_name" value="<?=$class_id ?>" />
                                     <?php
                                     if (!empty($student_data)) {
                                         foreach ($student_data as $key => $students) {
@@ -65,14 +70,30 @@
                                         <tr>
                                             <td><?= $key + 1 ?></td>
                                             <td>
-                                                <input type="hidden" name="student_name[]" value="<?= $students['firstname'] ?> <?= $students['middlename'] ?> <?= $students['lastname'] ?>" />
-                                                <?= $students['firstname'] ?> <?= $students['middlename'] ?> <?= $students['lastname'] ?></td>
-                                            <td><input type="checkbox" checked name="dress[]" value="1" /></td>
-                                            <td><input type="checkbox" checked name="conduct[]" value="1" /></td>
-                                            <td><input type="checkbox" checked name="fair_copy[]" value="1" /></td>
-                                            <td><input type="checkbox" checked name="writing_copy[]" value="1" /></td>
-                                            <td><input type="checkbox" checked name="learning_copy[]" value="1" /></td>
-                                            <td><input type="text" class="form-control" name="remark[]" placeholder="Text .........." /></td>
+                                            <input type="hidden" name="studentId[]" value="<?=$students['id'] ?>" />
+                                            <input type="hidden" name="student_name[]" value="<?= $students['firstname'] ?> <?= $students['middlename'] ?> <?= $students['lastname'] ?>" />
+                                                 <?= $students['firstname'] ?> <?= $students['middlename'] ?> <?= $students['lastname'] ?></td>
+                                            <td>
+                                                <input type="hidden"  name="dress[<?=$key ?>]" value="0" />
+                                                <input type="checkbox" checked name="dress[<?=$key ?>]" value="1" />
+                                            </td>
+                                            <td>
+                                                <input type="hidden"  name="conduct[<?=$key ?>]" value="0" />
+                                                <input type="checkbox" checked name="conduct[<?=$key ?>]" value="1" />
+                                            </td>
+                                            <td>
+                                                <input type="hidden"  name="fair_copy[<?=$key ?>]" value="0" />
+                                                <input type="checkbox" checked name="fair_copy[<?=$key ?>]" value="1" />
+                                            </td>
+                                            <td>
+                                                <input type="hidden"  name="writing_copy[<?=$key ?>]" value="0" />
+                                                <input type="checkbox" checked name="writing_copy[<?=$key ?>]" value="1" />
+                                            </td>
+                                            <td>
+                                                <input type="hidden"  name="learning_copy[<?=$key ?>]" value="0" />
+                                                <input type="checkbox" checked name="learning_copy[<?=$key ?>]" value="1" />
+                                            </td>
+                                            <td><input type="text" class="form-control" name="remarks[]" placeholder="Text .........." /></td>
                                         </tr>
                                         <?php    }
                                     } else { ?>
@@ -85,8 +106,9 @@
                             </table>
 
                         </div>
-                        <div><a href="" class="btn btn-info pull-right" style="margin-top:2%;"><?php echo $this->lang->line('final_submit'); ?></a></div>
+                        <div><button type="submit" class="btn btn-info pull-right" style="margin-top:2%;"><?php echo $this->lang->line('final_submit'); ?></button></div>
                     </div>
+                                    </form>
                 </div>
             </div>
         </div>
