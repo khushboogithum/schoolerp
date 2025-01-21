@@ -96,6 +96,7 @@ class Todayswork extends Admin_Controller
                 $this->session->set_flashdata('msg', '<div class="alert alert-danger">' . $this->lang->line('error_message') . '</div>');
                 redirect('todayswork');
             }
+
         }
     }
 
@@ -146,6 +147,30 @@ class Todayswork extends Admin_Controller
         $data['subject_name'] = $this->input->get('subject_name');
         $data['student_data'] = $this->Todayswork_model->getStudents($class_id);
 
+        
+        $postdata=$this->input->post();
+        
+        $student_data=$postdata['student_name'];
+        $insertData=array();
+        foreach($student_data as $key=>$studentdata){
+
+            $insertData[] = array(
+                'student_name'        => $studentdata,
+                'student_id'        => $postdata['studentId'][$key],
+                'discipline_dress'           => $postdata['dress'][$key],
+                'discipline_conduct'         => $postdata['conduct'][$key],
+                'fair_copy'   => $postdata['fair_copy'][$key],
+                'writing_work'         => $postdata['writing_copy'][$key],
+                'learning_work'         => $postdata['learning_copy'][$key],
+                'subject_name'       => $postdata['subject_name'],
+                'class_id'       => $postdata['class_name'],
+                'remarks'        => $postdata['remarks'][$key],
+            );
+        }
+
+        $this->Todayswork_model->insertTodayStudentReport($insertData);
+
+        $data['class_id']=$class_id;
         $this->load->view('layout/header', $data);
         $this->load->view('todayswork/studentworkreport', $data);
         $this->load->view('layout/footer', $data);

@@ -48,6 +48,7 @@ class Todayswork_model extends MY_model
             ];
         }
 
+
         if (!empty($homeWorkData)) {
             $this->db->insert_batch('today_class_work', $homeWorkData);
         }
@@ -236,13 +237,47 @@ class Todayswork_model extends MY_model
     //Student Report
     public function getStudents($class_id)
     {
-        $this->db->select('classes.id AS `class_id`,student_session.id as student_session_id,students.id,students.firstname,students.middlename,  students.lastname')->from('students');
-        $this->db->join('student_session', 'student_session.student_id = students.id');
-        $this->db->join('classes', 'student_session.class_id = classes.id');
-        $this->db->where('student_session.class_id', $class_id);
-        $this->db->where('students.is_active', 'yes');
-        $this->db->order_by('students.firstname','ASC');
+        $this->db->select('classes.id AS `class_id`, student_session.id as student_session_id, students.id, students.firstname, students.middlename, students.lastname')
+         ->from('students')
+         ->join('student_session', 'student_session.student_id = students.id')
+         ->join('classes', 'student_session.class_id = classes.id')
+         ->where('student_session.class_id', $class_id)
+         ->where('students.is_active', 'yes')
+        // ->where("students.id NOT IN (SELECT student_id FROM student_work_report)", NULL, FALSE)
+         ->order_by('students.firstname', 'ASC');
+        // ->limit(2);
         $query = $this->db->get();
+        // echo $this->db->last_query();
+        // die();
+
         return $query->result_array();
+    }
+
+    public function insertTodayStudentReport($data){
+
+        $this->db->trans_start();
+        $this->db->trans_strict(false);
+     
+       // $this->db->insert('student_work_report', $data);
+       $this->db->insert_batch('student_work_report', $data);
+        $student_work_report_id = $this->db->insert_id();
+
+        // echo $this->db->last_query();
+        // die();
+
+        $message   = INSERT_RECORD_CONSTANT . " On student work report  id " . $student_work_report_id;
+        $action    = "Insert";
+        $record_id = $student_work_report_id;
+        $this->log($message, $record_id, $action);
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === false) {
+
+            $this->db->trans_rollback();
+            return false;
+        } else {
+            return $student_work_report_id;
+        }
+
     }
 }

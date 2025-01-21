@@ -65,6 +65,7 @@
 
                                 .btn-container input[type="checkbox"] {
                                     margin-right: 10px;
+                           
                                 }
 
                                 .btn-container a {
