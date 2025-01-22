@@ -152,9 +152,9 @@ class Todaysworkreport_model extends MY_model
         
         }
         
-        echo "<pre>";
-        print_r($finaldata);
-        die();
+        // echo "<pre>";
+        // print_r($finaldata);
+        // die();
         
         //echo $this->db->last_query();
         return $finaldata;
