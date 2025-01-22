@@ -96,7 +96,6 @@ class Todayswork extends Admin_Controller
                 $this->session->set_flashdata('msg', '<div class="alert alert-danger">' . $this->lang->line('error_message') . '</div>');
                 redirect('todayswork');
             }
-
         }
     }
 
@@ -124,7 +123,6 @@ class Todayswork extends Admin_Controller
     public function getNotebooksByHomeswork()
     {
         $teaching_activity_home_work_id = $this->input->post('teaching_activity_home_work_id');
-        //print_r($teaching_activity_id);
         $data = $this->Todayswork_model->getNotebookByHomework($teaching_activity_home_work_id);
         echo json_encode($data);
     }
@@ -132,10 +130,22 @@ class Todayswork extends Admin_Controller
     {
         $today_work_id = $this->input->post('today_work_id');
         $data = ['today_status' => 1];
-        $this->Todayswork_model->goForStudentWorkReport($today_work_id, $data);
-        $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('submit_message') . '</div>');
-        redirect('todayswork');
+        $result = $this->Todayswork_model->todaysWorkList();
+
+        if (!empty($result)) {
+            $classid = $result[0]['class_id'];
+            $subjectname = $result[0]['subject_name'];
+            $classSubjectID = '?class_id=' . $classid . '&subject_name=' . $subjectname;
+            $this->Todayswork_model->goForStudentWorkReport($today_work_id, $data);
+            $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('submit_message') . '</div>');
+
+            redirect('todayswork/studentworkreport' . $classSubjectID);
+        } else {
+            $this->session->set_flashdata('msg', '<div class="alert alert-danger">No work data found for the given ID.</div>');
+            redirect('todayswork');
+        }
     }
+
     public function studentworkreport()
     {
         $this->session->set_userdata('top_menu', 'todayswork');
@@ -144,15 +154,22 @@ class Todayswork extends Admin_Controller
         $data['title_list'] = 'Student Work Report';
 
         $class_id = $this->input->get('class_id');
+        $subject_name = $this->input->get('subject_name');
         $data['subject_name'] = $this->input->get('subject_name');
         $data['student_data'] = $this->Todayswork_model->getStudents($class_id);
 
-        
-        $postdata=$this->input->post();
-        
-        $student_data=$postdata['student_name'];
-        $insertData=array();
-        foreach($student_data as $key=>$studentdata){
+        $result = $this->Todayswork_model->todaysWorkList();
+
+        if (!empty($result)) {
+            $classid = $result[0]['class_id'];
+            $subjectname = $result[0]['subject_name'];
+            $classSubjectID = '?class_id=' . $classid . '&subject_name=' . $subjectname;
+        }
+        $postdata = $this->input->post();
+
+        $student_data = $postdata['student_name'];
+        $insertData = array();
+        foreach ($student_data as $key => $studentdata) {
 
             $insertData[] = array(
                 'student_name'        => $studentdata,
@@ -167,12 +184,16 @@ class Todayswork extends Admin_Controller
                 'remarks'        => $postdata['remarks'][$key],
             );
         }
+        $resultData = $this->Todayswork_model->insertTodayStudentReport($insertData);
 
-        $this->Todayswork_model->insertTodayStudentReport($insertData);
-
-        $data['class_id']=$class_id;
-        $this->load->view('layout/header', $data);
-        $this->load->view('todayswork/studentworkreport', $data);
-        $this->load->view('layout/footer', $data);
+        $data['class_id'] = $class_id;
+        if (!empty($resultData)) {
+            $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
+            redirect('todayswork/studentworkreport' . $classSubjectID);
+        } else {
+            $this->load->view('layout/header', $data);
+            $this->load->view('todayswork/studentworkreport', $data);
+            $this->load->view('layout/footer', $data);
+        }
     }
 }

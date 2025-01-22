@@ -255,11 +255,12 @@
                                 </tbody>
                             </table>
                         </div>
+
                         <form id="form1" action="<?php echo site_url('todayswork/todayStudentWorkReport'); ?>" method="post" accept-charset="utf-8">
                             <input type="hidden" class="form-control" name="today_work_id" value="<?=$todayWorkId?>"/>
-                            <div> <button type="submit"  class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('submit'); ?></button></div><br><br>
+                            <div> <button type="submit"  class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('go_for_student_work_report'); ?></button></div><br><br>
                         </form>
-                        <div><a href="<?php echo site_url('todayswork/studentworkreport'); ?><?=$classSubjectID?>" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('go_for_student_work_report'); ?></a></div>
+                        <!-- <div><a href="<?php echo site_url('todayswork/studentworkreport'); ?><?=$classSubjectID?>" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('go_for_student_work_report'); ?></a></div> -->
                     </div>
                 </div>
             </div>
