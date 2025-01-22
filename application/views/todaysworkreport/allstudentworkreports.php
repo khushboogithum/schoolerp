@@ -51,7 +51,6 @@
 
                                 .subject-box {
                                     border: 1px solid #000;
-                                    /* padding: 5px; */
                                     text-align: center;
                                     width: 100px;
                                     border-radius: 5px;
@@ -65,13 +64,47 @@
 
                                 .btn-container input[type="checkbox"] {
                                     margin-right: 10px;
-                           
+
                                 }
 
                                 .btn-container a {
                                     margin-right: 20px;
                                 }
-                      
+
+                                .custom-checkbox {
+                                    appearance: none;
+                                    -webkit-appearance: none;
+                                    -moz-appearance: none;
+                                    width: 5px;
+                                    height: 10px;
+                                    background-color: #f0f0f0;
+                                    border: 2px solid #007bff;
+                                    border-radius: 3px;
+                                    display: inline-block;
+                                    position: relative;
+                                    cursor: not-allowed;
+                                }
+
+                                .custom-checkbox:checked {
+                                    background-color: #007bff;
+                                    padding: 6px;
+                                }
+
+                                .custom-checkbox:checked::after {
+                                    content: '';
+                                    width: 5px;
+                                    height: 10px;
+                                    border: solid white;
+                                    border-width: 0 2px 2px 0;
+                                    position: absolute;
+                                    top: 0px;
+                                    left: 3px;
+                                    transform: rotate(45deg);
+                                }
+
+                                .custom-checkbox:disabled {
+                                    opacity: 0.6;
+                                }
                             </style>
 
                             <table>
@@ -81,128 +114,62 @@
                                         <th></th>
                                         <th colspan="2" style="text-align: center;">Discipline</th>
                                         <?php
-                                             $subjects = array_keys($getreportdata[array_keys($getreportdata)[0]]);
-                                            foreach ($subjects as $subject) {
-                                                if ($subject !== 'discipline') {
-                                                    echo "<th colspan='3'>$subject</th>";
-                                                }
+                                        $subjects = array_keys($getreportdata[array_keys($getreportdata)[0]]);
+                                        foreach ($subjects as $subject) {
+                                            if ($subject !== 'discipline') {
+                                                echo "<th colspan='3'>$subject</th>";
                                             }
+                                        }
                                         ?>
 
                                     </tr>
                                     <tr>
-                                        <th>Sr.</th>
-                                        <th>Student's Name</th>
-                                        <th>Dress</th>
-                                        <th>Conduct</th>
+                                        <th><?php echo $this->lang->line('s_no'); ?></th>
+                                        <th class="text-left"><?php echo $this->lang->line('student_name'); ?></th>
+                                        <th><?php echo $this->lang->line('dress'); ?></th>
+                                        <th><?php echo $this->lang->line('conduct'); ?></th>
                                         <?php
-                                        foreach ($subjects as $subject) {
+                                        foreach ($subjects as $key => $subject) {
                                             if ($subject !== 'discipline') {
-                                                echo "<th>Fair Copy</th><th>Writing Work</th><th>Learning Work</th>";
+                                                echo "<th>" . $this->lang->line('fair_copy') . "</th><th>" . $this->lang->line('writing_copy') . "</th><th>" . $this->lang->line('learning_copy') . "</th>";
                                             }
                                         }
                                         ?>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <?php foreach ($getreportdata as $student => $data){
+                                    <?php
+                                    if (!empty($getreportdata)) {
+
+                                        $i = 1;
+                                        foreach ($getreportdata as $student => $data) {
                                     ?>
-                                    <tr>
-                                        <td>1</td>
-                                        <td><?=$student ?></td>
-                                        <td><input type="checkbox" <?= isset($data['discipline']['dress']) && $data['discipline']['dress'] ? 'checked' : ''; ?> disabled name="" value="" /></td>
-                                        <td><input type="checkbox" <?= isset($data['discipline']['dress']) && $data['discipline']['dress'] ? 'checked' : ''; ?> disabled name="" value="" /></td>
-                                        <?php
-                                            foreach ($subjects as $subject) {
-                                                if ($subject !== 'discipline') {
-                                                    $fair_copy = isset($data[$subject]['fair_copy']) ? 'checked' : '';
-                                                    $writing_work = isset($data[$subject]['writing_work']) ? 'checked' : '';
-                                                    $learning_work = isset($data[$subject]['learning_work']) ? 'checked' : '';
-                                                  
-                                            ?>
-                                                <td><input type="checkbox" <?=$fair_copy ?> name="" disabled value="" /></td>
-                                                <td><input type="checkbox" <?=$writing_work ?>  name="" disabled value="" /></td>
-                                                <td><input type="checkbox" <?=$learning_work ?>  name="" disabled value="" /></td>
-                                        <?php } } ?>
-                                    </tr> 
-                                    <?php } ?>
-<!--                                     
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Anshu Sharma</td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Ayush</td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>Khushi</td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>Khushi</td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>Khushi</td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                    </tr>
-                                    <tr>
-                                        <td>7</td>
-                                        <td>Khushi</td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                    </tr> -->
-                                    <!-- Add more rows as needed -->
-                                    <!-- <tr>
-                                        <td colspan="8" style="text-align: center;">No data available</td>
-                                    </tr> -->
+                                            <tr>
+                                                <td><?= $i++ ?></td>
+                                                <td class="text-left"><?= $student ?></td>
+                                                <td><input type="checkbox" <?= isset($data['discipline']['dress']) && $data['discipline']['dress'] ? 'checked' : ''; ?> disabled name="" value="" class="custom-checkbox" /></td>
+                                                <td><input type="checkbox" <?= isset($data['discipline']['dress']) && $data['discipline']['dress'] ? 'checked' : ''; ?> disabled name="" value="" class="custom-checkbox" /></td>
+                                                <?php
+                                                foreach ($subjects as $subject) {
+                                                    if ($subject !== 'discipline') {
+                                                        $fair_copy = (isset($data[$subject]['fair_copy']) && $data[$subject]['fair_copy'] == 1) ? 'checked' : '';
+                                                        $writing_work = isset($data[$subject]['writing_work']) ? 'checked' : '';
+                                                        $learning_work = isset($data[$subject]['learning_work']) ? 'checked' : '';
+
+                                                ?>
+                                                        <td><input type="checkbox" <?= $fair_copy ?> name="" disabled value="" class="custom-checkbox" /></td>
+                                                        <td><input type="checkbox" <?= $writing_work ?> name="" disabled value="" class="custom-checkbox" /></td>
+                                                        <td><input type="checkbox" <?= $learning_work ?> name="" disabled value="" class="custom-checkbox" /></td>
+                                                <?php }
+                                                } ?>
+                                            </tr>
+                                        <?php }
+                                    } else { ?>
+                                        <tr>
+                                            <td colspan="8" style="text-align: center;">No data available</td>
+                                        </tr>
+                                    <?php }
+                                    ?>
                                 </tbody>
                             </table>
                         </div>
@@ -242,7 +209,7 @@
                             </div>
                         </div>
 
-                        <input type="checkbox" value="" style="margin-top:10px;"/><b> <?php echo $this->lang->line('submitted_for_approval'); ?></b>
+                        <input type="checkbox" value="" style="margin-top:10px;" /><b> <?php echo $this->lang->line('submitted_for_approval'); ?></b>
                         <div><a href="" class="btn btn-info pull-right" style="margin-top:2%;"><?php echo $this->lang->line('final_submit'); ?></a></div>
                     </div>
                 </div>
