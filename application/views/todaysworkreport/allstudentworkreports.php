@@ -80,8 +80,14 @@
                                         <th></th>
                                         <th></th>
                                         <th colspan="2" style="text-align: center;">Discipline</th>
-                                        <th colspan="3" style="text-align: center;">Hindi</th>
-                                        <th colspan="3" style="text-align: center;">Math</th>
+                                        <?php
+                                             $subjects = array_keys($getreportdata[array_keys($getreportdata)[0]]);
+                                            foreach ($subjects as $subject) {
+                                                if ($subject !== 'discipline') {
+                                                    echo "<th colspan='3'>$subject</th>";
+                                                }
+                                            }
+                                        ?>
 
                                     </tr>
                                     <tr>
@@ -89,27 +95,38 @@
                                         <th>Student's Name</th>
                                         <th>Dress</th>
                                         <th>Conduct</th>
-                                        <th>Fair Copy</th>
-                                        <th>Writing Work</th>
-                                        <th>Learning Work</th>
-                                        <th>Fair Copy</th>
-                                        <th>Writing Work</th>
-                                        <th>Learning Work</th>
+                                        <?php
+                                        foreach ($subjects as $subject) {
+                                            if ($subject !== 'discipline') {
+                                                echo "<th>Fair Copy</th><th>Writing Work</th><th>Learning Work</th>";
+                                            }
+                                        }
+                                        ?>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                <?php foreach ($getreportdata as $student => $data){
+                                    ?>
                                     <tr>
                                         <td>1</td>
-                                        <td>Arpan Sharma</td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                        <td><input type="checkbox" checked name="" value="" /></td>
-                                    </tr>
+                                        <td><?=$student ?></td>
+                                        <td><input type="checkbox" <?= isset($data['discipline']['dress']) && $data['discipline']['dress'] ? 'checked' : ''; ?> disabled name="" value="" /></td>
+                                        <td><input type="checkbox" <?= isset($data['discipline']['dress']) && $data['discipline']['dress'] ? 'checked' : ''; ?> disabled name="" value="" /></td>
+                                        <?php
+                                            foreach ($subjects as $subject) {
+                                                if ($subject !== 'discipline') {
+                                                    $fair_copy = isset($data[$subject]['fair_copy']) ? 'checked' : '';
+                                                    $writing_work = isset($data[$subject]['writing_work']) ? 'checked' : '';
+                                                    $learning_work = isset($data[$subject]['learning_work']) ? 'checked' : '';
+                                                  
+                                            ?>
+                                                <td><input type="checkbox" <?=$fair_copy ?> name="" disabled value="" /></td>
+                                                <td><input type="checkbox" <?=$writing_work ?>  name="" disabled value="" /></td>
+                                                <td><input type="checkbox" <?=$learning_work ?>  name="" disabled value="" /></td>
+                                        <?php } } ?>
+                                    </tr> 
+                                    <?php } ?>
+<!--                                     
                                     <tr>
                                         <td>2</td>
                                         <td>Anshu Sharma</td>
@@ -181,7 +198,7 @@
                                         <td><input type="checkbox" checked name="" value="" /></td>
                                         <td><input type="checkbox" checked name="" value="" /></td>
                                         <td><input type="checkbox" checked name="" value="" /></td>
-                                    </tr>
+                                    </tr> -->
                                     <!-- Add more rows as needed -->
                                     <!-- <tr>
                                         <td colspan="8" style="text-align: center;">No data available</td>

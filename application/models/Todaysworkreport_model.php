@@ -130,8 +130,7 @@ class Todaysworkreport_model extends MY_model
         $this->db->where('student_work_report.status', 1);
         $query = $this->db->get();
         $results = $query->result_array();
-        $subject_array = []; 
-        
+        $subject_array = [];
         foreach ($results as $result) {
             $student_name = trim($result['student_name']);
             $subject_name = trim($result['subject_name']);
@@ -146,15 +145,15 @@ class Todaysworkreport_model extends MY_model
             ];
 
             $finaldata[$student_name]['discipline'] = [
-                'dress' => $result['dress'],
-                'conduct' => $result['conduct'],
+                'dress' => $result['discipline_dress'],
+                'conduct' => $result['discipline_conduct'],
             ];
         
         }
         
-        echo "<pre>";
-        print_r($finaldata);
-        die();
+        // echo "<pre>";
+        // print_r($finaldata);
+        // die();
         
         //echo $this->db->last_query();
         return $finaldata;
