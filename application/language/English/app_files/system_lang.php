@@ -2413,5 +2413,13 @@ $lang['student_work_report']= "Student Work Report";
 $lang['subject_wise_home_work_percentage']= "Subject wise home work percentage";
 $lang['download_pdf']= "Download PDF";
 
+$lang['student_name']= "Student's Name";
+$lang['dress']= "Dress";
+$lang['conduct']= "Conduct";
+$lang['fair_copy']= "Fair Copy";
+$lang['writing_copy']= "Writing Work";
+$lang['learning_copy']= "Learning Work";
+$lang['remarks']= "Remarks";
+
 
 
