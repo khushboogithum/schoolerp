@@ -150,13 +150,39 @@ class Todaysworkreport_model extends MY_model
             ];
         
         }
-        
-        // echo "<pre>";
-        // print_r($finaldata);
-        // die();
-        
-        //echo $this->db->last_query();
         return $finaldata;
+    }
+
+    public function getSubjectWiseReport(){
+        $this->db->select('student_work_report.*');
+        $this->db->from('student_work_report');
+        $this->db->where('student_work_report.status', 1);
+        $query = $this->db->get();
+        $results = $query->result_array();
+        $resultArray=array();
+        $Complete=0;
+        $totalstudent=0;
+        $resultArray = [];
+        foreach ($results as $key => $result) {
+            
+            $subjectName = $result['subject_name'];
+            if (!isset($resultArray[$subjectName])) {
+                $Complete = 0;
+                $totalstudent=0; 
+            } 
+            
+            if ($result['fair_copy'] == 1 && $result['writing_work'] == 1 && $result['learning_work'] == 1) {
+                $Complete++;
+                $totalstudent++; 
+            }else{
+              $totalstudent++;  
+            }
+            $resultArray[$subjectName] = [
+                'complete' => $Complete,
+                'totalstudent' => $totalstudent,
+            ];
+        }
+        return $resultArray;
     }
 
     

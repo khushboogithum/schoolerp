@@ -175,38 +175,13 @@
                         </div>
                         <div class="subject_wise_home"><b><?= $this->lang->line('subject_wise_home_work_percentage') ?></b></div>
                         <div class="subject-grid">
+                        <?php foreach($getsubjectwisestatus as $key=>$subjecttatus){ ?>
                             <div class="subject-box">
-                                <div>Hindi</div>
-                                <div>7 / 9</div>
+                                <div><?=$key ?></div>
+                                <div><?=$subjecttatus['complete'] ?> / <?=$subjecttatus['totalstudent'] ?></div>
                             </div>
-                            <div class="subject-box">
-                                <div>English</div>
-                                <div>7 / 9</div>
-                            </div>
-                            <div class="subject-box">
-                                <div>Mathematics</div>
-                                <div>7 / 9</div>
-                            </div>
-                            <div class="subject-box">
-                                <div>Science</div>
-                                <div>7 / 9</div>
-                            </div>
-                            <div class="subject-box">
-                                <div>SST</div>
-                                <div>7 / 9</div>
-                            </div>
-                            <div class="subject-box">
-                                <div>Drawing</div>
-                                <div>7 / 9</div>
-                            </div>
-                            <div class="subject-box">
-                                <div>Computer</div>
-                                <div>7 / 9</div>
-                            </div>
-                            <div class="subject-box">
-                                <div>Custom</div>
-                                <input type="text" class="form-control" placeholder="......" />
-                            </div>
+                        <?php } ?>
+
                         </div>
 
                         <input type="checkbox" value="" style="margin-top:10px;" /><b> <?php echo $this->lang->line('submitted_for_approval'); ?></b>
