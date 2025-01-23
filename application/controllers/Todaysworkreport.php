@@ -66,6 +66,7 @@ class TodaysworkReport extends Admin_Controller
     {
 
         $data['getreportdata']=$this->Todaysworkreport_model->getTodayReportData();
+        $data['getsubjectwisestatus']=$this->Todaysworkreport_model->getSubjectWiseReport();
         $this->session->set_userdata('top_menu', 'todaysworkreport');
         $this->session->set_userdata('sub_menu', 'todaysworkreport/index');
         $data['title']      = 'Student Home and Syllabus  Work Report';
