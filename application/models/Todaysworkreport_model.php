@@ -128,7 +128,9 @@ class Todaysworkreport_model extends MY_model
         $this->db->select('student_work_report.*');
         $this->db->from('student_work_report');
         $this->db->where('student_work_report.status', 1);
+        $this->db->where('date(created_at)', date('Y-m-d'));
         $query = $this->db->get();
+
         $results = $query->result_array();
         $subject_array = [];
         foreach ($results as $result) {
@@ -157,6 +159,8 @@ class Todaysworkreport_model extends MY_model
         $this->db->select('student_work_report.*');
         $this->db->from('student_work_report');
         $this->db->where('student_work_report.status', 1);
+        $this->db->where('date(created_at)', date('Y-m-d'));
+
         $query = $this->db->get();
         $results = $query->result_array();
         $resultArray=array();

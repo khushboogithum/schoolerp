@@ -156,7 +156,7 @@ class Todayswork extends Admin_Controller
         $class_id = $this->input->get('class_id');
         $subject_name = $this->input->get('subject_name');
         $data['subject_name'] = $this->input->get('subject_name');
-        $data['student_data'] = $this->Todayswork_model->getStudents($class_id);
+        $data['student_data'] = $this->Todayswork_model->getStudents($class_id,$subject_name);
 
         $result = $this->Todayswork_model->todaysWorkList();
 
