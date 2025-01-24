@@ -235,7 +235,7 @@ class Todayswork_model extends MY_model
         }
     }
     //Student Report
-    public function getStudents($class_id)
+    public function getStudents($class_id,$subject_name)
     {
         $this->db->select('classes.id AS `class_id`, student_session.id as student_session_id, students.id, students.firstname, students.middlename, students.lastname')
          ->from('students')
@@ -243,7 +243,7 @@ class Todayswork_model extends MY_model
          ->join('classes', 'student_session.class_id = classes.id')
          ->where('student_session.class_id', $class_id)
          ->where('students.is_active', 'yes')
-        // ->where("students.id NOT IN (SELECT student_id FROM student_work_report)", NULL, FALSE)
+         ->where("students.id NOT IN (SELECT student_id FROM student_work_report where date(created_at)='".date('Y-m-d')."' and subject_name='".$subject_name."')", NULL, FALSE)
          ->order_by('students.firstname', 'ASC');
         // ->limit(2);
         $query = $this->db->get();
