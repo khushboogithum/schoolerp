@@ -19,13 +19,13 @@
                         <!-- <h3 class="box-title"><?php echo $this->lang->line('todays_work_syllubus_report'); ?></h3> -->
                     </div><!-- /.box-header -->
                     <div class="box-body">
-                        <form method="GET" action="<?php echo base_url('todaysworkreport/index'); ?>">
+                        <form method="post" action="<?php echo base_url('todaysworkreport/index'); ?>">
                             <?php echo $this->customlib->getCSRF(); ?>
                             <div class="row">
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1"><?php echo $this->lang->line('todays_date'); ?></label><small class="req"> *</small>
-                                        <input autofocus="" id="todays_date" name="todays_date" placeholder="" type="date" class="form-control" value="<?php echo isset($_GET['todays_date']) ? $_GET['todays_date'] : ''; ?>" />
+                                        <input autofocus="" id="todays_date" name="todays_date" placeholder="" type="date" class="form-control" value="<?php echo isset($todays_date) ? $todays_date : ''; ?>" />
                                         <span class="text-danger"><?php echo form_error('todays_date'); ?></span>
                                     </div>
                                 </div>
@@ -36,9 +36,10 @@
                                             <option value=""><?php echo $this->lang->line('select'); ?></option>
                                             <?php
                                             foreach ($classlist as $class) {
-                                                $selected = (isset($_GET['class_id']) && $_GET['class_id'] == $class['id']) ? "selected" : "";
+                                               // $selected = (isset($_GET['class_id']) && $_GET['class_id'] == $class['id']) ? "selected" : "";
                                             ?>
-                                                <option value="<?php echo $class['id']; ?>" <?php echo $selected; ?>>
+                                                <option value="<?php echo $class['id']; ?>"  <?php if (set_value('class_id') == $class['id']) {
+                                                    echo "selected=selected";} ?>>
                                                     <?php echo $class['class']; ?>
                                                 </option>
                                             <?php
@@ -178,6 +179,7 @@
 </div> <!-- /.row -->
 </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
+
 <script>
     $(document).ready(function() {
         const selectors = [
@@ -203,8 +205,7 @@
 </script>
 
 <script>
-    $(document).ready(function(e) {
-
+    $(document).ready(function(e) { 
         getSectionByClass("<?php echo $class_id ?>", "<?php echo $section_id ?>", 'secid');
         getSubjectGroup("<?php echo $class_id ?>", "<?php echo $section_id ?>", "<?php echo $subject_group_id ?>", 'subject_group_id')
         getsubjectBySubjectGroup("<?php echo $class_id ?>", "<?php echo $section_id ?>", "<?php echo $subject_group_id ?>", "<?php echo $subject_id ?>", 'subid');
@@ -296,6 +297,7 @@
     function getsubjectBySubjectGroup(class_id, section_id, subject_group_id, subject_group_subject_id, subject_target) {
         if (class_id != "" && section_id != "" && subject_group_id != "") {
             var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+           
 
             $.ajax({
                 type: 'POST',
@@ -312,7 +314,7 @@
                     console.log(data);
                     $.each(data, function(i, obj) {
                         var sel = "";
-                        if (subject_group_subject_id == obj.id) {
+                        if (subject_group_subject_id == obj.subject_id) {
                             sel = "selected";
                         }
 
