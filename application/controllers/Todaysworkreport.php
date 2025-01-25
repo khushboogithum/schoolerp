@@ -25,13 +25,17 @@ class TodaysworkReport extends Admin_Controller
         $data['title']      = 'Student Home Work Report';
         $data['title_list'] = 'Student Home Work Report';
         ////////////Filter/////////////
+        $search      = $this->input->post('search');
+
         
-        $todays_date = $this->input->get('todays_date');
-         $class_id = $this->input->get('class_id');
-    //   
-        $section_id = $this->input->get('section_id');
-        $subject_group_id = $this->input->get('subject_group_id');
-        $subject_id = $this->input->get('subject_id');
+        if($search!=''){
+            $data['todays_date']=$todays_date = $this->input->post('todays_date');
+            $data['class_id'] =$class_id= $this->input->post('class_id');
+            $data['section_id']=$section_id = $this->input->post('section_id');
+            $data['subject_group_id']=$subject_group_id = $this->input->post('subject_group_id');
+            $data['subject_id']=$subject_id = $this->input->post('subject_id');
+          
+        }
 
         ////////////Filter/////////////
         $classlist         = $this->class_model->get();
