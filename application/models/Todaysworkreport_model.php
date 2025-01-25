@@ -65,7 +65,7 @@ class Todaysworkreport_model extends MY_model
         return $query->result_array();
     }
 
-    public function todaysWorkList()
+    public function todaysWorkList($todays_date=NULL,$class_id=NULL,$section_id=NULL,$subject_group_id,$subject_id=NULL)
     {
         $today = date('Y-m-d');
         $this->db->select('today_work.today_work_id, today_work.work_date, today_work.subject_id, today_work.lesson_id, subjects.name as subject_name, today_work.lesson_name, lesson_diary.lesson_number');
@@ -75,7 +75,26 @@ class Todaysworkreport_model extends MY_model
         $this->db->where('today_work.today_status', '1');
         $this->db->where('today_work.status', '1');
         $this->db->where('DATE(today_work.work_date)', $today);
+        if (!empty($todays_date)) {
+            $this->db->where('DATE(today_work.work_date)', $todays_date);
+        }
+    
+        if (!empty($class_id)) {
+            $this->db->where('today_work.class_id', $class_id);
+        }
+        if (!empty($section_id)) {
+            $this->db->where('today_work.section_id', $section_id);
+        }
+        if (!empty($subject_group_id)) {
+            $this->db->where('today_work.subject_group_id', $subject_group_id);
+        }
+        if (!empty($subject_id)) {
+            $this->db->where('today_work.subject_id', $subject_id);
+        }
+        
         $query = $this->db->get();
+        // echo $this->db->last_query();
+        // die();
         if ($query->num_rows() > 0) {
             $result = $query->result_array();
             foreach ($result as &$row) {
