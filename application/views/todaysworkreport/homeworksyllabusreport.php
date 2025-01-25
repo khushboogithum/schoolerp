@@ -19,73 +19,75 @@
                         <!-- <h3 class="box-title"><?php echo $this->lang->line('todays_work_syllubus_report'); ?></h3> -->
                     </div><!-- /.box-header -->
                     <div class="box-body">
+                        <form method="GET" action="<?php echo base_url('todaysworkreport/index'); ?>">
+                            <?php echo $this->customlib->getCSRF(); ?>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1"><?php echo $this->lang->line('todays_date'); ?></label><small class="req"> *</small>
+                                        <input autofocus="" id="todays_date" name="todays_date" placeholder="" type="date" class="form-control" value="<?php echo isset($_GET['todays_date']) ? $_GET['todays_date'] : ''; ?>" />
+                                        <span class="text-danger"><?php echo form_error('todays_date'); ?></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label><?php echo $this->lang->line('class'); ?></label><small class="req"> *</small>
+                                        <select autofocus="" id="searchclassid" name="class_id" onchange="getSectionByClass(this.value, 0, 'secid')" class="form-control">
+                                            <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                            <?php
+                                            foreach ($classlist as $class) {
+                                                $selected = (isset($_GET['class_id']) && $_GET['class_id'] == $class['id']) ? "selected" : "";
+                                            ?>
+                                                <option value="<?php echo $class['id']; ?>" <?php echo $selected; ?>>
+                                                    <?php echo $class['class']; ?>
+                                                </option>
+                                            <?php
+                                            }
+                                            ?>
+                                        </select>
+                                        <span class="class_id_error text-danger"><?php echo form_error('class_id'); ?></span>
+                                    </div>
+                                </div>
 
-                        <?php echo $this->customlib->getCSRF(); ?>
-                        <div class="row">
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1"><?php echo $this->lang->line('todays_date'); ?></label><small class="req"> *</small>
-                                    <input autofocus="" id="todays_date" name="todays_date" placeholder="" type="date" class="form-control" value="<?php echo set_value('todays_date'); ?>" />
-                                    <span class="text-danger"><?php echo form_error('todays_date'); ?></span>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label><?php echo $this->lang->line('section'); ?></label><small class="req"> *</small>
+                                        <select id="secid" name="section_id" class="form-control">
+                                            <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                            
+                                        </select>
+                                        <span class="section_id_error text-danger"><?php echo form_error('section_id'); ?></span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label><?php echo $this->lang->line('class'); ?></label><small class="req"> *</small>
-                                    <select autofocus="" id="searchclassid" name="class_id" onchange="getSectionByClass(this.value, 0, 'secid')" class="form-control">
-                                        <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                        <?php
-                                        foreach ($classlist as $class) {
-                                        ?>
-                                            <option <?php
-                                                    if ($class_id == $class["id"]) {
-                                                        echo "selected";
-                                                    }
-                                                    ?> value="<?php echo $class['id'] ?>"><?php echo $class['class'] ?></option>
-                                        <?php
-                                        }
-                                        ?>
-                                    </select>
-                                    <input type="hidden" id="lesson_subjectid" name="lesson_subjectid">
-                                    <span class="class_id_error text-danger"><?php echo form_error('class_id'); ?></span>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label><?php echo $this->lang->line('subject_group'); ?></label><small class="req"> *</small>
+                                        <select id="subject_group_id" name="subject_group_id" class="form-control">
+                                            <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                        </select>
+                                        <span class="section_id_error text-danger"><?php echo form_error('subject_group_id'); ?></span>
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label><?php echo $this->lang->line('subject'); ?></label><small class="req"> *</small>
+                                        <select id="subid" name="subject_id" class="form-control">
+                                            <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                        </select>
+                                        <span class="section_id_error text-danger"><?php echo form_error('subject_id'); ?></span>
+                                    </div>
+                                </div>
 
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label><?php echo $this->lang->line('section'); ?></label><small class="req"> *</small>
-                                    <select id="secid" name="section_id" class="form-control">
-                                        <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                    </select>
-                                    <span class="section_id_error text-danger"><?php echo form_error('section_id'); ?></span>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <button type="submit" name="search" value="search_filter" class="btn btn-primary btn-sm" style="margin-top: 21px;">
+                                            <i class="fa fa-search"></i> Search
+                                        </button>
+                                        <a href="<?= base_url() ?>/todaysworkreport/index" type="reset" name="reset" value="reset_filter" class="btn btn-primary btn-sm" style=" margin-top: 21px;"><i class="fa fa-filter"></i> Reset</a>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label><?php echo $this->lang->line('subject_group'); ?></label><small class="req"> *</small>
-                                    <select id="subject_group_id" name="subject_group_id" class="form-control">
-                                        <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                    </select>
-                                    <span class="section_id_error text-danger"><?php echo form_error('subject_group_id'); ?></span>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label><?php echo $this->lang->line('subject'); ?></label><small class="req"> *</small>
-                                    <select id="subid" name="subject_id" class="form-control">
-                                        <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                    </select>
-                                    <span class="section_id_error text-danger"><?php echo form_error('subject_id'); ?></span>
-                                </div>
-                            </div>
-
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <a type="submit" name="search" value="search_filter" class="btn btn-primary btn-sm" style=" margin-top: 21px;"><i class="fa fa-search"></i> Search</a>
-                                    <a href="<?= base_url() ?>/todaysworkreport/index" type="reset" name="reset" value="reset_filter" class="btn btn-primary btn-sm" style=" margin-top: 21px;"><i class="fa fa-filter"></i> Reset</a>
-                                </div>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -157,11 +159,11 @@
                         </table>
                     </div>
                     <!-- <form id="form1" action="<?php echo site_url('todaysworkreport/allStudentWorkReport'); ?>" method="post" accept-charset="utf-8">
-                            <input type="hidden" class="form-control" name="today_work_id" value="<?=$todayWorkId?>"/>
+                            <input type="hidden" class="form-control" name="today_work_id" value="<?= $todayWorkId ?>"/>
                             <div> <button type="submit"  class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('final_submit'); ?></button></div><br><br>
                         </form> -->
-                       
-                        <div><a href="<?php echo site_url('todaysworkreport/allstudentworkreports'); ?>" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('go_for_all_student_work_report'); ?></a></div>
+
+                    <div><a href="<?php echo site_url('todaysworkreport/allstudentworkreports'); ?>" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('go_for_all_student_work_report'); ?></a></div>
                 </div>
             </div>
         </div>
