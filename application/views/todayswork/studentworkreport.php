@@ -175,13 +175,9 @@
         let totalStudents = $('#studentTable tbody tr').length;
         let complateStudent = 0;
         let incomplateStudent = 0;
-
-        // Iterate through each row
         $('#studentTable tbody tr').each(function () {
           const totalCheckboxes = $(this).find('input[type="checkbox"]').length;
           const checkedCheckboxes = $(this).find('input[type="checkbox"]:checked').length;
-
-          // If all checkboxes are checked, count this student
           if (totalCheckboxes === checkedCheckboxes) {
             complateStudent++;
           } else {
@@ -197,17 +193,13 @@
         let incomplatePercentage = totalStudents > 0 
           ? ((incomplateStudent / totalStudents) * 100).toFixed(2)
           : 0;
-        // Update the total and reduced counts
         $('#complate').text(complateStudent);
         $('#incomplate').text(incomplateStudent);
         $('#complatePercentage').text(complatePercentage + '%');
         $('#incomplatePercentage').text(incomplatePercentage + '%');
       }
-
-      // Initialize the counts on page load
+      
       updateCounts();
-
-      // Add change event listener to all checkboxes
       $('#studentTable').on('change', 'input[type="checkbox"]', function () {
         updateCounts();
       });

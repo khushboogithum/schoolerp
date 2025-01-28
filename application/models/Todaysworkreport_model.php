@@ -3,6 +3,7 @@
 if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
+date_default_timezone_set('Asia/Kolkata');
 
 class Todaysworkreport_model extends MY_model
 {
@@ -143,10 +144,11 @@ class Todaysworkreport_model extends MY_model
 
     public function getTodayReportData()
     {
+       
         $finaldata = array();
         $this->db->select('student_work_report.*');
         $this->db->from('student_work_report');
-        $this->db->where('student_work_report.status', 1);
+        // $this->db->where('student_work_report.status', 1);
         $this->db->where('date(created_at)', date('Y-m-d'));
         $query = $this->db->get();
 
