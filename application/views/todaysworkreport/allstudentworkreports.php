@@ -114,6 +114,7 @@
                                         <th></th>
                                         <th colspan="2" style="text-align: center;">Discipline</th>
                                         <?php
+                                     
                                         $subjects = array_keys($getreportdata[array_keys($getreportdata)[0]]);
                                         foreach ($subjects as $subject) {
                                             if ($subject !== 'discipline') {
@@ -175,11 +176,19 @@
                         </div>
                         <div class="subject_wise_home"><b><?= $this->lang->line('subject_wise_home_work_percentage') ?></b></div>
                         <div class="subject-grid">
-                        <?php foreach($getsubjectwisestatus as $key=>$subjecttatus){ ?>
-                            <div class="subject-box">
-                                <div><?=$key ?></div>
-                                <div><?=$subjecttatus['complete'] ?> / <?=$subjecttatus['totalstudent'] ?></div>
+                        <?php foreach($getsubjectwisestatus as $key=>$subjecttatus){
+
+                                $percentage=$subjecttatus['complete']*100/$subjecttatus['totalstudent'];
+                            
+                            ?>
+                            <div>
+                               <span class="ml-2"><?=$key ?></span>
+                            <div class="subject-box d-flex" style="width:91px; padding:10px">
+                                <div><?=$subjecttatus['complete'] ?>/ <?=$subjecttatus['totalstudent'] ?></div>
+                                <div style="margin-top:10px;">=<?=round($percentage,2,2) ?>%</div>
                             </div>
+                            </div>
+                            
                         <?php } ?>
 
                         </div>
