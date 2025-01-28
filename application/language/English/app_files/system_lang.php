@@ -2420,6 +2420,12 @@ $lang['fair_copy']= "Fair Copy";
 $lang['writing_copy']= "Writing Work";
 $lang['learning_copy']= "Learning Work";
 $lang['remarks']= "Remarks";
+$lang['syallabus_report']= "Syallabus Report";
+$lang['class_wise']= "Class Wise";
+$lang['teacher_wise']= "Teacher Wise";
+$lang['subject_wise']= "Subject Wise";
+$lang['from_date']= "From Date";
+$lang['to_date']= "To Date";
 
 
 

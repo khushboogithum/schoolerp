@@ -48,13 +48,13 @@
                                 }
 
                                 .subject_wise_home {
-                                    margin-top:10px !important;
+                                    margin-top: 10px !important;
                                     display: flex;
                                     flex-wrap: wrap;
                                 }
 
                                 .subject-box-container {
-                                    margin-top:10px !important;
+                                    margin-top: 10px !important;
                                     display: flex;
                                     justify-content: space-between;
                                     align-items: center;
@@ -139,6 +139,8 @@
                                 </tbody>
                             </table>
                         </div>
+                        <?php
+                         if (!empty($student_data)) { ?>
                         <div class="subject_wise_home">
                             <div class="col-md-2">
                                 <strong>Today Student: <span id="totalStudents"><?=count($student_data) ?></span></strong></br>
@@ -157,9 +159,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div><button type="submit" class="btn btn-info pull-right" style="margin-top:2%;"><?php echo $this->lang->line('final_submit'); ?></button></div>
+                            <div><button type="submit" class="btn btn-info pull-right" style="margin-top:2%;"><?php echo $this->lang->line('final_submit'); ?></button></div>
+                        <?php } ?>
                     </div>
                     </form>
                 </div>

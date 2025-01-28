@@ -89,5 +89,4 @@ class TodaysworkReport extends Admin_Controller
         $this->load->view('layout/footer', $data);
     }
 
-  
 }

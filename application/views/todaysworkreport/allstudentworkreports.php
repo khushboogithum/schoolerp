@@ -173,6 +173,8 @@
                                 </tbody>
                             </table>
                         </div>
+                        <?php
+                         if (!empty($getreportdata)) { ?>
                         <div class="subject_wise_home"><b><?= $this->lang->line('subject_wise_home_work_percentage') ?></b></div>
                         <div class="subject-grid">
                         <?php foreach($getsubjectwisestatus as $key=>$subjecttatus){ ?>
@@ -186,6 +188,7 @@
 
                         <input type="checkbox" value="" style="margin-top:10px;" /><b> <?php echo $this->lang->line('submitted_for_approval'); ?></b>
                         <div><a href="" class="btn btn-info pull-right" style="margin-top:2%;"><?php echo $this->lang->line('final_submit'); ?></a></div>
+                    <?php } ?>
                     </div>
                 </div>
             </div>
