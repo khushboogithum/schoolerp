@@ -319,7 +319,6 @@
                         if (subject_group_subject_id == obj.subject_id) {
                             sel = "selected";
                         }
-
                         var code = '';
                         if (obj.code) {
                             code = " (" + obj.code + ") ";

@@ -70,7 +70,7 @@
                                 }
                             </style>
 
-                            <table>
+                            <table id="studentTable">
                                 <thead>
                                     <tr>
                                         <th></th>
@@ -140,23 +140,22 @@
                             </table>
                         </div>
                         <?php
-                        if (!empty($student_data)) { ?>
-                            <div class="subject_wise_home">
-                                <div class="col-md-2">
-                                    <strong>Today Student: 06</strong></br>
-                                    <strong>Complete work: 04</strong></br>
-                                    <strong>Uncomplete work: 02</strong></br>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="subject-box-container">
-                                        <div class="subject-box">
-                                            <div>Co.W%</div>
-                                            <div>66.66</div>
-                                        </div>
-                                        <div class="subject-box">
-                                            <div>Unco.W%</div>
-                                            <div>33.34</div>
-                                        </div>
+                         if (!empty($student_data)) { ?>
+                        <div class="subject_wise_home">
+                            <div class="col-md-2">
+                                <strong>Today Student: <span id="totalStudents"><?=count($student_data) ?></span></strong></br>
+                                <strong>Complete work: <span id="complate"><?=count($student_data) ?></span></strong></br>
+                                <strong>Uncomplete work: <span id="incomplate"> 0 </span></strong></br>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="subject-box-container">
+                                    <div class="subject-box">
+                                        <div>Co.W%</div>
+                                        <div id="complatePercentage">100</div>
+                                    </div>
+                                    <div class="subject-box">
+                                        <div>Unco.W%</div>
+                                        <div id="incomplatePercentage">0</div>
                                     </div>
                                 </div>
                             </div>
@@ -170,3 +169,47 @@
         </div>
     </section>
 </div>
+<script>
+     $(document).ready(function () {
+      function updateCounts() {
+        let totalStudents = $('#studentTable tbody tr').length;
+        let complateStudent = 0;
+        let incomplateStudent = 0;
+
+        // Iterate through each row
+        $('#studentTable tbody tr').each(function () {
+          const totalCheckboxes = $(this).find('input[type="checkbox"]').length;
+          const checkedCheckboxes = $(this).find('input[type="checkbox"]:checked').length;
+
+          // If all checkboxes are checked, count this student
+          if (totalCheckboxes === checkedCheckboxes) {
+            complateStudent++;
+          } else {
+            incomplateStudent++;
+          }
+        });
+
+
+        let complatePercentage = totalStudents > 0 
+          ? ((complateStudent / totalStudents) * 100).toFixed(2)
+          : 0;
+
+        let incomplatePercentage = totalStudents > 0 
+          ? ((incomplateStudent / totalStudents) * 100).toFixed(2)
+          : 0;
+        // Update the total and reduced counts
+        $('#complate').text(complateStudent);
+        $('#incomplate').text(incomplateStudent);
+        $('#complatePercentage').text(complatePercentage + '%');
+        $('#incomplatePercentage').text(incomplatePercentage + '%');
+      }
+
+      // Initialize the counts on page load
+      updateCounts();
+
+      // Add change event listener to all checkboxes
+      $('#studentTable').on('change', 'input[type="checkbox"]', function () {
+        updateCounts();
+      });
+    });
+</script>
