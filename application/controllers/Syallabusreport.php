@@ -13,6 +13,7 @@ class Syallabusreport extends Admin_Controller
         $this->load->library('form_validation');
         $this->load->model('Syallabusreport_model');  
 
+
     }
 
     public function index()
@@ -20,6 +21,8 @@ class Syallabusreport extends Admin_Controller
         if (!$this->rbac->hasPrivilege('syallabusreport', 'can_view')) {
             access_denied();
         }
+        $data['syallabusReport'] = $this->Syallabusreport_model->syallabusReport();
+
         $this->session->set_userdata('top_menu', 'syallabusreport');
         $this->session->set_userdata('sub_menu', 'syallabusreport/index');
         $data['title']      = 'Syallabus Report';

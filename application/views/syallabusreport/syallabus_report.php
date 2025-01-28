@@ -108,42 +108,68 @@
 
                 </div><!-- /.box-header -->
                 <div class="box-body">
+                    <?php 
+
+                    $groupedData = [];
+                    $subjects = [];
+                    foreach ($syallabusReport as $item) {
+                        $date = $item['work_date'];
+                        $subject = $item['subject_name'];
+                        $lesson = "Lesson-{$item['lesson_number']} {$item['lesson_name']}";
+                        
+                        // Include class work, each on a new line
+                        $classWork = [];
+                        foreach ($item['class_work'] as $cw) {
+                            $classWork[] = $cw['teaching_activity_title'];
+                        }
+                        $lessonWithClassWork = $lesson . "<br>" . implode("<br>", $classWork);
+
+                        $groupedData[$date][$subject][] = $lessonWithClassWork;
+                        if (!in_array($subject, $subjects)) {
+                            $subjects[] = $subject; // Collect unique subjects
+                        }
+                    }
+                    sort($subjects);
+                    // echo "<pre>";
+                    // print_r($groupedData);
+                    // die();
+                    
+                    
+                    
+                    
+                    ?>
                     <div class="table-responsive mailbox-messages overflow-visible">
                         <table class="table table-striped table-bordered table-hover example">
                             <thead>
                                 <tr>
                                     <th>Date</th>
-                                    <th>Hindi</th>
-                                    <th>English</th>
-                                    <th>Math</th>
-                                    <th>Science</th>
+                                    <?php 
+                                    foreach ($subjects as $subject) {
+                                        echo "<th>{$subject}</th>";
+                                    }                                    
+                                    
+                                    ?>
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php foreach ($groupedData as $date => $subjectData) { ?>
                                 <tr>
-                                    <td>10-04-2024</td>
-                                    <td>
-                                        <div>Lesson-3 Bad man</div>
-                                        <div>Explanation</div>
-                                        <div>One page writing</div>
-                                    </td>
-                                    <td>
-                                        <div>Lesson-2 English lesson</div>
-                                        <div>Copy Writing</div>
-                                        <div>One page writing</div>
-                                    </td>
-                                    <td>
-                                        <div>Lesson-4 Math lesson</div>
-                                        <div>Fair Writing</div>
-                                        <div>One page writing</div>
-                                    </td>
-                                    <td>
-                                        <div>Lesson-1 Science lesson</div>
-                                        <div>Fair Writing</div>
-                                        <div>One page writing</div>
-                                    </td>
+                                    <td><?=$date ?></td>
+                                <?php
+                                    foreach ($subjects as $subject) {
+                                        echo '<td>';
+                                            if (isset($subjectData[$subject])) {
+                                                echo implode('<br>', $subjectData[$subject]);
+                                            } else {
+                                                echo 'N/A'; // No data for this subject on this date
+                                            }
+                                            echo '</td>';
+                                    }
+                                    ?>
+                                    
                                 </tr>
-                                <tr>
+                                <?php } ?>
+                                <!-- <tr>
                                     <td>20-01-2025</td>
                                     <td>
                                         <div>Lesson-4 Bad man</div>
@@ -188,7 +214,7 @@
                                         <div>Fair Writing</div>
                                         <div>One page writing</div>
                                     </td>
-                                </tr>
+                                </tr> -->
                             </tbody>
                         </table>
                     </div>
