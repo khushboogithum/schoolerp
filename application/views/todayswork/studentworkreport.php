@@ -48,13 +48,13 @@
                                 }
 
                                 .subject_wise_home {
-                                    margin-top:10px !important;
+                                    margin-top: 10px !important;
                                     display: flex;
                                     flex-wrap: wrap;
                                 }
 
                                 .subject-box-container {
-                                    margin-top:10px !important;
+                                    margin-top: 10px !important;
                                     display: flex;
                                     justify-content: space-between;
                                     align-items: center;
@@ -139,27 +139,30 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="subject_wise_home">
-                            <div class="col-md-2">
-                                <strong>Today Student: 06</strong></br>
-                                <strong>Complete work: 04</strong></br>
-                                <strong>Uncomplete work: 02</strong></br>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="subject-box-container">
-                                    <div class="subject-box">
-                                        <div>Co.W%</div>
-                                        <div>66.66</div>
-                                    </div>
-                                    <div class="subject-box">
-                                        <div>Unco.W%</div>
-                                        <div>33.34</div>
+                        <?php
+                        if (!empty($student_data)) { ?>
+                            <div class="subject_wise_home">
+                                <div class="col-md-2">
+                                    <strong>Today Student: 06</strong></br>
+                                    <strong>Complete work: 04</strong></br>
+                                    <strong>Uncomplete work: 02</strong></br>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="subject-box-container">
+                                        <div class="subject-box">
+                                            <div>Co.W%</div>
+                                            <div>66.66</div>
+                                        </div>
+                                        <div class="subject-box">
+                                            <div>Unco.W%</div>
+                                            <div>33.34</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div><button type="submit" class="btn btn-info pull-right" style="margin-top:2%;"><?php echo $this->lang->line('final_submit'); ?></button></div>
+                            <div><button type="submit" class="btn btn-info pull-right" style="margin-top:2%;"><?php echo $this->lang->line('final_submit'); ?></button></div>
+                        <?php } ?>
                     </div>
                     </form>
                 </div>
