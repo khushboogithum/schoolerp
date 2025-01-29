@@ -185,9 +185,8 @@
                             ?>
                             <div>
                                <span class="ml-2"><?=$key ?></span>
-                            <div class="subject-box d-flex" style="width:91px; padding:10px">
-                                <div><?=$subjecttatus['complete'] ?>/ <?=$subjecttatus['totalstudent'] ?></div>
-                                <div style="margin-top:10px;">=<?=round($percentage,2,2) ?>%</div>
+                            <div class="subject-box d-flex" style="width:127px; padding:10px">
+                                <?=$subjecttatus['complete'] ?>/ <?=$subjecttatus['totalstudent'] ?> = <?=round($percentage,2,2) ?>%
                             </div>
                             </div>
                             

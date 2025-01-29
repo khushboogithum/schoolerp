@@ -5,25 +5,6 @@
     <section class="content-header">
 
     </section>
-    <style>
-        .subject-grid {
-            padding: 20px;
-            border: 1px solid gray;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .subject-box {
-            padding: 5px;
-            border: 1px solid #000;
-            text-align: center;
-            width: 100px;
-            border-radius: 5px;
-            background-color: #136b23;
-            color: white;
-        }
-    </style>
 
     <!-- Main content -->
     <section class="content">
@@ -40,13 +21,22 @@
                         <form method="post" action="<?php echo base_url('syallabusreport/index'); ?>">
                             <?php echo $this->customlib->getCSRF(); ?>
                             <div class="row">
-
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label><?php echo $this->lang->line('class_wise'); ?></label><small class="req"> *</small>
                                         <select autofocus="" id="searchclassid" name="class_id" onchange="getSectionByClass(this.value, 0, 'secid')" class="form-control">
                                             <option value=""><?php echo $this->lang->line('select'); ?></option>
-
+                                            <?php
+                                                foreach ($classlist as $class) {
+                                                ?>
+                                                    <option <?php
+                                                            if ($class_id == $class["id"]) {
+                                                                echo "selected";
+                                                            }
+                                                            ?> value="<?php echo $class['id'] ?>"><?php echo $class['class'] ?></option>
+                                                <?php
+                                                }
+                                                ?>
                                         </select>
                                         <span class="class_id_error text-danger"><?php echo form_error('class_id'); ?></span>
                                     </div>
@@ -218,13 +208,13 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="subject-grid">
+                    <div class="subject-grids">
                     <div>Today Class Performance</div>
-                        <div class="subject-box">
+                        <div class="subject-boxs">
                             <div>90%</div>
                         </div>
                         <div>Today Winner Class</div>
-                        <div class="subject-box">
+                        <div class="subject-boxs">
                             <div>First</div>
                         </div>
 
