@@ -21,6 +21,8 @@ class Syallabusreport extends Admin_Controller
         if (!$this->rbac->hasPrivilege('syallabusreport', 'can_view')) {
             access_denied();
         }
+        $classlist         = $this->class_model->get();
+        $data['classlist'] = $classlist;
         $data['syallabusReport'] = $this->Syallabusreport_model->syallabusReport();
 
         $this->session->set_userdata('top_menu', 'syallabusreport');

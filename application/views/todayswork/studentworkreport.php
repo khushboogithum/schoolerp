@@ -40,34 +40,6 @@
                                     background-color: #f2f2f2;
                                 }
 
-                                input[type="checkbox"],
-                                input[type="text"] {
-                                    margin: 0;
-                                    padding: 5px;
-
-                                }
-
-                                .subject_wise_home {
-                                    margin-top: 10px !important;
-                                    display: flex;
-                                    flex-wrap: wrap;
-                                }
-
-                                .subject-box-container {
-                                    margin-top: 10px !important;
-                                    display: flex;
-                                    justify-content: space-between;
-                                    align-items: center;
-                                    width: 100%;
-                                }
-
-                                .subject-box {
-                                    border: 1px solid #000;
-                                    padding: 5px;
-                                    text-align: center;
-                                    width: 45%;
-                                    /* Adjust width as needed */
-                                }
                             </style>
 
                             <table id="studentTable">
@@ -160,7 +132,7 @@
                                 </div>
                             </div>
 
-                            <div><button type="submit" class="btn btn-info pull-right" style="margin-top:2%;"><?php echo $this->lang->line('final_submit'); ?></button></div>
+                            <div><button type="submit" class="btn btn-info pull-right button-right"><?php echo $this->lang->line('final_submit'); ?></button></div>
                         <?php } ?>
                     </div>
                     </form>
