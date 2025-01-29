@@ -161,7 +161,7 @@
                                             if (isset($subjectData[$subject])) {
                                                 echo implode('<br>', $subjectData[$subject]);
                                             } else {
-                                                echo 'N/A'; // No data for this subject on this date
+                                                echo '--'; // No data for this subject on this date
                                             }
                                             echo '</td>';
                                     }
