@@ -32,16 +32,15 @@ class Todayswork extends Admin_Controller
 
         $todaysWorkList = $this->Todayswork_model->todaysWorkList();
         $workData = [];
-
         foreach ($todaysWorkList as $work) {
-            $subject_id = $work['subject_id'];
-            $lesson_id = $work['lesson_id'];
-
-            $countLessonsBySubject = $this->Todayswork_model->countLessonsBySubject($subject_id);
-            $work['total_lessons'] = $countLessonsBySubject;
+           // $class_id = $work['class_id'];
+            //$subject_id = $work['subject_id'];
+            $lesson_number = $work['lesson_number'];
+            // $countLessonsBySubject = $this->Todayswork_model->countLessonsBySubject($subject_id,$class_id);
+            // $work['total_lessons'] = $countLessonsBySubject;
 
             if ($work['total_lessons'] > 0) {
-                $work['syllabus_percentage'] = round(($lesson_id / $work['total_lessons']) * 100, 2);
+                $work['syllabus_percentage'] = round(($lesson_number / $work['total_lessons']) * 100, 2);
             } else {
                 $work['syllabus_percentage'] = 0;
             }
@@ -102,7 +101,8 @@ class Todayswork extends Admin_Controller
     public function getlessionData()
     {
         $subject_id = $this->input->post('subject_id');
-        $data     = $this->Todayswork_model->getLessionDetailsBySubjectId($subject_id);
+        $class_id = $this->input->post('class_id');
+        $data     = $this->Todayswork_model->getLessionDetailsBySubjectId($subject_id,$class_id);
         echo json_encode($data);
     }
 
@@ -135,7 +135,8 @@ class Todayswork extends Admin_Controller
         if (!empty($result)) {
             $classid = $result[0]['class_id'];
             $subjectname = $result[0]['subject_name'];
-            $classSubjectID = '?class_id=' . $classid . '&subject_name=' . $subjectname;
+            $subjectid = $result[0]['subject_id'];
+            $classSubjectID = '?class_id=' . $classid . '&subject_name=' . $subjectname. '&subject_id=' . $subjectid;
             $this->Todayswork_model->goForStudentWorkReport($today_work_id, $data);
             $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('submit_message') . '</div>');
 
@@ -155,16 +156,19 @@ class Todayswork extends Admin_Controller
 
         $class_id = $this->input->get('class_id');
         $subject_name = $this->input->get('subject_name');
+        $subject_id = $this->input->get('subject_id');
         $data['subject_name'] = $this->input->get('subject_name');
+        $data['subject_id'] = $this->input->get('subject_id');
         $data['student_data'] = $this->Todayswork_model->getStudents($class_id,$subject_name);
 
-        $result = $this->Todayswork_model->todaysWorkList();
-
+       $result = $this->Todayswork_model->todaysWorkList();
         if (!empty($result)) {
             $classid = $result[0]['class_id'];
             $subjectname = $result[0]['subject_name'];
-            $classSubjectID = '?class_id=' . $classid . '&subject_name=' . $subjectname;
+            $subjectid = $result[0]['subject_id'];
+            $classSubjectID = '?class_id=' . $classid . '&subject_name=' . $subjectname. '&subject_id=' . $subjectid;
         }
+        
         $postdata = $this->input->post();
 
         $student_data = $postdata['student_name'];
@@ -173,6 +177,7 @@ class Todayswork extends Admin_Controller
 
             $insertData[] = array(
                 'student_name'        => $studentdata,
+                'subject_id'        => $postdata['subject_id'],
                 'student_id'        => $postdata['studentId'][$key],
                 'discipline_dress'           => $postdata['dress'][$key],
                 'discipline_conduct'         => $postdata['conduct'][$key],

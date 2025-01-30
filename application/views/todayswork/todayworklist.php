@@ -211,11 +211,13 @@
                                 </thead>
                                 <tbody>
                                     <?php
+                                    //echo "<pre>";
                                     //print_r($todaysWork);
                                     $todayWorkId = $todaysWork[0]['today_work_id'];
                                     $classid = $todaysWork[0]['class_id'];
                                     $subjectname = $todaysWork[0]['subject_name'];
-                                    $classSubjectID='?class_id='.$classid.'&subject_name='.$subjectname;
+                                    $subjectid = $todaysWork[0]['subject_id'];
+                                    //$classSubjectID='?class_id='.$classid.'&subject_name='.$subjectname.'&subject_id='.$subjectid;
 
                                     if (!empty($todaysWork)) {
                                         foreach ($todaysWork as $todayLists) {
@@ -430,6 +432,7 @@
 
     $(document).on('change', '#subid', function() {
         var subid = $('#subid').val();
+        let class_id = $('#searchclassid').val();
         // console.log(subid);
         var div_lession_no = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
         // var div_lession_name = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
@@ -437,7 +440,8 @@
             type: 'POST',
             url: base_url + 'todayswork/getlessionData',
             data: {
-                'subject_id': subid
+                'subject_id': subid,
+                'class_id': class_id,
             },
             dataType: 'JSON',
             beforeSend: function() {

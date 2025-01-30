@@ -18,9 +18,9 @@
                         ?>
 
                         <?php
-                        if (isset($error_message)) {
-                            echo "<div class='alert alert-danger'>" . $error_message . "</div>";
-                        }
+                        // if (isset($error_message)) {
+                        //     echo "<div class='alert alert-danger'>" . $error_message . "</div>";
+                        // }
                         ?>
                         <div class="table-responsive overflow-visible">
                             <style>
@@ -65,6 +65,7 @@
                                 <tbody>
                                     <form method="post" action="<?= site_url('todayswork/studentworkreport') ?>">
 
+                                        <input type="hidden" name="subject_id" value="<?= $subject_id ?>" />
                                         <input type="hidden" name="subject_name" value="<?= $subject_name ?>" />
                                         <input type="hidden" name="class_name" value="<?= $class_id ?>" />
                                         <?php

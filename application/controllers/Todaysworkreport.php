@@ -6,7 +6,6 @@ if (!defined('BASEPATH')) {
 
 class TodaysworkReport extends Admin_Controller
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -45,20 +44,19 @@ class TodaysworkReport extends Admin_Controller
 
         foreach ($todaysWorkList as $work) {
             $subject_id = $work['subject_id'];
-            $lesson_id = $work['lesson_id'];
+            $lesson_number = $work['lesson_number'];
 
-            $countLessonsBySubject = $this->Todaysworkreport_model->countLessonsBySubject($subject_id);
-            $work['total_lessons'] = $countLessonsBySubject;
+            // $countLessonsBySubject = $this->Todaysworkreport_model->countLessonsBySubject($subject_id);
+            // $work['total_lessons'] = $countLessonsBySubject;
 
             if ($work['total_lessons'] > 0) {
-                $work['syllabus_percentage'] = round(($lesson_id / $work['total_lessons']) * 100, 2);
+                $work['syllabus_percentage'] = round(($lesson_number / $work['total_lessons']) * 100, 2);
             } else {
                 $work['syllabus_percentage'] = 0;
             }
 
             $workData[] = $work;
         }
-
         $data['todaysWork'] = $workData;
 
         $this->load->view('layout/header', $data);

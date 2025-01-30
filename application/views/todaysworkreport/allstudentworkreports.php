@@ -193,7 +193,6 @@
                         <?php } ?>
 
                         </div>
-
                         <input type="checkbox" value="" style="margin-top:10px;" /><b> <?php echo $this->lang->line('submitted_for_approval'); ?></b>
                         <div><a href="" class="btn btn-info pull-right" style="margin-top:2%;"><?php echo $this->lang->line('final_submit'); ?></a></div>
                     <?php } ?>
