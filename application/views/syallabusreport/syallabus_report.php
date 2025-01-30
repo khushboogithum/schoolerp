@@ -102,9 +102,14 @@
 
                     $groupedData = [];
                     $subjects = [];
+                    //  echo "<pre>";
+                    // print_r($syallabusReport);
+                    // die();
+                    $syllabusPerArray=array();
                     foreach ($syallabusReport as $item) {
                         $date = $item['work_date'];
                         $subject = $item['subject_name'];
+                        $syllabusPerArray[$subject] = $item['syllabus_percentage'];
                         $lesson = "Lesson-{$item['lesson_number']} {$item['lesson_name']}";
                         
                         // Include class work, each on a new line
@@ -116,13 +121,11 @@
 
                         $groupedData[$date][$subject][] = $lessonWithClassWork;
                         if (!in_array($subject, $subjects)) {
-                            $subjects[] = $subject; // Collect unique subjects
+                            $subjects[] = $subject;
                         }
                     }
                     sort($subjects);
-                    // echo "<pre>";
-                    // print_r($groupedData);
-                    // die();
+                   
                     
                     
                     
@@ -135,7 +138,7 @@
                                     <th>Date</th>
                                     <?php 
                                     foreach ($subjects as $subject) {
-                                        echo "<th>{$subject}</th>";
+                                        echo "<th>{$subject}<br>{$syllabusPerArray[$subject]} %</th>";
                                     }                                    
                                     
                                     ?>

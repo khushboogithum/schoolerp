@@ -154,22 +154,21 @@ class Todayswork extends Admin_Controller
         $data['title']      = 'Student Work Report';
         $data['title_list'] = 'Student Work Report';
 
-        $class_id = $this->input->get('class_id');
-        $subject_name = $this->input->get('subject_name');
-        $subject_id = $this->input->get('subject_id');
-        $data['subject_name'] = $this->input->get('subject_name');
-        $data['subject_id'] = $this->input->get('subject_id');
+        $data['class_id']=$class_id = $this->input->get('class_id');
+        $data['subject_name'] =$subject_name= $this->input->get('subject_name');
+        $data['subject_id'] =$subject_id= $this->input->get('subject_id');
         $data['student_data'] = $this->Todayswork_model->getStudents($class_id,$subject_name);
 
-       $result = $this->Todayswork_model->todaysWorkList();
-        if (!empty($result)) {
-            $classid = $result[0]['class_id'];
-            $subjectname = $result[0]['subject_name'];
-            $subjectid = $result[0]['subject_id'];
-            $classSubjectID = '?class_id=' . $classid . '&subject_name=' . $subjectname. '&subject_id=' . $subjectid;
-        }
+    //    $result = $this->Todayswork_model->todaysWorkList();
+    //     if (!empty($result)) {
+    //         $classid = $result[0]['class_id'];
+    //         $subjectname = $result[0]['subject_name'];
+    //         $subjectid = $result[0]['subject_id'];
+    //     }
+
         
         $postdata = $this->input->post();
+        
 
         $student_data = $postdata['student_name'];
         $insertData = array();
@@ -191,8 +190,11 @@ class Todayswork extends Admin_Controller
         }
         $resultData = $this->Todayswork_model->insertTodayStudentReport($insertData);
 
-        $data['class_id'] = $class_id;
         if (!empty($resultData)) {
+
+            
+            $classSubjectID = '?class_id=' . $postdata['class_name'] . '&subject_name=' . $postdata['subject_name']. '&subject_id=' . $postdata['subject_id'];
+
             $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
             redirect('todayswork/studentworkreport' . $classSubjectID);
         } else {

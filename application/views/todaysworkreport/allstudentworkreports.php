@@ -11,6 +11,12 @@
                         <a href="" class="btn btn-info pull-right" style=""><?php echo $this->lang->line('download_pdf'); ?></a>
                     </div>
                     <div class="box-body">
+                    <?php
+                        if ($this->session->flashdata('msg')) {
+                            echo $this->session->flashdata('msg');
+                            $this->session->unset_userdata('msg');
+                        }
+                        ?>
                         <div class="table-responsive overflow-visible">
                             <style>
                                 table {
@@ -193,8 +199,12 @@
                         <?php } ?>
 
                         </div>
-                        <input type="checkbox" value="" style="margin-top:10px;" /><b> <?php echo $this->lang->line('submitted_for_approval'); ?></b>
-                        <div><a href="" class="btn btn-info pull-right" style="margin-top:2%;"><?php echo $this->lang->line('final_submit'); ?></a></div>
+                        <form method="post" action="<?= site_url('todaysworkreport/allstudentworkreports') ?>">
+                            
+                        <input type="hidden" name="class_id" value="2" />
+                        <input type="checkbox" required name="status" value="2" style="margin-top:10px;" /><b> <?php echo $this->lang->line('submitted_for_approval'); ?></b>
+                        <div><button type="submit" class="btn btn-info pull-right" style="margin-top:2%;"><?php echo $this->lang->line('final_submit'); ?></button></div>
+                        </form>
                     <?php } ?>
                     </div>
                 </div>

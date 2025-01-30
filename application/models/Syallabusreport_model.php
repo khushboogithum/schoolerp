@@ -31,7 +31,7 @@ class Syallabusreport_model extends MY_model
             foreach ($result as &$row) {
                 $row['class_work'] = $this->getClassWorkData($row['today_work_id']);
                 $row['home_work'] = $this->getHomeWorkData($row['today_work_id']);
-                $row['total_lessons'] = $this->countLessonsBySubject($row['subject_id']);
+                $row['total_lessons'] = $this->countLessonsBySubject($row['subject_id'],$row['class_id']);
             }
             return $result;
         } else {
@@ -59,13 +59,15 @@ class Syallabusreport_model extends MY_model
         return $query->result_array();
     }
 
-    public function countLessonsBySubject($subject_id)
+    public function countLessonsBySubject($subject_id,$class_id)
     {
         $this->db->select('COUNT(*) as total_lessons');
         $this->db->from('lesson_diary');
         $this->db->where('subject_id', $subject_id);
+        $this->db->where('class_id', $class_id);
         $query = $this->db->get();
-
+       // echo  $this->db->last_query();
+        // die();
         if ($query->num_rows() > 0) {
             $result = $query->row_array();
             return $result['total_lessons'];
