@@ -23,7 +23,23 @@ class Syallabusreport extends Admin_Controller
         }
         $classlist         = $this->class_model->get();
         $data['classlist'] = $classlist;
-        $data['syallabusReport'] = $this->Syallabusreport_model->syallabusReport();
+
+
+        
+        $syallabusReport = $this->Syallabusreport_model->syallabusReport();
+        $workData = [];
+        foreach ($syallabusReport as $work) {
+            $lesson_number = $work['lesson_number'];
+            if ($work['total_lessons'] > 0) {
+                $work['syllabus_percentage'] = round(($lesson_number / $work['total_lessons']) * 100, 2);
+            } else {
+                $work['syllabus_percentage'] = 0;
+            }
+
+            $workData[] = $work;
+        }
+        $data['syallabusReport']=$workData;
+        
 
         $this->session->set_userdata('top_menu', 'syallabusreport');
         $this->session->set_userdata('sub_menu', 'syallabusreport/index');

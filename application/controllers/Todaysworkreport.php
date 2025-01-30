@@ -82,9 +82,22 @@ class TodaysworkReport extends Admin_Controller
         $data['title']      = 'Student Home and Syllabus  Work Report';
         $data['title_list'] = 'Student Home and Syllabus  Work Report';
 
+       
+        $class_id = $this->input->post('class_id');
+        $updateData=[
+            'status'=>$this->input->post('status')
+        ];
+        $resultData=$this->Todaysworkreport_model->ApproveStudentWorkReport($class_id,$updateData);
+        if (($resultData)) {
+            $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
+            redirect('todaysworkreport/allstudentworkreports');
+        } else {
+            
         $this->load->view('layout/header', $data);
         $this->load->view('todaysworkreport/allstudentworkreports', $data);
         $this->load->view('layout/footer', $data);
+        }
+
     }
 
 }

@@ -184,7 +184,7 @@ class Todaysworkreport_model extends MY_model
     public function getSubjectWiseReport(){
         $this->db->select('student_work_report.*');
         $this->db->from('student_work_report');
-        $this->db->where('student_work_report.status', 1);
+        // $this->db->where('student_work_report.status', 2);
         $this->db->where('date(created_at)', date('Y-m-d'));
 
         $query = $this->db->get();
@@ -217,7 +217,7 @@ class Todaysworkreport_model extends MY_model
     public function studentWorkPerstange($class_id,$subject_id,$date){
         $this->db->select('student_work_report.*');
         $this->db->from('student_work_report');
-        $this->db->where('student_work_report.status', 1);
+        // $this->db->where('student_work_report.status', 2);
         $this->db->where('student_work_report.class_id', $class_id);
         $this->db->where('student_work_report.subject_id', $subject_id);
         $this->db->where('date(created_at)',$date);
@@ -241,6 +241,39 @@ class Todaysworkreport_model extends MY_model
         }
         return $result;
     } 
+
+    public function ApproveStudentWorkReport($class_id,$data){
+
+        $this->db->trans_start(); # Starting Transaction
+        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+        //=======================Code Start===========================
+        if (isset($class_id) && $class_id != '') {
+            $this->db->where('class_id', $class_id);
+            $this->db->where('date(created_at)',date('Y-m-d'));
+            $query     = $this->db->update('student_work_report', $data);
+            $insert_id = $class_id;
+            $message   = DELETE_RECORD_CONSTANT . " On student_work_report id " . $insert_id;
+            $action    = "Delete";
+            $record_id = $insert_id;
+            $this->db->where('class_id', $class_id);
+        }
+
+        $this->log($message, $record_id, $action);
+
+        //======================Code End==============================
+
+        $this->db->trans_complete(); # Completing transaction
+        /* Optional */
+
+        if ($this->db->trans_status() === false) {
+            # Something went wrong.
+            $this->db->trans_rollback();
+            return false;
+        } else {
+            return $insert_id;
+        }
+        
+    }
 
     
 }
