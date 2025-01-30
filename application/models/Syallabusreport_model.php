@@ -24,6 +24,7 @@ class Syallabusreport_model extends MY_model
         $this->db->where('today_work.status', '1');
         $this->db->where('today_work.class_id', '2');
         $this->db->group_by('DATE(today_work.work_date)');
+        $this->db->group_by('today_work.subject_id');
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             $result = $query->result_array();

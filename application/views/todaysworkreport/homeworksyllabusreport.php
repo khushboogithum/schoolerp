@@ -144,7 +144,7 @@
                                                 ?>
                                             </td>
                                             <td><?= $todayLists['syllabus_percentage'] ?>%</td>
-                                            <td>NA</td>
+                                            <td><?= $todayLists['studentWorkPerstange'] ?>%</td>
                                         </tr>
                                     <?php
                                     }

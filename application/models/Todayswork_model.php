@@ -86,11 +86,12 @@ class Todayswork_model extends MY_model
             return $today_work_id;
         }
     }
-    public function getLessionDetailsBySubjectId($subject_id)
+    public function getLessionDetailsBySubjectId($subject_id,$class_id)
     {
         $this->db->select('lesson_diary.*');
         $this->db->from('lesson_diary');
         $this->db->where('lesson_diary.subject_id', $subject_id);
+        $this->db->where('lesson_diary.class_id', $class_id);
         $query = $this->db->get();
         //echo $this->db->last_query();
         return $query->result_array();
@@ -138,7 +139,6 @@ class Todayswork_model extends MY_model
 
         return $query->result_array();
     }
-
     public function todaysWorkList()
     {
         $today = date('Y-m-d');
@@ -155,12 +155,13 @@ class Todayswork_model extends MY_model
             foreach ($result as &$row) {
                 $row['class_work'] = $this->getClassWorkData($row['today_work_id']);
                 $row['home_work'] = $this->getHomeWorkData($row['today_work_id']);
-                $row['total_lessons'] = $this->countLessonsBySubject($row['subject_id']);
+                $row['total_lessons'] = $this->countLessonsBySubject($row['subject_id'],$row['class_id']);
             }
             return $result;
         } else {
-            return [];
+             return [];
         }
+        die();
     }
     public function getlessonnumber($lesson_id){
         $this->db->select('lesson_number');
@@ -170,13 +171,15 @@ class Todayswork_model extends MY_model
         $result = $query->row_array();
         return $result['lesson_number'];
     }
-    public function countLessonsBySubject($subject_id)
+    public function countLessonsBySubject($subject_id,$class_id)
     {
         $this->db->select('COUNT(*) as total_lessons');
         $this->db->from('lesson_diary');
         $this->db->where('subject_id', $subject_id);
+        $this->db->where('class_id', $class_id);
         $query = $this->db->get();
-
+       // echo  $this->db->last_query();
+        // die();
         if ($query->num_rows() > 0) {
             $result = $query->row_array();
             return $result['total_lessons'];

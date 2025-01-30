@@ -7,6 +7,7 @@ date_default_timezone_set('Asia/Kolkata');
 
 class Todaysworkreport_model extends MY_model
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -69,7 +70,7 @@ class Todaysworkreport_model extends MY_model
     public function todaysWorkList($todays_date=NULL,$class_id=NULL,$section_id=NULL,$subject_group_id,$subject_id=NULL)
     {
         $today = date('Y-m-d');
-        $this->db->select('today_work.today_work_id, today_work.work_date, today_work.subject_id, today_work.lesson_id, subjects.name as subject_name, today_work.lesson_name, lesson_diary.lesson_number');
+        $this->db->select('today_work.today_work_id,today_work.class_id,today_work.work_date, today_work.subject_id, today_work.lesson_id, subjects.name as subject_name, today_work.lesson_name, lesson_diary.lesson_number');
         $this->db->from('today_work');
         $this->db->join("subjects", "subjects.id = today_work.subject_id");
         $this->db->join("lesson_diary", "lesson_diary.lesson_id = today_work.lesson_id");
@@ -101,19 +102,23 @@ class Todaysworkreport_model extends MY_model
             foreach ($result as &$row) {
                 $row['class_work'] = $this->getClassWorkData($row['today_work_id']);
                 $row['home_work'] = $this->getHomeWorkData($row['today_work_id']);
-                $row['total_lessons'] = $this->countLessonsBySubject($row['subject_id']);
+                $row['total_lessons'] = $this->countLessonsBySubject($row['subject_id'],$row['class_id']);
+                $row['studentWorkPerstange']=$this->studentWorkPerstange($row['class_id'],$row['subject_id'],date('Y-m-d',strtotime($row['work_date'])));
             }
-            return $result;
+            $result;
         } else {
-            return [];
+            [];
         }
+        
+        return $result;
     }
 
-    public function countLessonsBySubject($subject_id)
+    public function countLessonsBySubject($subject_id,$class_id)
     {
         $this->db->select('COUNT(*) as total_lessons');
         $this->db->from('lesson_diary');
         $this->db->where('subject_id', $subject_id);
+        $this->db->where('class_id', $class_id);
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
@@ -175,7 +180,7 @@ class Todaysworkreport_model extends MY_model
         }
         return $finaldata;
     }
-
+    
     public function getSubjectWiseReport(){
         $this->db->select('student_work_report.*');
         $this->db->from('student_work_report');
@@ -209,6 +214,33 @@ class Todaysworkreport_model extends MY_model
         }
         return $resultArray;
     }
+    public function studentWorkPerstange($class_id,$subject_id,$date){
+        $this->db->select('student_work_report.*');
+        $this->db->from('student_work_report');
+        $this->db->where('student_work_report.status', 1);
+        $this->db->where('student_work_report.class_id', $class_id);
+        $this->db->where('student_work_report.subject_id', $subject_id);
+        $this->db->where('date(created_at)',$date);
+
+        $query = $this->db->get();
+        $results = $query->result_array();
+        $Complete=0;
+        $totalstudent=0;
+        foreach ($results as $key => $result) {
+                        
+            if ($result['fair_copy'] == 1 && $result['writing_work'] == 1 && $result['learning_work'] == 1) {
+                $Complete++;
+                
+            }
+            $totalstudent++; 
+        }
+        if ($totalstudent > 0) {
+            $result = round(($Complete / $totalstudent) * 100, 2);
+        } else {
+            $result = 0;
+        }
+        return $result;
+    } 
 
     
 }
