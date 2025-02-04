@@ -75,9 +75,18 @@ class Syallabusreport_model extends MY_model
             return 0;
         }
     }
-   
 
-  
+    public function getGroupByClassandSection() {
+        
+        $sql = "SELECT subject_groups.name,subject_groups.id as subject_id, subject_group_class_sections.* 
+        FROM subject_group_class_sections 
+        INNER JOIN class_sections ON class_sections.id = subject_group_class_sections.class_section_id 
+        INNER JOIN subject_groups ON subject_groups.id = subject_group_class_sections.subject_group_id 
+        ORDER BY subject_groups.id DESC";
+        $query = $this->db->query($sql);
+        $result = $query->result_array();
+        return $result;
 
+    }
     
 }
