@@ -4,6 +4,7 @@ if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
 
+
 class Subjectgroup extends Admin_Controller
 {
 

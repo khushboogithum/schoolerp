@@ -27,6 +27,7 @@ class Syallabusreport extends Admin_Controller
 
         
         $syallabusReport = $this->Syallabusreport_model->syallabusReport();
+        $data['subjectgroup'] = $this->Syallabusreport_model->getGroupByClassandSection();
         $workData = [];
         foreach ($syallabusReport as $work) {
             $lesson_number = $work['lesson_number'];
