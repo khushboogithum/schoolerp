@@ -43,13 +43,13 @@
                                 </div>
                                 <div class="col-md-2">
                                     <label class="radio-container">
-                                        <input class="form-check-input ml-2 report_type " name="report_type" type="radio" id="icon1" value="teacher_wise">
+                                        <input class="form-check-input ml-2 report_type " name="report_type" type="radio" id="icon1" value="teacher_wise" <?php if(isset($report_type) && $report_type=='teacher_wise'){ echo 'checked'; } ?>>
                                         <span class="btn  btn-default">Teacher Wise</span>
                                     </label>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="radio-container">
-                                        <input class="form-check-input ml-2 report_type" name="report_type" type="radio" id="icon1" value="subject_wise">
+                                        <input class="form-check-input ml-2 report_type" name="report_type" type="radio" id="icon1" value="subject_wise" <?php if(isset($report_type) && $report_type=='subject_wise'){ echo 'checked'; } ?>>
                                         <span class="btn  btn-default">Subject Wise</span>
                                     </label>
                                 </div>
@@ -108,8 +108,19 @@
                                         <label>Teacher</label><small class="req"> *</small>
                                         <select id="teacher_id" name="teacher_id" class="form-control">
                                             <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                            <?php
+                                            foreach ($teacherlist as $teacherlists) {
+                                            ?>
+                                                <option <?php
+                                                        // if ($teacher_id == $teacherlists["id"]) {
+                                                        //     echo "selected";
+                                                        // }
+                                                        ?> value="<?php echo $teacherlists['id'] ?>"><?php echo $teacherlists['name'] . " " . $teacherlists['surname'] . " (" . $teacherlists['employee_id'] . ")"; ?></option>
+                                            <?php
+                                            }
+                                            ?>
                                         </select>
-                                        <span class="section_id_error text-danger"><?php echo form_error('section_id'); ?></span>
+                                        <span class="teacher_id_error text-danger"><?php echo form_error('teacher_id'); ?></span>
                                     </div>
                                 </div>
 
@@ -166,7 +177,9 @@
                     <?php 
                     $groupedData = [];
                     $subjects = [];
-                    $syllabusPerArray=array();
+                    $syllabusPerArray=$className=array();
+                    
+                    if($report_type == 'class_wise'){
                     foreach ($syallabusReport as $item) {
                         $date = $item['work_date'];
                         $subject = $item['subject_name'];
@@ -184,6 +197,29 @@
                         }
                     }
                     sort($subjects);
+                    }
+
+
+                    if($report_type == 'teacher_wise'){
+                        foreach ($teacherwisereport as $item) {
+                            $date = $item['work_date'];
+                            $subject = $item['subject_name'];
+                            $syllabusPerArray[$subject] = $item['syllabus_percentage'];
+                            $className[$subject] = $item['class_name'];
+                            $lesson = "Lesson-{$item['lesson_number']} {$item['lesson_name']}";
+                            $classWork = [];
+                            foreach ($item['class_work'] as $cw) {
+                                $classWork[] = $cw['teaching_activity_title'];
+                            }
+                            $lessonWithClassWork = $lesson . "<br>" . implode("<br>", $classWork);
+    
+                            $groupedData[$date][$subject][] = $lessonWithClassWork;
+                            if (!in_array($subject, $subjects)) {
+                                $subjects[] = $subject;
+                            }
+                        }
+                        sort($subjects);
+                        }
                     ?>
                     <div class="table-responsive mailbox-messages overflow-visible">
                         <table class="table table-striped table-bordered table-hover example">
@@ -192,7 +228,7 @@
                                     <th>Date</th>
                                     <?php 
                                     foreach ($subjects as $subject) {
-                                        echo "<th>{$subject}<br>{$syllabusPerArray[$subject]} %</th>";
+                                        echo "<th>{$subject}-{$syllabusPerArray[$subject]} % <br>{$className[$subject]}</th>";
                                     }                                    
                                     
                                     ?>
@@ -240,6 +276,7 @@
 
 $(document).on('click','.report_type',function(){
     let reportType=$(this).val();
+    // alert('dd');
     radioButtonChecked(reportType)
 })
 
@@ -268,7 +305,7 @@ $(document).ready(function(e) {
  radioButtonChecked('<?=$report_type ?>');
 
  getSectionByClass("<?php echo $class_id ?>", "<?php echo $section_id ?>", 'secid');
-    getSubjectGroup("<?php echo $class_id ?>", "<?php echo $section_id ?>", "<?php echo $subject_group_id ?>", 'subject_group_id')
+  getSubjectGroup("<?php echo $class_id ?>", "<?php echo $section_id ?>", "<?php echo $subject_group_id ?>", 'subject_group_id')
  getsubjectBySubjectGroup("<?php echo $class_id ?>", "<?php echo $section_id ?>", "<?php echo $subject_group_id ?>", "<?php echo $subject_id ?>", 'subid');
 });
 

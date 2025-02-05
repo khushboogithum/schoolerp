@@ -12,13 +12,14 @@ class Syallabusreport extends Admin_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('Syallabusreport_model');
+        $this->load->model('staff_model');
     }
 
     public function index()
     {
-        if (!$this->rbac->hasPrivilege('syallabusreport', 'can_view')) {
-            access_denied();
-        }
+        // if (!$this->rbac->hasPrivilege('syallabusreport', 'can_view')) {
+        //     access_denied();
+        // }
         $this->session->set_userdata('top_menu', 'syallabusreport');
         $this->session->set_userdata('sub_menu', 'syallabusreport/index');
         $data['title']      = 'Syallabus Report';
@@ -27,6 +28,11 @@ class Syallabusreport extends Admin_Controller
         $classlist         = $this->class_model->get();
         $data['classlist'] = $classlist;
         $data['subjectgroup'] = $this->Syallabusreport_model->getGroupByClassandSection();
+
+        ////////////////////////////teacher list//////////////////////////////////////////////////
+        
+        $teacherlist = $this->staff_model->getStaffbyrole($role = 2);
+        $data['teacherlist'] = $teacherlist;
 
 
 
@@ -60,14 +66,13 @@ class Syallabusreport extends Admin_Controller
 
 
         if ($this->form_validation->run() == false) {
+            
             $data['syallabusReport'] = $workData;
             $this->load->view('layout/header', $data);
             $this->load->view('syallabusreport/syallabus_report', $data);
             $this->load->view('layout/footer', $data);
         } else {
             if ($report_type == 'class_wise') {
-
-
                 $data['class_id'] = $class_id = $this->input->post('class_id');
                 $data['section_id'] = $section_id = $this->input->post('section_id');
 
@@ -82,6 +87,14 @@ class Syallabusreport extends Admin_Controller
                     $workData[] = $work;
                 }
             }
+
+            if ($report_type == 'teacher_wise') {
+                // echo "hello";
+                // die();
+                $data['teacher_id'] =$teacher_id= $this->input->post('teacher_id');
+                $data['teacherwisereport'] = $this->Syallabusreport_model->TeacherWisesyallabus($from_date=null,$to_date=null,$teacher_id=null);
+            }
+
 
 
             $data['syallabusReport'] = $workData;
