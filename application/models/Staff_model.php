@@ -5,6 +5,7 @@ class Staff_model extends MY_Model
  
     public function __construct()
     {
+        
         parent::__construct();
         $this->load->library('customlib');
         $this->superadmin_visible = $this->customlib->superadmin_visible();

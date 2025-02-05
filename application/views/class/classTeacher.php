@@ -66,6 +66,7 @@
                                     <label for="exampleInputEmail1"><?php echo $this->lang->line('class_teacher'); ?></label><small class="req"> *</small>
 
 
+                                    
                                     <?php
                                     foreach ($teacherlist as $tvalue) {
                                         ?>

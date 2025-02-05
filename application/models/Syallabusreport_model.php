@@ -57,6 +57,53 @@ class Syallabusreport_model extends MY_model
        
     }
 
+
+    public function TeacherWisesyallabus($from_date=null,$to_date=null,$teacher_id=null)
+    {
+        $this->db->select('today_work.today_work_id, today_work.work_date,today_work.class_id, today_work.subject_id, today_work.lesson_id, subjects.name as subject_name, today_work.lesson_name, lesson_diary.lesson_number,classes.class as class_name');
+        $this->db->from('today_work');
+        $this->db->join("subjects", "subjects.id = today_work.subject_id");
+        $this->db->join("lesson_diary", "lesson_diary.lesson_id = today_work.lesson_id");
+        $this->db->join("classes", "classes.id=today_work.class_id");
+        $this->db->where('today_work.status', '1');
+        $this->db->where('today_work.class_id', 2);
+
+        if (!empty($from_date)) {
+            $this->db->where('DATE(today_work.work_date)>=', $from_date);
+        }
+        if (!empty($to_date)) {
+            $this->db->where('DATE(today_work.work_date)<=', $to_date);
+        }
+    
+        if (!empty($class_id)) {
+            $this->db->where('today_work.class_id', $class_id);
+        }
+        if (!empty($section_id)) {
+            $this->db->where('today_work.section_id', $section_id);
+        }
+        $this->db->group_by('DATE(today_work.work_date)');
+        $this->db->group_by('today_work.subject_id');
+        $this->db->group_by('today_work.class_id');
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            $result = $query->result_array();
+            foreach ($result as &$row) {
+                $row['class_work'] = $this->getClassWorkData($row['today_work_id']);
+                $row['home_work'] = $this->getHomeWorkData($row['today_work_id']);
+                $row['total_lessons'] = $this->countLessonsBySubject($row['subject_id'],$row['class_id']);
+                $lesson_number = $row['lesson_number'];
+                if ($row['total_lessons'] > 0) {
+                    $row['syllabus_percentage'] = round(($lesson_number / $row['total_lessons']) * 100, 2);
+                } else {
+                    $row['syllabus_percentage'] = 0;
+                }
+            }
+             $result;
+        } 
+        return $result;
+       
+    }
+
     public function getClassWorkData($today_work_id)
     {
         $this->db->select('today_class_work.teaching_activity_id, teaching_activity.teaching_activity_title');
