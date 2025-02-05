@@ -36,36 +36,39 @@
                             <?php echo $this->customlib->getCSRF(); ?>
                             <div class="row">
                                 <div class="col-md-2">
-                                <label class="radio-container">
-                                    <input class="form-check-input ml-2 report_type " name="report_type" type="radio" id="icon1" value="class_wise">
-                                    <span class="btn  btn-default">Class Wise</span>
-                                </label>
+                                    <label class="radio-container">
+                                        <input class="form-check-input ml-2 report_type " name="report_type" type="radio" id="icon1" value="class_wise" <?php if(isset($report_type) && $report_type=='class_wise'){ echo 'checked'; } ?> >
+                                        <span class="btn  btn-default">Class Wise</span>
+                                    </label>
                                 </div>
                                 <div class="col-md-2">
-                                <label class="radio-container">
-                                    <input class="form-check-input ml-2 report_type " name="report_type" type="radio" id="icon1" value="teacher_wise">
-                                    <span class="btn  btn-default">Teacher Wise</span>
-                                </label>
+                                    <label class="radio-container">
+                                        <input class="form-check-input ml-2 report_type " name="report_type" type="radio" id="icon1" value="teacher_wise">
+                                        <span class="btn  btn-default">Teacher Wise</span>
+                                    </label>
                                 </div>
                                 <div class="col-md-2">
-                                <label class="radio-container">
-                                    <input class="form-check-input ml-2 report_type" name="report_type" type="radio" id="icon1" value="subject_wise">
-                                    <span class="btn  btn-default">Subject Wise</span>
-                                </label>
+                                    <label class="radio-container">
+                                        <input class="form-check-input ml-2 report_type" name="report_type" type="radio" id="icon1" value="subject_wise">
+                                        <span class="btn  btn-default">Subject Wise</span>
+                                    </label>
                                 </div>
-                            </div><br>
+                                
+                            </div>
+                            <span class="text-danger text-center"><?php echo form_error('report_type'); ?></span>
+                            <br>
                             <div class="row">
                             <div class="col-md-2">
                                     <div class="form-group">
                                         <label><?php echo $this->lang->line('from_date'); ?></label><small class="req"> *</small>
-                                        <input autofocus="" id="from_date" name="from_date" placeholder="" type="date" class="form-control" value="" autocomplete="off">
+                                        <input autofocus="" id="from_date" name="from_date" placeholder="" type="date" class="form-control" value="<?=@$from_date ?>" autocomplete="off">
                                         <span class="section_id_error text-danger"><?php echo form_error('from_date'); ?></span>
                                     </div>
                             </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label><?php echo $this->lang->line('to_date'); ?></label><small class="req"> *</small>
-                                        <input autofocus="" id="to_date" name="to_date" placeholder="" type="date" class="form-control" value="" autocomplete="off">
+                                        <input autofocus="" id="to_date" name="to_date" placeholder="" type="date" class="form-control" value="<?=@$to_date ?>" autocomplete="off">
                                         <span class="section_id_error text-danger"><?php echo form_error('to_date'); ?></span>
                                     </div>
                                 </div>
@@ -103,7 +106,7 @@
                                 <div class="col-md-2 d-none teacher-wise">
                                     <div class="form-group">
                                         <label>Teacher</label><small class="req"> *</small>
-                                        <select id="secid" name="section_id" class="form-control">
+                                        <select id="teacher_id" name="teacher_id" class="form-control">
                                             <option value=""><?php echo $this->lang->line('select'); ?></option>
                                         </select>
                                         <span class="section_id_error text-danger"><?php echo form_error('section_id'); ?></span>
@@ -161,20 +164,14 @@
                 </div><!-- /.box-header -->
                 <div class="box-body">
                     <?php 
-
                     $groupedData = [];
                     $subjects = [];
-                    //  echo "<pre>";
-                    // print_r($syallabusReport);
-                    // die();
                     $syllabusPerArray=array();
                     foreach ($syallabusReport as $item) {
                         $date = $item['work_date'];
                         $subject = $item['subject_name'];
                         $syllabusPerArray[$subject] = $item['syllabus_percentage'];
                         $lesson = "Lesson-{$item['lesson_number']} {$item['lesson_name']}";
-                        
-                        // Include class work, each on a new line
                         $classWork = [];
                         foreach ($item['class_work'] as $cw) {
                             $classWork[] = $cw['teaching_activity_title'];
@@ -187,11 +184,6 @@
                         }
                     }
                     sort($subjects);
-                   
-                    
-                    
-                    
-                    
                     ?>
                     <div class="table-responsive mailbox-messages overflow-visible">
                         <table class="table table-striped table-bordered table-hover example">
@@ -224,52 +216,6 @@
                                     
                                 </tr>
                                 <?php } ?>
-                                <!-- <tr>
-                                    <td>20-01-2025</td>
-                                    <td>
-                                        <div>Lesson-4 Bad man</div>
-                                        <div>Explanation</div>
-                                        <div>One page writing</div>
-                                    </td>
-                                    <td>
-                                        <div>Lesson-1 English lesson</div>
-                                        <div>Copy Writing</div>
-                                        <div>One page writing</div>
-                                    </td>
-                                    <td>
-                                        <div>Lesson-4 Math lesson</div>
-                                        <div>Fair Writing</div>
-                                        <div>One page writing</div>
-                                    </td>
-                                    <td>
-                                        <div>Lesson-1 Science lesson</div>
-                                        <div>Fair Writing</div>
-                                        <div>One page writing</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>25-01-2025</td>
-                                    <td>
-                                        <div>Lesson-3 Bad man</div>
-                                        <div>Explanation</div>
-                                        <div>One page writing</div>
-                                    </td>
-                                    <td>
-                                        <div>Lesson-2 English lesson</div>
-                                        <div>Copy Writing</div>
-                                        <div>One page writing</div>
-                                    </td>
-                                    <td>
-                                        <div>Lesson-4 Math lesson</div>
-                                        <div>Fair Writing</div>
-                                        <div>One page writing</div>
-                                    </td>
-                                    <td>
-                                        <div>Lesson-1 Science lesson</div>
-                                        <div>Fair Writing</div>
-                                        <div>One page writing</div>
-                                    </td>
-                                </tr> -->
                             </tbody>
                         </table>
                     </div>
@@ -294,36 +240,36 @@
 
 $(document).on('click','.report_type',function(){
     let reportType=$(this).val();
+    radioButtonChecked(reportType)
+})
+
+function radioButtonChecked(reportType){
     if(reportType=='class_wise'){
         $('.class-wise').removeClass('d-none')
         $('.teacher-wise').addClass('d-none')
         $('.subject-wise').addClass('d-none')
-
     }
     if(reportType=='teacher_wise'){
         $('.class-wise').addClass('d-none')
         $('.teacher-wise').removeClass('d-none')
         $('.subject-wise').addClass('d-none')
-
     }
     if(reportType=='subject_wise'){
         $('.subject-wise').removeClass('d-none')
         $('.class-wise').addClass('d-none')
         $('.teacher-wise').addClass('d-none')
-        
-
     }
-
-
-})
+}
 
 
 
 $(document).ready(function(e) {
 
-getSectionByClass("<?php echo $class_id ?>", "<?php echo $section_id ?>", 'secid');
-getSubjectGroup("<?php echo $class_id ?>", "<?php echo $section_id ?>", "<?php echo $subject_group_id ?>", 'subject_group_id')
-getsubjectBySubjectGroup("<?php echo $class_id ?>", "<?php echo $section_id ?>", "<?php echo $subject_group_id ?>", "<?php echo $subject_id ?>", 'subid');
+ radioButtonChecked('<?=$report_type ?>');
+
+ getSectionByClass("<?php echo $class_id ?>", "<?php echo $section_id ?>", 'secid');
+    getSubjectGroup("<?php echo $class_id ?>", "<?php echo $section_id ?>", "<?php echo $subject_group_id ?>", 'subject_group_id')
+ getsubjectBySubjectGroup("<?php echo $class_id ?>", "<?php echo $section_id ?>", "<?php echo $subject_group_id ?>", "<?php echo $subject_id ?>", 'subid');
 });
 
 function getSectionByClass(class_id, section_id, select_control) {

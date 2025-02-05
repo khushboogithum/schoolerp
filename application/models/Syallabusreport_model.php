@@ -14,7 +14,7 @@ class Syallabusreport_model extends MY_model
     }
 
 
-    public function syallabusReport()
+    public function syallabusReport($from_date=null,$to_date=null,$class_id=null,$section_id=null)
     {
         $today = date('Y-m-d');
         $this->db->select('today_work.today_work_id, today_work.work_date,today_work.class_id, today_work.subject_id, today_work.lesson_id, subjects.name as subject_name, today_work.lesson_name, lesson_diary.lesson_number');
@@ -22,9 +22,26 @@ class Syallabusreport_model extends MY_model
         $this->db->join("subjects", "subjects.id = today_work.subject_id");
         $this->db->join("lesson_diary", "lesson_diary.lesson_id = today_work.lesson_id");
         $this->db->where('today_work.status', '1');
-        $this->db->where('today_work.class_id', '2');
+        if (!empty($from_date)) {
+            $this->db->where('DATE(today_work.work_date)>=', $from_date);
+        }
+        if (!empty($to_date)) {
+            $this->db->where('DATE(today_work.work_date)<=', $to_date);
+        }
+    
+        if (!empty($class_id)) {
+            $this->db->where('today_work.class_id', $class_id);
+        }
+        if (!empty($section_id)) {
+            $this->db->where('today_work.section_id', $section_id);
+        }
+        
         $this->db->group_by('DATE(today_work.work_date)');
         $this->db->group_by('today_work.subject_id');
+       
+
+
+
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             $result = $query->result_array();
