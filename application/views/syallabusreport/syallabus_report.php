@@ -112,9 +112,9 @@
                                             foreach ($teacherlist as $teacherlists) {
                                             ?>
                                                 <option <?php
-                                                        // if ($teacher_id == $teacherlists["id"]) {
-                                                        //     echo "selected";
-                                                        // }
+                                                        if ($teacher_id == $teacherlists["id"]) {
+                                                            echo "selected";
+                                                        }
                                                         ?> value="<?php echo $teacherlists['id'] ?>"><?php echo $teacherlists['name'] . " " . $teacherlists['surname'] . " (" . $teacherlists['employee_id'] . ")"; ?></option>
                                             <?php
                                             }
@@ -124,7 +124,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-2 d-none subject-wise">
+                                <!-- <div class="col-md-2 d-none subject-wise">
                                     <div class="form-group">
                                         <label><?php echo $this->lang->line('subject_group'); ?></label><small class="req"> *</small>
                                         <select id="subject_group_id" name="subject_group_id" class="form-control">
@@ -139,10 +139,10 @@
                                         </select>
                                         <span class="section_id_error text-danger"><?php echo form_error('subject_group_id'); ?></span>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="col-md-2 d-none subject-wise">
                                     <div class="form-group">
-                                        <label><?php echo $this->lang->line('subject'); ?></label><small class="req"> *</small>
+                                        <label><?php echo $this->lang->line('subject'); ?></label>
                                         <select id="subid" name="subject_id" class="form-control">
                                             <option value=""><?php echo $this->lang->line('select'); ?></option>
                                         </select>
@@ -199,8 +199,11 @@
                     sort($subjects);
                     }
 
-
+                   
                     if($report_type == 'teacher_wise'){
+                    //     echo "reporting hello";
+                    //      print_r($teacherwisereport);
+                    // die();
                         foreach ($teacherwisereport as $item) {
                             $date = $item['work_date'];
                             $subject = $item['subject_name'];

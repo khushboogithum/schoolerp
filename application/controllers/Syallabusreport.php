@@ -30,18 +30,11 @@ class Syallabusreport extends Admin_Controller
         $data['subjectgroup'] = $this->Syallabusreport_model->getGroupByClassandSection();
 
         ////////////////////////////teacher list//////////////////////////////////////////////////
-        
         $teacherlist = $this->staff_model->getStaffbyrole($role = 2);
         $data['teacherlist'] = $teacherlist;
-
-
-
         $workData = [];
-
         ///////////////////////////////filter wise data/////////////////////////////////////////////////////////
-
         $data['report_type'] = $report_type = $this->input->post('report_type');
-
         $this->form_validation->set_rules('report_type', $this->lang->line('report_type'), 'required');
         $this->form_validation->set_message('required', 'Please select atleast one.');
         $this->form_validation->set_rules('from_date', $this->lang->line('from_date'), 'required');
@@ -61,9 +54,6 @@ class Syallabusreport extends Admin_Controller
 
         $data['from_date'] = $from_date = $this->input->post('from_date');
         $data['to_date'] = $to_date = $this->input->post('to_date');
-
-
-
 
         if ($this->form_validation->run() == false) {
             
@@ -89,13 +79,13 @@ class Syallabusreport extends Admin_Controller
             }
 
             if ($report_type == 'teacher_wise') {
-                // echo "hello";
+                 $teacher_id= $this->input->post('teacher_id');
+             
+                $data['teacher_id'] =$teacher_id;
+                $data['teacherwisereport'] = $this->Syallabusreport_model->TeacherWisesyallabus($from_date,$to_date,$teacher_id);
+                // print_r($data['teacherwisereport']);
                 // die();
-                $data['teacher_id'] =$teacher_id= $this->input->post('teacher_id');
-                $data['teacherwisereport'] = $this->Syallabusreport_model->TeacherWisesyallabus($from_date=null,$to_date=null,$teacher_id=null);
             }
-
-
 
             $data['syallabusReport'] = $workData;
             $this->load->view('layout/header', $data);
