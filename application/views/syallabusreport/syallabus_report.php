@@ -223,6 +223,14 @@
                         }
                         sort($subjects);
                         }
+
+
+                        if($report_type == 'subject_wise'){
+
+                            $subjectdata=$subjectWiseReport['subjectdata'];
+                            $subjectReport=$subjectWiseReport['subjectReport'];
+
+                        }
                     ?>
                     <div class="table-responsive mailbox-messages overflow-visible">
                         <table class="table table-striped table-bordered table-hover example">
@@ -230,14 +238,48 @@
                                 <tr>
                                     <th>Date</th>
                                     <?php 
-                                    foreach ($subjects as $subject) {
-                                        echo "<th>{$subject}-{$syllabusPerArray[$subject]} % <br>{$className[$subject]}</th>";
-                                    }                                    
+                                     
+                                    
+                                    if($report_type == 'subject_wise'){
+
+                                        $subjectdata=$subjectWiseReport['subjectdata'];
+                                        foreach ($subjectdata as $subject) {
+                                            echo "<th>$subject</th>";
+                                        }
+            
+                                    }else{
+                                        foreach ($subjects as $subject) {
+                                            echo "<th>{$subject}-{$syllabusPerArray[$subject]} % <br>{$className[$subject]}</th>";
+                                        }
+                                    }
                                     
                                     ?>
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php if($report_type == 'subject_wise'){
+
+                                    foreach ($subjectReport as $date => $subjectreports) {
+                                        echo "<tr>";
+                                        echo "<td>$date</td>"; // Date Column
+                                        
+                                        foreach ($subjectdata as $subject) {
+                                            if (isset($subjectreports[$subject])) {
+                                                $comp = $subjectreports[$subject]['complete'];
+                                                $tot = $subjectreports[$subject]['totalstudent'];
+                                                $incomp = $subjectreports[$subject]['incomplete'];
+                                                $percent = ($tot > 0) ? round(($comp / $tot) * 100, 2) : 0;
+                                                echo "<td>Total: $tot <br> Complete: $comp <br> Incomplate: $incomp <br> Percentage: $percent %  </td>";
+                                            } else {
+                                                echo "<td>NA</td>"; // If subject not found in this date
+                                            }
+                                        }
+                                        
+                                        echo "</tr>";
+                                    }
+
+                                }else{ ?>
+
                                 <?php foreach ($groupedData as $date => $subjectData) { ?>
                                 <tr>
                                     <td><?=$date ?></td>
@@ -254,7 +296,7 @@
                                     ?>
                                     
                                 </tr>
-                                <?php } ?>
+                                <?php } } ?>
                             </tbody>
                         </table>
                     </div>

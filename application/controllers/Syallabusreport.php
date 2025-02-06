@@ -48,8 +48,8 @@ class Syallabusreport extends Admin_Controller
             $this->form_validation->set_rules('teacher_id', $this->lang->line('teacher_id'), 'required');
         }
         if ($report_type == 'subject_wise') {
-            $this->form_validation->set_rules('subject_group_id', $this->lang->line('subject_group_id'), 'required');
-            $this->form_validation->set_rules('subject_id', $this->lang->line('subject_id'), 'required');
+           // $this->form_validation->set_rules('subject_group_id', $this->lang->line('subject_group_id'), 'required');
+           // $this->form_validation->set_rules('subject_id', $this->lang->line('subject_id'), 'required');
         }
 
         $data['from_date'] = $from_date = $this->input->post('from_date');
@@ -83,9 +83,14 @@ class Syallabusreport extends Admin_Controller
              
                 $data['teacher_id'] =$teacher_id;
                 $data['teacherwisereport'] = $this->Syallabusreport_model->TeacherWisesyallabus($from_date,$to_date,$teacher_id);
-                // print_r($data['teacherwisereport']);
-                // die();
+               
             }
+
+            if ($report_type == 'subject_wise') {
+            
+               $data['subjectWiseReport'] = $this->Syallabusreport_model->getSubjectWiseReport();
+              
+           }
 
             $data['syallabusReport'] = $workData;
             $this->load->view('layout/header', $data);
