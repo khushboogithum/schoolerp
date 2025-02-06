@@ -39,7 +39,7 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1"><?php echo $this->lang->line('lession_reading'); ?></label><small class="req"> *</small>
+                                        <label for="exampleInputEmail1"><?php echo $this->lang->line('teacher_activity'); ?></label><small class="req"> *</small>
                                         <input autofocus="" id="teaching_activity_title" name="teaching_activity_title" placeholder="" type="text" class="form-control" value="<?php echo set_value('teaching_activity_title'); ?>" />
                                         <span class="text-danger"><?php echo form_error('teaching_activity_title'); ?></span>
                                     </div>

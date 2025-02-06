@@ -211,8 +211,7 @@
                                 </thead>
                                 <tbody>
                                     <?php
-                                    //echo "<pre>";
-                                    //print_r($todaysWork);
+                                   
                                     $todayWorkId = $todaysWork[0]['today_work_id'];
                                     $classid = $todaysWork[0]['class_id'];
                                     $subjectname = $todaysWork[0]['subject_name'];
