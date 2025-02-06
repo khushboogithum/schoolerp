@@ -168,4 +168,49 @@ class Syallabusreport_model extends MY_model
         $result = $query->result_array();
         return $result;
     }
+
+    public function getSubjectWiseReport(){
+
+            
+        $this->db->select('subjects.*');
+        $this->db->from('subjects');
+        $this->db->order_by('name','ASC');
+
+
+        $query = $this->db->get();
+        $subjectresult = $query->result_array();
+
+        $subjectArray=array();
+        foreach($subjectresult as $key=>$subjectdata){
+                $subjectArray[]=$subjectdata['name'];
+
+        }
+
+        $this->db->select('student_work_report.*');
+        $this->db->from('student_work_report');
+        $query = $this->db->get();
+        $results = $query->result_array();
+        $resultArray = [];
+        foreach ($results as $result) {
+            $subjectName = $result['subject_name'];
+            $dateData = date("Y-m-d", strtotime($result['created_at']));
+            if (!isset($resultArray[$dateData][$subjectName])) {
+                $resultArray[$dateData][$subjectName] = [
+                    'complete' => 0,
+                    'totalstudent' => 0,
+                    'incomplete' => 0
+                ];
+            }
+        
+            $resultArray[$dateData][$subjectName]['totalstudent']++;
+            if ($result['fair_copy'] == 1 && $result['writing_work'] == 1 && $result['learning_work'] == 1) {
+                $resultArray[$dateData][$subjectName]['complete']++;
+            } else {
+                $resultArray[$dateData][$subjectName]['incomplete']++;
+            }
+        }
+        
+        
+        return array('subjectdata'=>$subjectArray,'subjectReport'=>$resultArray);
+    }
 }
