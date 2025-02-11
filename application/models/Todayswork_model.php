@@ -3,7 +3,8 @@
 if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
-$tz = 'Asia/Kolkata'; date_default_timezone_set($tz);
+$tz = 'Asia/Kolkata';
+date_default_timezone_set($tz);
 
 class Todayswork_model extends MY_model
 {
@@ -18,7 +19,7 @@ class Todayswork_model extends MY_model
     {
         $this->db->trans_start();
         $this->db->trans_strict(false);
-     
+
         $this->db->insert('today_work', $data);
         $today_work_id = $this->db->insert_id();
         // echo $this->db->last_query();
@@ -86,7 +87,7 @@ class Todayswork_model extends MY_model
             return $today_work_id;
         }
     }
-    public function getLessionDetailsBySubjectId($subject_id,$class_id)
+    public function getLessionDetailsBySubjectId($subject_id, $class_id)
     {
         $this->db->select('lesson_diary.*');
         $this->db->from('lesson_diary');
@@ -154,16 +155,19 @@ class Todayswork_model extends MY_model
             $result = $query->result_array();
             foreach ($result as &$row) {
                 $row['class_work'] = $this->getClassWorkData($row['today_work_id']);
+                $row['class_notebook'] = $this->getClassWorkNoteBookData($row['today_work_id']);
                 $row['home_work'] = $this->getHomeWorkData($row['today_work_id']);
-                $row['total_lessons'] = $this->countLessonsBySubject($row['subject_id'],$row['class_id']);
+                $row['home_notebook'] = $this->getHomeWorkNoteBookData($row['today_work_id']);
+                $row['total_lessons'] = $this->countLessonsBySubject($row['subject_id'], $row['class_id']);
             }
             return $result;
         } else {
-             return [];
+            return [];
         }
-        die();
+       
     }
-    public function getlessonnumber($lesson_id){
+    public function getlessonnumber($lesson_id)
+    {
         $this->db->select('lesson_number');
         $this->db->from('lesson_diary');
         $this->db->where('lesson_id', $lesson_id);
@@ -171,14 +175,14 @@ class Todayswork_model extends MY_model
         $result = $query->row_array();
         return $result['lesson_number'];
     }
-    public function countLessonsBySubject($subject_id,$class_id)
+    public function countLessonsBySubject($subject_id, $class_id)
     {
         $this->db->select('COUNT(*) as total_lessons');
         $this->db->from('lesson_diary');
         $this->db->where('subject_id', $subject_id);
         $this->db->where('class_id', $class_id);
         $query = $this->db->get();
-       // echo  $this->db->last_query();
+        // echo  $this->db->last_query();
         // die();
         if ($query->num_rows() > 0) {
             $result = $query->row_array();
@@ -196,6 +200,17 @@ class Todayswork_model extends MY_model
         $query = $this->db->get();
         return $query->result_array();
     }
+    public function getClassWorkNoteBookData($today_work_id)
+    {
+        $this->db->select('class_work_note_book.class_work_note_book_id, note_book_type.note_book_title');
+        $this->db->from('class_work_note_book');
+        $this->db->join('note_book_type', 'note_book_type.note_book_type_id = class_work_note_book.note_book_type_id');
+        $this->db->where('class_work_note_book.today_work_id', $today_work_id);
+        $query = $this->db->get();
+        // echo $this->db->last_query();
+        // die();
+        return $query->result_array();
+    }
     public function getHomeWorkData($today_work_id)
     {
         $this->db->select('today_home_work.teaching_activity_id, teaching_activity.teaching_activity_title');
@@ -205,8 +220,18 @@ class Todayswork_model extends MY_model
         $query = $this->db->get();
         return $query->result_array();
     }
-    
-    
+    public function getHomeWorkNoteBookData($today_work_id)
+    {
+        $this->db->select('home_work_note_book.home_work_note_book_id, note_book_type.note_book_title');
+        $this->db->from('home_work_note_book');
+        $this->db->join('note_book_type', 'note_book_type.note_book_type_id = home_work_note_book.note_book_type_id');
+        $this->db->where('home_work_note_book.today_work_id', $today_work_id);
+        $query = $this->db->get();
+        // echo $this->db->last_query();
+        // die();
+        return $query->result_array();
+    }
+
     public function goForStudentWorkReport($today_work_id, $data)
     {
         $this->db->trans_start(); # Starting Transaction
@@ -238,16 +263,16 @@ class Todayswork_model extends MY_model
         }
     }
     //Student Report
-    public function getStudents($class_id,$subject_name)
+    public function getStudents($class_id, $subject_name)
     {
         $this->db->select('classes.id AS `class_id`, student_session.id as student_session_id, students.id, students.firstname, students.middlename, students.lastname')
-         ->from('students')
-         ->join('student_session', 'student_session.student_id = students.id')
-         ->join('classes', 'student_session.class_id = classes.id')
-         ->where('student_session.class_id', $class_id)
-         ->where('students.is_active', 'yes')
-         ->where("students.id NOT IN (SELECT student_id FROM student_work_report where date(created_at)='".date('Y-m-d')."' and subject_name='".$subject_name."')", NULL, FALSE)
-         ->order_by('students.firstname', 'ASC');
+            ->from('students')
+            ->join('student_session', 'student_session.student_id = students.id')
+            ->join('classes', 'student_session.class_id = classes.id')
+            ->where('student_session.class_id', $class_id)
+            ->where('students.is_active', 'yes')
+            ->where("students.id NOT IN (SELECT student_id FROM student_work_report where date(created_at)='" . date('Y-m-d') . "' and subject_name='" . $subject_name . "')", NULL, FALSE)
+            ->order_by('students.firstname', 'ASC');
         // ->limit(2);
         $query = $this->db->get();
         // echo $this->db->last_query();
@@ -256,13 +281,14 @@ class Todayswork_model extends MY_model
         return $query->result_array();
     }
 
-    public function insertTodayStudentReport($data){
+    public function insertTodayStudentReport($data)
+    {
 
         $this->db->trans_start();
         $this->db->trans_strict(false);
-     
-       // $this->db->insert('student_work_report', $data);
-       $this->db->insert_batch('student_work_report', $data);
+
+        // $this->db->insert('student_work_report', $data);
+        $this->db->insert_batch('student_work_report', $data);
         $student_work_report_id = $this->db->insert_id();
 
         // echo $this->db->last_query();
@@ -281,6 +307,30 @@ class Todayswork_model extends MY_model
         } else {
             return $student_work_report_id;
         }
+    }
 
+    public function insertTodayWorkReport($data)
+    {
+        $this->db->trans_start();
+        $this->db->trans_strict(false);
+
+        // Since $data is a single record, use insert() instead of insert_batch()
+        $this->db->insert('today_work_report', $data);
+        $today_work_report_id = $this->db->insert_id();
+
+        // Logging the insert action
+        $message   = INSERT_RECORD_CONSTANT . " On today work report ID " . $today_work_report_id;
+        $action    = "Insert";
+        $record_id = $today_work_report_id;
+        $this->log($message, $record_id, $action);
+
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === false) {
+            $this->db->trans_rollback();
+            return false;
+        } else {
+            return $today_work_report_id;
+        }
     }
 }

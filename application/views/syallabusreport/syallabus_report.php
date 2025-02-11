@@ -1,19 +1,21 @@
 <?php $currency_symbol = $this->customlib->getSchoolCurrencyFormat(); ?>
 <!-- Content Wrapper. Contains page content -->
 <style>
-     .radio-container input[type="radio"]:checked + .btn-default {
-        border-color:#727272;
+    .radio-container input[type="radio"]:checked+.btn-default {
+        border-color: #727272;
         background-color: #727272;
-        color:#FFFFFF;
-        transform: scale(1.1); 
+        color: #FFFFFF;
+        transform: scale(1.1);
     }
+
     .radio-container input[type="radio"] {
-            opacity:0;
-    } 
-    .d-none{
+        opacity: 0;
+    }
+
+    .d-none {
         display: none;
     }
-    </style>
+</style>
 <div class="content-wrapper">
 
     <section class="content-header">
@@ -37,38 +39,44 @@
                             <div class="row">
                                 <div class="col-md-2">
                                     <label class="radio-container">
-                                        <input class="form-check-input ml-2 report_type " name="report_type" type="radio" id="icon1" value="class_wise" <?php if(isset($report_type) && $report_type=='class_wise'){ echo 'checked'; } ?> >
+                                        <input class="form-check-input ml-2 report_type " name="report_type" type="radio" id="icon1" value="class_wise" <?php if (isset($report_type) && $report_type == 'class_wise') {
+                                                                                                                                                            echo 'checked';
+                                                                                                                                                        } ?>>
                                         <span class="btn  btn-default">Class Wise</span>
                                     </label>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="radio-container">
-                                        <input class="form-check-input ml-2 report_type " name="report_type" type="radio" id="icon1" value="teacher_wise" <?php if(isset($report_type) && $report_type=='teacher_wise'){ echo 'checked'; } ?>>
+                                        <input class="form-check-input ml-2 report_type " name="report_type" type="radio" id="icon1" value="teacher_wise" <?php if (isset($report_type) && $report_type == 'teacher_wise') {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
                                         <span class="btn  btn-default">Teacher Wise</span>
                                     </label>
                                 </div>
                                 <div class="col-md-2">
                                     <label class="radio-container">
-                                        <input class="form-check-input ml-2 report_type" name="report_type" type="radio" id="icon1" value="subject_wise" <?php if(isset($report_type) && $report_type=='subject_wise'){ echo 'checked'; } ?>>
+                                        <input class="form-check-input ml-2 report_type" name="report_type" type="radio" id="icon1" value="subject_wise" <?php if (isset($report_type) && $report_type == 'subject_wise') {
+                                                                                                                                                                echo 'checked';
+                                                                                                                                                            } ?>>
                                         <span class="btn  btn-default">Subject Wise</span>
                                     </label>
                                 </div>
-                                
+
                             </div>
                             <span class="text-danger text-center"><?php echo form_error('report_type'); ?></span>
                             <br>
                             <div class="row">
-                            <div class="col-md-2">
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <label><?php echo $this->lang->line('from_date'); ?></label><small class="req"> *</small>
-                                        <input autofocus="" id="from_date" name="from_date" placeholder="" type="date" class="form-control" value="<?=@$from_date ?>" autocomplete="off">
+                                        <input autofocus="" id="from_date" name="from_date" placeholder="" type="date" class="form-control" value="<?= @$from_date ?>" autocomplete="off">
                                         <span class="section_id_error text-danger"><?php echo form_error('from_date'); ?></span>
                                     </div>
-                            </div>
+                                </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label><?php echo $this->lang->line('to_date'); ?></label><small class="req"> *</small>
-                                        <input autofocus="" id="to_date" name="to_date" placeholder="" type="date" class="form-control" value="<?=@$to_date ?>" autocomplete="off">
+                                        <input autofocus="" id="to_date" name="to_date" placeholder="" type="date" class="form-control" value="<?= @$to_date ?>" autocomplete="off">
                                         <span class="section_id_error text-danger"><?php echo form_error('to_date'); ?></span>
                                     </div>
                                 </div>
@@ -143,13 +151,24 @@
                                 <div class="col-md-2 d-none subject-wise">
                                     <div class="form-group">
                                         <label><?php echo $this->lang->line('subject'); ?></label>
-                                        <select id="subid" name="subject_id" class="form-control">
+                                        <select id="subject_id" name="subject_id" class="form-control">
                                             <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                            <?php
+                                            foreach ($subjectlist as $subjects) {
+                                            ?>
+                                                <option value="<?php echo $subjects['subject_id'] ?>"
+                                                    <?php if ($subject_id == $subjects["subject_id"]) {
+                                                        echo "selected";
+                                                    } ?>><?php echo $subjects['name'] ?></option>
+                                            <?php
+                                            }
+                                            ?>
                                         </select>
                                         <span class="section_id_error text-danger"><?php echo form_error('subject_id'); ?></span>
+
                                     </div>
                                 </div>
-                                
+
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <button type="submit" name="search" value="search_filter" class="btn btn-primary btn-sm" style="margin-top: 21px;">
@@ -174,36 +193,36 @@
 
                 </div><!-- /.box-header -->
                 <div class="box-body">
-                    <?php 
+                    <?php
                     $groupedData = [];
                     $subjects = [];
-                    $syllabusPerArray=$className=array();
-                    
-                    if($report_type == 'class_wise'){
-                    foreach ($syallabusReport as $item) {
-                        $date = $item['work_date'];
-                        $subject = $item['subject_name'];
-                        $syllabusPerArray[$subject] = $item['syllabus_percentage'];
-                        $lesson = "Lesson-{$item['lesson_number']} {$item['lesson_name']}";
-                        $classWork = [];
-                        foreach ($item['class_work'] as $cw) {
-                            $classWork[] = $cw['teaching_activity_title'];
-                        }
-                        $lessonWithClassWork = $lesson . "<br>" . implode("<br>", $classWork);
+                    $syllabusPerArray = $className = array();
 
-                        $groupedData[$date][$subject][] = $lessonWithClassWork;
-                        if (!in_array($subject, $subjects)) {
-                            $subjects[] = $subject;
+                    if ($report_type == 'class_wise') {
+                        foreach ($syallabusReport as $item) {
+                            $date = $item['work_date'];
+                            $subject = $item['subject_name'];
+                            $syllabusPerArray[$subject] = $item['syllabus_percentage'];
+                            $lesson = "Lesson-{$item['lesson_number']} {$item['lesson_name']}";
+                            $classWork = [];
+                            foreach ($item['class_work'] as $cw) {
+                                $classWork[] = $cw['teaching_activity_title'];
+                            }
+                            $lessonWithClassWork = $lesson . "<br>" . implode("<br>", $classWork);
+
+                            $groupedData[$date][$subject][] = $lessonWithClassWork;
+                            if (!in_array($subject, $subjects)) {
+                                $subjects[] = $subject;
+                            }
                         }
-                    }
-                    sort($subjects);
+                        sort($subjects);
                     }
 
-                   
-                    if($report_type == 'teacher_wise'){
-                    //     echo "reporting hello";
-                    //      print_r($teacherwisereport);
-                    // die();
+
+                    if ($report_type == 'teacher_wise') {
+                        //     echo "reporting hello";
+                        //      print_r($teacherwisereport);
+                        // die();
                         foreach ($teacherwisereport as $item) {
                             $date = $item['work_date'];
                             $subject = $item['subject_name'];
@@ -215,54 +234,52 @@
                                 $classWork[] = $cw['teaching_activity_title'];
                             }
                             $lessonWithClassWork = $lesson . "<br>" . implode("<br>", $classWork);
-    
+
                             $groupedData[$date][$subject][] = $lessonWithClassWork;
                             if (!in_array($subject, $subjects)) {
                                 $subjects[] = $subject;
                             }
                         }
                         sort($subjects);
-                        }
+                    }
 
 
-                        if($report_type == 'subject_wise'){
+                    if ($report_type == 'subject_wise') {
 
-                            $subjectdata=$subjectWiseReport['subjectdata'];
-                            $subjectReport=$subjectWiseReport['subjectReport'];
-
-                        }
+                        $subjectdata = $subjectWiseReport['subjectdata'];
+                        $subjectReport = $subjectWiseReport['subjectReport'];
+                    }
                     ?>
                     <div class="table-responsive mailbox-messages overflow-visible">
                         <table class="table table-striped table-bordered table-hover example">
                             <thead>
                                 <tr>
                                     <th>Date</th>
-                                    <?php 
-                                     
-                                    
-                                    if($report_type == 'subject_wise'){
+                                    <?php
 
-                                        $subjectdata=$subjectWiseReport['subjectdata'];
+
+                                    if ($report_type == 'subject_wise') {
+
+                                        $subjectdata = $subjectWiseReport['subjectdata'];
                                         foreach ($subjectdata as $subject) {
                                             echo "<th>$subject</th>";
                                         }
-            
-                                    }else{
+                                    } else {
                                         foreach ($subjects as $subject) {
                                             echo "<th>{$subject}-{$syllabusPerArray[$subject]} % <br>{$className[$subject]}</th>";
                                         }
                                     }
-                                    
+
                                     ?>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php if($report_type == 'subject_wise'){
+                                <?php if ($report_type == 'subject_wise') {
 
                                     foreach ($subjectReport as $date => $subjectreports) {
                                         echo "<tr>";
                                         echo "<td>$date</td>"; // Date Column
-                                        
+
                                         foreach ($subjectdata as $subject) {
                                             if (isset($subjectreports[$subject])) {
                                                 $comp = $subjectreports[$subject]['complete'];
@@ -274,34 +291,34 @@
                                                 echo "<td>NA</td>"; // If subject not found in this date
                                             }
                                         }
-                                        
+
                                         echo "</tr>";
                                     }
+                                } else { ?>
 
-                                }else{ ?>
-
-                                <?php foreach ($groupedData as $date => $subjectData) { ?>
-                                <tr>
-                                    <td><?=$date ?></td>
-                                <?php
-                                    foreach ($subjects as $subject) {
-                                        echo '<td>';
-                                            if (isset($subjectData[$subject])) {
-                                                echo implode('<br>', $subjectData[$subject]);
-                                            } else {
-                                                echo 'NA';
+                                    <?php foreach ($groupedData as $date => $subjectData) { ?>
+                                        <tr>
+                                            <td><?= $date ?></td>
+                                            <?php
+                                            foreach ($subjects as $subject) {
+                                                echo '<td>';
+                                                if (isset($subjectData[$subject])) {
+                                                    echo implode('<br>', $subjectData[$subject]);
+                                                } else {
+                                                    echo 'NA';
+                                                }
+                                                echo '</td>';
                                             }
-                                            echo '</td>';
-                                    }
-                                    ?>
-                                    
-                                </tr>
-                                <?php } } ?>
+                                            ?>
+
+                                        </tr>
+                                <?php }
+                                } ?>
                             </tbody>
                         </table>
                     </div>
                     <div class="subject-grids">
-                    <div>Today Class Performance</div>
+                        <div>Today Class Performance</div>
                         <div class="subject-boxs">
                             <div>90%</div>
                         </div>
@@ -318,76 +335,75 @@
 </section>
 </div>
 <script>
+    $(document).on('click', '.report_type', function() {
+        let reportType = $(this).val();
+        // alert('dd');
+        radioButtonChecked(reportType)
+    })
 
-$(document).on('click','.report_type',function(){
-    let reportType=$(this).val();
-    // alert('dd');
-    radioButtonChecked(reportType)
-})
-
-function radioButtonChecked(reportType){
-    if(reportType=='class_wise'){
-        $('.class-wise').removeClass('d-none')
-        $('.teacher-wise').addClass('d-none')
-        $('.subject-wise').addClass('d-none')
-    }
-    if(reportType=='teacher_wise'){
-        $('.class-wise').addClass('d-none')
-        $('.teacher-wise').removeClass('d-none')
-        $('.subject-wise').addClass('d-none')
-    }
-    if(reportType=='subject_wise'){
-        $('.subject-wise').removeClass('d-none')
-        $('.class-wise').addClass('d-none')
-        $('.teacher-wise').addClass('d-none')
-    }
-}
-
-
-
-$(document).ready(function(e) {
-
- radioButtonChecked('<?=$report_type ?>');
-
- getSectionByClass("<?php echo $class_id ?>", "<?php echo $section_id ?>", 'secid');
-  getSubjectGroup("<?php echo $class_id ?>", "<?php echo $section_id ?>", "<?php echo $subject_group_id ?>", 'subject_group_id')
- getsubjectBySubjectGroup("<?php echo $class_id ?>", "<?php echo $section_id ?>", "<?php echo $subject_group_id ?>", "<?php echo $subject_id ?>", 'subid');
-});
-
-function getSectionByClass(class_id, section_id, select_control) {
-if (class_id != "") {
-    $('#' + select_control).html("");
-    var base_url = '<?php echo base_url() ?>';
-    var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
-    $.ajax({
-        type: "GET",
-        url: base_url + "sections/getByClass",
-        data: {
-            'class_id': class_id
-        },
-        dataType: "json",
-        beforeSend: function() {
-            $('#' + select_control).addClass('dropdownloading');
-        },
-        success: function(data) {
-            $.each(data, function(i, obj) {
-                var sel = "";
-                if (section_id == obj.section_id) {
-                    sel = "selected";
-                }
-                div_data += "<option value=" + obj.section_id + " " + sel + ">" + obj.section + "</option>";
-            });
-            $('#' + select_control).html(div_data);
-        },
-        complete: function() {
-            $('#' + select_control).removeClass('dropdownloading');
+    function radioButtonChecked(reportType) {
+        if (reportType == 'class_wise') {
+            $('.class-wise').removeClass('d-none')
+            $('.teacher-wise').addClass('d-none')
+            $('.subject-wise').addClass('d-none')
         }
+        if (reportType == 'teacher_wise') {
+            $('.class-wise').addClass('d-none')
+            $('.teacher-wise').removeClass('d-none')
+            $('.subject-wise').addClass('d-none')
+        }
+        if (reportType == 'subject_wise') {
+            $('.subject-wise').removeClass('d-none')
+            $('.class-wise').addClass('d-none')
+            $('.teacher-wise').addClass('d-none')
+        }
+    }
+
+
+
+    $(document).ready(function(e) {
+
+        radioButtonChecked('<?= $report_type ?>');
+
+        getSectionByClass("<?php echo $class_id ?>", "<?php echo $section_id ?>", 'secid');
+        getSubjectGroup("<?php echo $class_id ?>", "<?php echo $section_id ?>", "<?php echo $subject_group_id ?>", 'subject_group_id')
+        getsubjectBySubjectGroup("<?php echo $class_id ?>", "<?php echo $section_id ?>", "<?php echo $subject_group_id ?>", "<?php echo $subject_id ?>", 'subid');
     });
-}
-}
+
+    function getSectionByClass(class_id, section_id, select_control) {
+        if (class_id != "") {
+            $('#' + select_control).html("");
+            var base_url = '<?php echo base_url() ?>';
+            var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
+            $.ajax({
+                type: "GET",
+                url: base_url + "sections/getByClass",
+                data: {
+                    'class_id': class_id
+                },
+                dataType: "json",
+                beforeSend: function() {
+                    $('#' + select_control).addClass('dropdownloading');
+                },
+                success: function(data) {
+                    $.each(data, function(i, obj) {
+                        var sel = "";
+                        if (section_id == obj.section_id) {
+                            sel = "selected";
+                        }
+                        div_data += "<option value=" + obj.section_id + " " + sel + ">" + obj.section + "</option>";
+                    });
+                    $('#' + select_control).html(div_data);
+                },
+                complete: function() {
+                    $('#' + select_control).removeClass('dropdownloading');
+                }
+            });
+        }
+    }
 
 
-$(document).on('change', '#secid', function() {
+    $(document).on('change', '#secid', function() {
         var class_id = $('#searchclassid').val();
         var section_id = $(this).val();
         getSubjectGroup(class_id, section_id, 0, 'subject_group_id');

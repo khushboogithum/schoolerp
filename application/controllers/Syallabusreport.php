@@ -17,9 +17,9 @@ class Syallabusreport extends Admin_Controller
 
     public function index()
     {
-        // if (!$this->rbac->hasPrivilege('syallabusreport', 'can_view')) {
-        //     access_denied();
-        // }
+        if (!$this->rbac->hasPrivilege('syallabusreport', 'can_view')) {
+            access_denied();
+        }
         $this->session->set_userdata('top_menu', 'syallabusreport');
         $this->session->set_userdata('sub_menu', 'syallabusreport/index');
         $data['title']      = 'Syallabus Report';
@@ -27,6 +27,11 @@ class Syallabusreport extends Admin_Controller
 
         $classlist         = $this->class_model->get();
         $data['classlist'] = $classlist;
+
+        $subject_result        = $this->subject_model->get();
+        $data['subjectlist']   = $subject_result;
+        // print_r($data['subjectlist']);
+        // die();
         $data['subjectgroup'] = $this->Syallabusreport_model->getGroupByClassandSection();
 
         ////////////////////////////teacher list//////////////////////////////////////////////////
@@ -48,15 +53,16 @@ class Syallabusreport extends Admin_Controller
             $this->form_validation->set_rules('teacher_id', $this->lang->line('teacher_id'), 'required');
         }
         if ($report_type == 'subject_wise') {
-           // $this->form_validation->set_rules('subject_group_id', $this->lang->line('subject_group_id'), 'required');
-           // $this->form_validation->set_rules('subject_id', $this->lang->line('subject_id'), 'required');
+            // $this->form_validation->set_rules('subject_group_id', $this->lang->line('subject_group_id'), 'required');
+            // $this->form_validation->set_rules('subject_id', $this->lang->line('subject_id'), 'required');
         }
 
         $data['from_date'] = $from_date = $this->input->post('from_date');
         $data['to_date'] = $to_date = $this->input->post('to_date');
+        $data['subject_id'] = $subject_id = $this->input->post('subject_id');
 
         if ($this->form_validation->run() == false) {
-            
+
             $data['syallabusReport'] = $workData;
             $this->load->view('layout/header', $data);
             $this->load->view('syallabusreport/syallabus_report', $data);
@@ -66,7 +72,7 @@ class Syallabusreport extends Admin_Controller
                 $data['class_id'] = $class_id = $this->input->post('class_id');
                 $data['section_id'] = $section_id = $this->input->post('section_id');
 
-                $syallabusReport = $this->Syallabusreport_model->syallabusReport($from_date,$to_date,$class_id,$section_id);
+                $syallabusReport = $this->Syallabusreport_model->syallabusReport($from_date, $to_date, $class_id, $section_id);
                 foreach ($syallabusReport as $work) {
                     $lesson_number = $work['lesson_number'];
                     if ($work['total_lessons'] > 0) {
@@ -79,18 +85,17 @@ class Syallabusreport extends Admin_Controller
             }
 
             if ($report_type == 'teacher_wise') {
-                 $teacher_id= $this->input->post('teacher_id');
-             
-                $data['teacher_id'] =$teacher_id;
-                $data['teacherwisereport'] = $this->Syallabusreport_model->TeacherWisesyallabus($from_date,$to_date,$teacher_id);
-               
+                $teacher_id = $this->input->post('teacher_id');
+
+                $data['teacher_id'] = $teacher_id;
+                $data['teacherwisereport'] = $this->Syallabusreport_model->TeacherWisesyallabus($from_date, $to_date, $teacher_id);
             }
 
             if ($report_type == 'subject_wise') {
-            
-               $data['subjectWiseReport'] = $this->Syallabusreport_model->getSubjectWiseReport();
-              
-           }
+
+
+                $data['subjectWiseReport'] = $this->Syallabusreport_model->getSubjectWiseReport();
+            }
 
             $data['syallabusReport'] = $workData;
             $this->load->view('layout/header', $data);

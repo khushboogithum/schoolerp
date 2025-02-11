@@ -18,6 +18,7 @@ class Subject_model extends MY_Model
             $this->db->where('subjects.id', $id);
             $this->db->order_by('id');
             $query = $this->db->get();
+           
             return $query->row_array();
         } else {
             $subject_condition = 0;

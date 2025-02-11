@@ -47,7 +47,9 @@ class Todayswork extends Admin_Controller
 
             $workData[] = $work;
         }
-
+        // echo "<pre>";
+        // print_r($workData);
+        // die();
         $data['todaysWork'] = $workData;
 
         $this->form_validation->set_rules('work_date', $this->lang->line('work_date'), 'trim|required|xss_clean');
@@ -168,9 +170,16 @@ class Todayswork extends Admin_Controller
 
         
         $postdata = $this->input->post();
-        
+        // echo "<pre>";
+        // print_r($postdata);
+        // die();
 
         $student_data = $postdata['student_name'];
+        $total_student = $postdata['total_student'];
+        $today_completed_work = $postdata['today_completed_work'];
+        $today_uncompleted_work = $postdata['today_uncompleted_work'];
+        $today_completed_percentage = $postdata['today_completed_percentage'];
+        $today_uncompleted_percentage = $postdata['today_uncompleted_percentage'];
         $insertData = array();
         foreach ($student_data as $key => $studentdata) {
 
@@ -189,9 +198,21 @@ class Todayswork extends Admin_Controller
             );
         }
         $resultData = $this->Todayswork_model->insertTodayStudentReport($insertData);
-
-        if (!empty($resultData)) {
-
+        $today = date('Y-m-d');
+        $insertTodayReport = array(
+            'class_id'                     => $postdata['class_name'],
+            'subject_id'                   => $postdata['subject_id'],
+            'total_student'                 => $total_student,
+            'today_completed_work'          => $today_completed_work,
+            'today_uncompleted_work'        => $today_uncompleted_work,
+            'today_completed_percentage'    => $today_completed_percentage,
+            'today_uncompleted_percentage'  => $today_uncompleted_percentage,
+            'today_date'  => $today,
+        );
+        
+       $todayData= $this->Todayswork_model->insertTodayWorkReport($insertTodayReport);
+        
+        if (!empty($resultData) && !empty($todayData)) {
             
             $classSubjectID = '?class_id=' . $postdata['class_name'] . '&subject_name=' . $postdata['subject_name']. '&subject_id=' . $postdata['subject_id'];
 

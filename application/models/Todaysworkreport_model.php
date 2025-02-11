@@ -101,7 +101,9 @@ class Todaysworkreport_model extends MY_model
             $result = $query->result_array();
             foreach ($result as &$row) {
                 $row['class_work'] = $this->getClassWorkData($row['today_work_id']);
+                $row['class_notebook'] = $this->getClassWorkNoteBookData($row['today_work_id']);
                 $row['home_work'] = $this->getHomeWorkData($row['today_work_id']);
+                $row['home_notebook'] = $this->getHomeWorkNoteBookData($row['today_work_id']);
                 $row['total_lessons'] = $this->countLessonsBySubject($row['subject_id'],$row['class_id']);
                 $row['studentWorkPerstange']=$this->studentWorkPerstange($row['class_id'],$row['subject_id'],date('Y-m-d',strtotime($row['work_date'])));
             }
@@ -137,6 +139,17 @@ class Todaysworkreport_model extends MY_model
         $query = $this->db->get();
         return $query->result_array();
     }
+    public function getClassWorkNoteBookData($today_work_id)
+    {
+        $this->db->select('class_work_note_book.class_work_note_book_id, note_book_type.note_book_title');
+        $this->db->from('class_work_note_book');
+        $this->db->join('note_book_type', 'note_book_type.note_book_type_id = class_work_note_book.note_book_type_id');
+        $this->db->where('class_work_note_book.today_work_id', $today_work_id);
+        $query = $this->db->get();
+        // echo $this->db->last_query();
+        // die();
+        return $query->result_array();
+    }
     public function getHomeWorkData($today_work_id)
     {
         $this->db->select('today_home_work.teaching_activity_id, teaching_activity.teaching_activity_title');
@@ -144,6 +157,17 @@ class Todaysworkreport_model extends MY_model
         $this->db->join('teaching_activity', 'teaching_activity.teaching_activity_id = today_home_work.teaching_activity_id');
         $this->db->where('today_home_work.today_work_id', $today_work_id);
         $query = $this->db->get();
+        return $query->result_array();
+    }
+    public function getHomeWorkNoteBookData($today_work_id)
+    {
+        $this->db->select('home_work_note_book.home_work_note_book_id, note_book_type.note_book_title');
+        $this->db->from('home_work_note_book');
+        $this->db->join('note_book_type', 'note_book_type.note_book_type_id = home_work_note_book.note_book_type_id');
+        $this->db->where('home_work_note_book.today_work_id', $today_work_id);
+        $query = $this->db->get();
+        // echo $this->db->last_query();
+        // die();
         return $query->result_array();
     }
 
