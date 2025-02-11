@@ -16,9 +16,12 @@ class Todayswork extends Admin_Controller
 
     public function index()
     {
-        if (!$this->rbac->hasPrivilege('lesson', 'can_view')) {
-            access_denied();
-        }
+        // if (!$this->rbac->hasPrivilege('lesson', 'can_view')) {
+        //     access_denied();
+        // }
+
+        $admin = $this->session->userdata('admin');
+        $user_id=$admin['id'];
         $this->session->set_userdata('top_menu', 'todayswork');
         $this->session->set_userdata('sub_menu', 'todayswork/index');
         $data['title']      = 'Todays Work';
@@ -80,7 +83,7 @@ class Todayswork extends Admin_Controller
                 'subject_id'         => $this->input->post('subject_id'),
                 'lesson_id'         => $lessonNumber,
                 'lesson_name'       => $this->input->post('lesson_name'),
-                'created_by'        => 3,
+                'created_by'        => $user_id,
             );
 
             $teaching_activity_id = $this->input->post('teaching_activity_id');

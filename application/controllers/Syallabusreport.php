@@ -60,7 +60,7 @@ class Syallabusreport extends Admin_Controller
         $data['from_date'] = $from_date = $this->input->post('from_date');
         $data['to_date'] = $to_date = $this->input->post('to_date');
         $data['subject_id'] = $subject_id = $this->input->post('subject_id');
-
+       
         if ($this->form_validation->run() == false) {
 
             $data['syallabusReport'] = $workData;
@@ -92,9 +92,7 @@ class Syallabusreport extends Admin_Controller
             }
 
             if ($report_type == 'subject_wise') {
-
-
-                $data['subjectWiseReport'] = $this->Syallabusreport_model->getSubjectWiseReport();
+                $data['subjectWiseReport'] = $this->Syallabusreport_model->getSubjectWiseReport($from_date, $to_date, $subject_id);
             }
 
             $data['syallabusReport'] = $workData;

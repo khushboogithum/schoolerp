@@ -25,7 +25,9 @@ class Lesson extends Admin_Controller
         $this->session->set_userdata('sub_menu', 'Lesson/index');
         $data['title']      = 'Add Lesson';
         $data['title_list'] = 'Lesson List';
-
+       
+        $admin = $this->session->userdata('admin');
+        $user_id=$admin['id'];
         $data['lessonlist'] = $this->lessondiary_model->get();
         $classlist         = $this->class_model->get();
         $data['classlist'] = $classlist;
@@ -47,7 +49,7 @@ class Lesson extends Admin_Controller
                 'subject_id'       => $this->input->post('subject_id'),
                 'lesson_number'    => $this->input->post('lesson_number'),
                 'lesson_name'      => $this->input->post('lesson_name'),
-                'created_by'      => '3',
+                'created_by'      => $user_id,
             );
             $this->lessondiary_model->add_lesson($data);
             $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
@@ -125,7 +127,8 @@ class Lesson extends Admin_Controller
             access_denied();
         }
 
-      
+        $admin = $this->session->userdata('admin');
+        $user_id=$admin['id'];
         $data['title'] = 'Edit Lesson';
         $data['id'] = $id;
         $data['lesson'] = $this->lessondiary_model->getLessionByClassIdsectionId($classId,$sectionId);
@@ -157,7 +160,7 @@ class Lesson extends Admin_Controller
                 'subject_id'       => $this->input->post('subject_id'),
                 'lesson_number'    => $this->input->post('lesson_number'),
                 'lesson_name'      => $this->input->post('lesson_name'),
-                'created_by'      => '3',
+                'created_by'      => $user_id,
             );
             $this->lessondiary_model->add_lesson($data);
             $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
@@ -170,6 +173,8 @@ class Lesson extends Admin_Controller
         if (!$this->rbac->hasPrivilege('lesson', 'can_edit')) {
             access_denied();
         }
+        $admin = $this->session->userdata('admin');
+        $user_id=$admin['id'];
 
         $data['title'] = 'Edit Lesson';
         $data['id'] = $id;
@@ -203,7 +208,7 @@ class Lesson extends Admin_Controller
                 'subject_id'       => $this->input->post('subject_id'),
                 'lesson_number'    => $this->input->post('lesson_number'),
                 'lesson_name'      => $this->input->post('lesson_name'),
-                'created_by'      => '3',
+                'created_by'      => $user_id,
             );
             $this->lessondiary_model->add_lesson($data);
             $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');

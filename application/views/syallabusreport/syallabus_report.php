@@ -33,6 +33,8 @@
                         <!-- <h3 class="box-title"><?php //echo $this->lang->line('syllabus_report'); 
                                                     ?></h3> -->
                     </div><!-- /.box-header -->
+                    
+                    
                     <div class="box-body">
                         <form method="post" action="<?php echo base_url('syallabusreport/index'); ?>">
                             <?php echo $this->customlib->getCSRF(); ?>
@@ -156,8 +158,8 @@
                                             <?php
                                             foreach ($subjectlist as $subjects) {
                                             ?>
-                                                <option value="<?php echo $subjects['subject_id'] ?>"
-                                                    <?php if ($subject_id == $subjects["subject_id"]) {
+                                                <option value="<?php echo $subjects['id'] ?>"
+                                                    <?php if ($subject_id==$subjects["id"]) {
                                                         echo "selected";
                                                     } ?>><?php echo $subjects['name'] ?></option>
                                             <?php
