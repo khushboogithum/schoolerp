@@ -36,10 +36,11 @@
                                             <option value=""><?php echo $this->lang->line('select'); ?></option>
                                             <?php
                                             foreach ($classlist as $class) {
-                                               // $selected = (isset($_GET['class_id']) && $_GET['class_id'] == $class['id']) ? "selected" : "";
+                                                // $selected = (isset($_GET['class_id']) && $_GET['class_id'] == $class['id']) ? "selected" : "";
                                             ?>
-                                                <option value="<?php echo $class['id']; ?>"  <?php if (set_value('class_id') == $class['id']) {
-                                                    echo "selected=selected";} ?>>
+                                                <option value="<?php echo $class['id']; ?>" <?php if (set_value('class_id') == $class['id']) {
+                                                                                                echo "selected=selected";
+                                                                                            } ?>>
                                                     <?php echo $class['class']; ?>
                                                 </option>
                                             <?php
@@ -55,7 +56,7 @@
                                         <label><?php echo $this->lang->line('section'); ?></label><small class="req"> *</small>
                                         <select id="secid" name="section_id" class="form-control">
                                             <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                            
+
                                         </select>
                                         <span class="section_id_error text-danger"><?php echo form_error('section_id'); ?></span>
                                     </div>
@@ -131,7 +132,11 @@
                                                 <?php
                                                 $class_work = $todayLists['class_work'];
                                                 foreach ($class_work as $class_works) {
-                                                    echo "<div>" . ucfirst($class_works['teaching_activity_title']) . "</div>";
+                                                    echo "<div><b>" . ucfirst($class_works['teaching_activity_title']) . "</b></div>";
+                                                }
+                                                $class_notebook = $todayLists['class_notebook'];
+                                                foreach ($class_notebook as $class_notebooks) {
+                                                    echo "<div>" . ucfirst($class_notebooks['note_book_title']) . "</div>";
                                                 }
                                                 ?>
                                             </td>
@@ -139,7 +144,11 @@
                                                 <?php
                                                 $home_work = $todayLists['home_work'];
                                                 foreach ($home_work as $home_works) {
-                                                    echo "<div>" . ucfirst($home_works['teaching_activity_title']) . "</div>";
+                                                    echo "<div><b>" . ucfirst($home_works['teaching_activity_title']) . "</b></div>";
+                                                }
+                                                $home_notebook = $todayLists['home_notebook'];
+                                                foreach ($home_notebook as $home_notebooks) {
+                                                    echo "<div>" . ucfirst($home_notebooks['note_book_title']) . "</div>";
                                                 }
                                                 ?>
                                             </td>
@@ -160,13 +169,13 @@
                         </table>
                     </div>
                     <?php if (!empty($todaysWork)) { ?>
-                    <!-- <form id="form1" action="<?php echo site_url('todaysworkreport/allStudentWorkReport'); ?>" method="post" accept-charset="utf-8">
+                        <!-- <form id="form1" action="<?php echo site_url('todaysworkreport/allStudentWorkReport'); ?>" method="post" accept-charset="utf-8">
                             <input type="hidden" class="form-control" name="today_work_id" value="<?= $todayWorkId ?>"/>
                             <div> <button type="submit"  class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('final_submit'); ?></button></div><br><br>
                         </form> -->
 
-                    <div><a href="<?php echo site_url('todaysworkreport/allstudentworkreports'); ?>" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('go_for_all_student_work_report'); ?></a></div>
-                <?php } ?>
+                        <div><a href="<?php echo site_url('todaysworkreport/allstudentworkreports'); ?>" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('go_for_all_student_work_report'); ?></a></div>
+                    <?php } ?>
                 </div>
             </div>
         </div>
@@ -207,7 +216,7 @@
 </script>
 
 <script>
-    $(document).ready(function(e) { 
+    $(document).ready(function(e) {
         getSectionByClass("<?php echo $class_id ?>", "<?php echo $section_id ?>", 'secid');
         getSubjectGroup("<?php echo $class_id ?>", "<?php echo $section_id ?>", "<?php echo $subject_group_id ?>", 'subject_group_id')
         getsubjectBySubjectGroup("<?php echo $class_id ?>", "<?php echo $section_id ?>", "<?php echo $subject_group_id ?>", "<?php echo $subject_id ?>", 'subid');
@@ -299,7 +308,7 @@
     function getsubjectBySubjectGroup(class_id, section_id, subject_group_id, subject_group_subject_id, subject_target) {
         if (class_id != "" && section_id != "" && subject_group_id != "") {
             var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
-           
+
 
             $.ajax({
                 type: 'POST',

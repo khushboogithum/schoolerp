@@ -169,7 +169,7 @@ class Syallabusreport_model extends MY_model
         return $result;
     }
 
-    public function getSubjectWiseReport(){
+    public function getSubjectWiseReport($from_date=null, $to_date=null, $subject_id=null){
 
             
         $this->db->select('subjects.*');

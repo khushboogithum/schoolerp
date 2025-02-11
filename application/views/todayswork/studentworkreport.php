@@ -39,9 +39,8 @@
                                 th {
                                     background-color: #f2f2f2;
                                 }
-
                             </style>
-
+                        <form method="post" action="<?= site_url('todayswork/studentworkreport') ?>">
                             <table id="studentTable">
                                 <thead>
                                     <tr>
@@ -63,118 +62,129 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <form method="post" action="<?= site_url('todayswork/studentworkreport') ?>">
-
-                                        <input type="hidden" name="subject_id" value="<?= $subject_id ?>" />
-                                        <input type="hidden" name="subject_name" value="<?= $subject_name ?>" />
-                                        <input type="hidden" name="class_name" value="<?= $class_id ?>" />
-                                        <?php
-                                        if (!empty($student_data)) {
-                                            foreach ($student_data as $key => $students) {
-                                        ?>
-                                                <tr>
-                                                    <td><?= $key + 1 ?></td>
-                                                    <td>
-                                                        <input type="hidden" name="studentId[]" value="<?= $students['id'] ?>" />
-                                                        <input type="hidden" name="student_name[]" value="<?= $students['firstname'] ?> <?= $students['middlename'] ?> <?= $students['lastname'] ?>" />
-                                                        <?= $students['firstname'] ?> <?= $students['middlename'] ?> <?= $students['lastname'] ?>
-                                                    </td>
-                                                    <td>
-                                                        <input type="hidden" name="dress[<?= $key ?>]" value="0" />
-                                                        <input type="checkbox" checked name="dress[<?= $key ?>]" value="1" />
-                                                    </td>
-                                                    <td>
-                                                        <input type="hidden" name="conduct[<?= $key ?>]" value="0" />
-                                                        <input type="checkbox" checked name="conduct[<?= $key ?>]" value="1" />
-                                                    </td>
-                                                    <td>
-                                                        <input type="hidden" name="fair_copy[<?= $key ?>]" value="0" />
-                                                        <input type="checkbox" checked name="fair_copy[<?= $key ?>]" value="1" />
-                                                    </td>
-                                                    <td>
-                                                        <input type="hidden" name="writing_copy[<?= $key ?>]" value="0" />
-                                                        <input type="checkbox" checked name="writing_copy[<?= $key ?>]" value="1" />
-                                                    </td>
-                                                    <td>
-                                                        <input type="hidden" name="learning_copy[<?= $key ?>]" value="0" />
-                                                        <input type="checkbox" checked name="learning_copy[<?= $key ?>]" value="1" />
-                                                    </td>
-                                                    <td><input type="text" class="form-control" name="remarks[]" placeholder="Text .........." /></td>
-                                                </tr>
-                                            <?php
-                                            }
-                                        } else { ?>
+                                    <input type="hidden" name="subject_id" value="<?= $subject_id ?>" />
+                                    <input type="hidden" name="subject_name" value="<?= $subject_name ?>" />
+                                    <input type="hidden" name="class_name" value="<?= $class_id ?>" />
+                                    <?php
+                                    if (!empty($student_data)) {
+                                        foreach ($student_data as $key => $students) {
+                                    ?>
                                             <tr>
-                                                <td colspan="8" style="text-align: center;">No data available</td>
+                                                <td><?= $key + 1 ?></td>
+                                                <td>
+                                                    <input type="hidden" name="studentId[]" value="<?= $students['id'] ?>" />
+                                                    <input type="hidden" name="student_name[]" value="<?= $students['firstname'] ?> <?= $students['middlename'] ?> <?= $students['lastname'] ?>" />
+                                                    <?= $students['firstname'] ?> <?= $students['middlename'] ?> <?= $students['lastname'] ?>
+                                                </td>
+                                                <td>
+                                                    <input type="hidden" name="dress[<?= $key ?>]" value="0" />
+                                                    <input type="checkbox" checked name="dress[<?= $key ?>]" value="1" />
+                                                </td>
+                                                <td>
+                                                    <input type="hidden" name="conduct[<?= $key ?>]" value="0" />
+                                                    <input type="checkbox" checked name="conduct[<?= $key ?>]" value="1" />
+                                                </td>
+                                                <td>
+                                                    <input type="hidden" name="fair_copy[<?= $key ?>]" value="0" />
+                                                    <input type="checkbox" checked name="fair_copy[<?= $key ?>]" value="1" />
+                                                </td>
+                                                <td>
+                                                    <input type="hidden" name="writing_copy[<?= $key ?>]" value="0" />
+                                                    <input type="checkbox" checked name="writing_copy[<?= $key ?>]" value="1" />
+                                                </td>
+                                                <td>
+                                                    <input type="hidden" name="learning_copy[<?= $key ?>]" value="0" />
+                                                    <input type="checkbox" checked name="learning_copy[<?= $key ?>]" value="1" />
+                                                </td>
+                                                <td><input type="text" class="form-control" name="remarks[]" placeholder="Text .........." /></td>
                                             </tr>
-                                        <?php }
-                                        ?>
+                                        <?php
+                                        }
+                                    } else { ?>
+                                        <tr>
+                                            <td colspan="8" style="text-align: center;">No data available</td>
+                                        </tr>
+                                    <?php }
+                                    ?>
                                 </tbody>
                             </table>
-                        </div>
-                        <?php
-                         if (!empty($student_data)) { ?>
-                        <div class="subject_wise_home">
-                            <div class="col-md-2">
-                                <strong>Today Student: <span id="totalStudents"><?=count($student_data) ?></span></strong></br>
-                                <strong>Complete work: <span id="complate"><?=count($student_data) ?></span></strong></br>
-                                <strong>Uncomplete work: <span id="incomplate"> 0 </span></strong></br>
                             </div>
-                            <div class="col-md-4">
-                                <div class="subject-box-container">
-                                    <div class="subject-box">
-                                        <div>Co.W%</div>
-                                        <div id="complatePercentage">100</div>
-                                    </div>
-                                    <div class="subject-box">
-                                        <div>Unco.W%</div>
-                                        <div id="incomplatePercentage">0</div>
-                                    </div>
-                                </div>
-                            </div>
+                            <?php
+                            if (!empty($student_data)) { ?>
+                                <div class="subject_wise_home">
+                                    <div class="col-md-2">
+                                        <strong>Today Student: <span id="totalStudents"><?= count($student_data) ?></span></strong></br>
+                                        <input type="text" id="total_student" name="total_student" value="<?= count($student_data) ?>">
 
-                            <div><button type="submit" class="btn btn-info pull-right button-right"><?php echo $this->lang->line('final_submit'); ?></button></div>
-                        <?php } ?>
+                                        <strong>Complete work: <span id="complate"><?= count($student_data) ?></span></strong></br>
+                                        <input type="text" id="today_completed_work" name="today_completed_work" value="<?= count($student_data) ?>">
+
+                                        <strong>Uncomplete work: <span id="incomplate"> 0 </span></strong></br>
+                                        <input type="text" id="today_uncompleted_work" name="today_uncompleted_work" value="0">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="subject-box-container">
+                                            <div class="subject-box">
+                                                <div>Completed Work%</div>
+                                                <div id="complatePercentage">100</div>
+                                                <input type="text" id="today_completed_percentage" name="today_completed_percentage" value="100">
+                                            </div>
+                                            <div class="subject-box">
+                                                <div>Uncompleted Work%</div>
+                                                <div id="incomplatePercentage">0</div>
+                                                <input type="text" id="today_uncompleted_percentage" name="today_uncompleted_percentage" value="0">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div><button type="submit" class="btn btn-info pull-right button-right"><?php echo $this->lang->line('final_submit'); ?></button></div>
+                                <?php } ?>
+                            </div>
+                        </form>
                     </div>
-                    </form>
                 </div>
             </div>
-        </div>
     </section>
 </div>
 <script>
-     $(document).ready(function () {
-      function updateCounts() {
-        let totalStudents = $('#studentTable tbody tr').length;
-        let complateStudent = 0;
-        let incomplateStudent = 0;
-        $('#studentTable tbody tr').each(function () {
-          const totalCheckboxes = $(this).find('input[type="checkbox"]').length;
-          const checkedCheckboxes = $(this).find('input[type="checkbox"]:checked').length;
-          if (totalCheckboxes === checkedCheckboxes) {
-            complateStudent++;
-          } else {
-            incomplateStudent++;
-          }
-        });
+    $(document).ready(function() {
+        function updateCounts() {
+            let totalStudents = $('#studentTable tbody tr').length;
+            let complateStudent = 0;
+            let incomplateStudent = 0;
+            $('#studentTable tbody tr').each(function() {
+                const totalCheckboxes = $(this).find('input[type="checkbox"]').length;
+                const checkedCheckboxes = $(this).find('input[type="checkbox"]:checked').length;
+                if (totalCheckboxes === checkedCheckboxes) {
+                    complateStudent++;
+                } else {
+                    incomplateStudent++;
+                }
+            });
 
 
-        let complatePercentage = totalStudents > 0 
-          ? ((complateStudent / totalStudents) * 100).toFixed(2)
-          : 0;
+            let complatePercentage = totalStudents > 0 ?
+                ((complateStudent / totalStudents) * 100).toFixed(2) :
+                0;
 
-        let incomplatePercentage = totalStudents > 0 
-          ? ((incomplateStudent / totalStudents) * 100).toFixed(2)
-          : 0;
-        $('#complate').text(complateStudent);
-        $('#incomplate').text(incomplateStudent);
-        $('#complatePercentage').text(complatePercentage + '%');
-        $('#incomplatePercentage').text(incomplatePercentage + '%');
-      }
-      
-      updateCounts();
-      $('#studentTable').on('change', 'input[type="checkbox"]', function () {
+            let incomplatePercentage = totalStudents > 0 ?
+                ((incomplateStudent / totalStudents) * 100).toFixed(2) :
+                0;
+            $('#complate').text(complateStudent);
+            $('#incomplate').text(incomplateStudent);
+            $('#complatePercentage').text(complatePercentage + '%');
+            $('#incomplatePercentage').text(incomplatePercentage + '%');
+
+            $('#total_student').val(totalStudents);
+            $('#today_completed_work').val(complateStudent);
+            $('#today_uncompleted_work').val(incomplateStudent);
+            $('#today_completed_percentage').val(complatePercentage);
+            $('#today_uncompleted_percentage').val(incomplatePercentage);
+        }
+
         updateCounts();
-      });
+        $('#studentTable').on('change', 'input[type="checkbox"]', function() {
+            updateCounts();
+        });
     });
 </script>
