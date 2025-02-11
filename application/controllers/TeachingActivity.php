@@ -21,6 +21,10 @@ class TeachingActivity extends Admin_Controller
             access_denied();
         }
 
+        $admin = $this->session->userdata('admin');
+        $user_id=$admin['id'];
+
+
         $this->session->set_userdata('top_menu', 'Teacher Activity');
         $this->session->set_userdata('sub_menu', 'Teacher Activity/index');
 
@@ -47,7 +51,7 @@ class TeachingActivity extends Admin_Controller
             $teaching_activity_data = array(
                 'teaching_activity_title' => $this->input->post('teaching_activity_title'),
                 'remark'                  => $this->input->post('remarks'),
-                'created_by'              => 3,
+                'created_by'              => $user_id,
             );
 
             $note_book_type_ids = $this->input->post('note_book_type_id');
@@ -81,6 +85,8 @@ class TeachingActivity extends Admin_Controller
         if (!$this->rbac->hasPrivilege('class', 'can_edit')) {
             access_denied();
         }
+        $admin = $this->session->userdata('admin');
+        $user_id=$admin['id'];
 
         $this->session->set_userdata('top_menu', 'Teacher Activity');
         $this->session->set_userdata('sub_menu', 'Teacher Activity/index');
@@ -112,7 +118,7 @@ class TeachingActivity extends Admin_Controller
             $data = array(
                 'teaching_activity_title' => $this->input->post('teaching_activity_title'),
                 'remark' => $this->input->post('remarks'),
-                'created_by' => '3',
+                'created_by' => $user_id,
             );
 
             // Update teaching activity and teaching_notebook records

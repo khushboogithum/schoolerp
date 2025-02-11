@@ -42,9 +42,8 @@ class Class_model extends MY_Model
         $userdata = $this->customlib->getUserData();
         $role_id  = $userdata["role_id"];
         $carray   = array();
-        if (isset($role_id) && ($userdata["role_id"] == 2) && ($userdata["class_teacher"] == "yes")) {
+        if (isset($role_id) && ($userdata["role_id"] == 2) && (trim($userdata["class_teacher"]) == "yes")) {
             if ($userdata["class_teacher"] == 'yes') {
-             
                 $classlist = $this->teacher_model->get_teacherrestricted_mode($userdata["id"]);
             }
         } else {

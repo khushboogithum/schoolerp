@@ -166,6 +166,7 @@ class Syallabusreport_model extends MY_model
         ORDER BY subject_groups.id DESC";
         $query = $this->db->query($sql);
         $result = $query->result_array();
+
         return $result;
     }
 
@@ -175,11 +176,8 @@ class Syallabusreport_model extends MY_model
         $this->db->select('subjects.*');
         $this->db->from('subjects');
         $this->db->order_by('name','ASC');
-
-
         $query = $this->db->get();
         $subjectresult = $query->result_array();
-
         $subjectArray=array();
         foreach($subjectresult as $key=>$subjectdata){
                 $subjectArray[]=$subjectdata['name'];
@@ -188,6 +186,16 @@ class Syallabusreport_model extends MY_model
 
         $this->db->select('student_work_report.*');
         $this->db->from('student_work_report');
+        if (!empty($from_date)) {
+            $this->db->where('DATE(student_work_report.created_at)>=', $from_date);
+        }
+        if (!empty($to_date)) {
+            $this->db->where('DATE(student_work_report.created_at)<=', $to_date);
+        }
+
+        if (!empty($subject_id)) {
+            $this->db->where('student_work_report.subject_id', $subject_id);
+        }
         $query = $this->db->get();
         $results = $query->result_array();
         $resultArray = [];

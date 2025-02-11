@@ -20,6 +20,8 @@ class Notebooktype extends Admin_Controller
         if (!$this->rbac->hasPrivilege('class', 'can_view')) {
             access_denied();
         }
+        $admin = $this->session->userdata('admin');
+        $user_id=$admin['id'];
         $this->session->set_userdata('top_menu', 'Note Book Type');
         $this->session->set_userdata('sub_menu', 'Note Book Type/index');
         $data['title']      = 'Note Book Type';
@@ -37,7 +39,7 @@ class Notebooktype extends Admin_Controller
             $data = array(
                 'note_book_title'        => $this->input->post('note_book_title'),
                 'remark'        => $this->input->post('remarks'),
-                'created_by'      => '3',
+                'created_by'      => $user_id,
             );
             $this->Notebooktype_model->add_notebooktype($data);
             $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
@@ -54,6 +56,8 @@ class Notebooktype extends Admin_Controller
         if (!$this->rbac->hasPrivilege('class', 'can_edit')) {
             access_denied();
         }
+        $admin = $this->session->userdata('admin');
+        $user_id=$admin['id'];
         $this->session->set_userdata('top_menu', 'Note Book Type');
         $this->session->set_userdata('sub_menu', 'notebooktype/index');
         $data['title']      = 'Edit Note Book Type';
@@ -82,7 +86,7 @@ class Notebooktype extends Admin_Controller
                 'note_book_title'        => $this->input->post('note_book_title'),
                 'remark'        => $this->input->post('remarks'),
                 // 'note_book_type_id'        => $this->input->post('note_book_type_id'),
-                'created_by'      => '3',
+                'created_by'      => $user_id,
             );
             $this->Notebooktype_model->update_notebooktype($id, $data);
 
