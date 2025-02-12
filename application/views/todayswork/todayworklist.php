@@ -13,7 +13,7 @@
     <section class="content">
         <div class="row">
             <?php
-            if ($this->rbac->hasPrivilege('todayswork', 'can_add')) {
+           // if ($this->rbac->hasPrivilege('todayswork', 'can_add')) {
             ?>
                 <div class="col-md-12">
                     <!-- Horizontal Form -->
@@ -53,10 +53,10 @@
                                                 foreach ($classlist as $class) {
                                                 ?>
                                                     <option <?php
-                                                            if ($class_id == $class["id"]) {
-                                                                echo "selected";
-                                                            }
-                                                            ?> value="<?php echo $class['id'] ?>"><?php echo $class['class'] ?></option>
+                                                        if ($class_id == $class["id"]) {
+                                                            echo "selected";
+                                                        }
+                                                        ?> value="<?php echo $class['id'] ?>"><?php echo $class['class'] ?></option>
                                                 <?php
                                                 }
                                                 ?>
@@ -187,7 +187,7 @@
                     </div>
 
                 </div>
-            <?php }
+            <?php //}
             ?>
             <div class="col-md-12">
                 <!-- general form elements -->
