@@ -17,9 +17,9 @@ class Syallabusreport extends Admin_Controller
 
     public function index()
     {
-        if (!$this->rbac->hasPrivilege('syallabusreport', 'can_view')) {
-            access_denied();
-        }
+        // if (!$this->rbac->hasPrivilege('syallabusreport', 'can_view')) {
+        //     access_denied();
+        // }
         $this->session->set_userdata('top_menu', 'syallabusreport');
         $this->session->set_userdata('sub_menu', 'syallabusreport/index');
         $data['title']      = 'Syallabus Report';
