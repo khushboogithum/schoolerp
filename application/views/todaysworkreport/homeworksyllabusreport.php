@@ -169,7 +169,7 @@
                                             <?= $todayLists['studentWorkPerstange'] ?>%
                                             <input type="hidden" class="form-control" name="studuent_work_percentage[]" value="<?= $todayLists['studentWorkPerstange'] ?>"/>
                                             <?php
-                                            $total_percentage=($todayLists['syllabus_percentage'] + $todayLists['syllabus_percentage'])/2;
+                                            $total_percentage=($todayLists['syllabus_percentage'] + $todayLists['studuent_work_percentage'])/2;
                                             ?>
                                             <input type="hidden" class="form-control" name="total_percentage[]" value="<?= $total_percentage ?>"/>
                                         </td>
