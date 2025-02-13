@@ -67,7 +67,7 @@ class Todaysworkreport_model extends MY_model
         return $query->result_array();
     }
 
-    public function todaysWorkList($todays_date=NULL,$class_id=NULL,$section_id=NULL,$subject_group_id,$subject_id=NULL)
+    public function todaysWorkList($todays_date = NULL, $class_id = NULL, $section_id = NULL, $subject_group_id, $subject_id = NULL)
     {
         $today = date('Y-m-d');
         $this->db->select('today_work.today_work_id,today_work.class_id,today_work.work_date, today_work.subject_id, today_work.lesson_id, subjects.name as subject_name, today_work.lesson_name, lesson_diary.lesson_number');
@@ -80,7 +80,7 @@ class Todaysworkreport_model extends MY_model
         if (!empty($todays_date)) {
             $this->db->where('DATE(today_work.work_date)', $todays_date);
         }
-    
+
         if (!empty($class_id)) {
             $this->db->where('today_work.class_id', $class_id);
         }
@@ -93,11 +93,11 @@ class Todaysworkreport_model extends MY_model
         if (!empty($subject_id)) {
             $this->db->where('today_work.subject_id', $subject_id);
         }
-        
+
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             $result = $query->result_array();
-    
+
             foreach ($result as &$row) {
                 $this->db->select('subject_timetable.staff_id');
                 $this->db->from('subject_timetable');
@@ -112,45 +112,58 @@ class Todaysworkreport_model extends MY_model
                 $row['class_notebook'] = $this->getClassWorkNoteBookData($row['today_work_id']);
                 $row['home_work'] = $this->getHomeWorkData($row['today_work_id']);
                 $row['home_notebook'] = $this->getHomeWorkNoteBookData($row['today_work_id']);
-                $row['total_lessons'] = $this->countLessonsBySubject($row['subject_id'],$row['class_id']);
-                $row['studentWorkPerstange']=$this->studentWorkPerstange($row['class_id'],$row['subject_id'],date('Y-m-d',strtotime($row['work_date'])));
+                $row['total_lessons'] = $this->countLessonsBySubject($row['subject_id'], $row['class_id']);
+                $row['studentWorkPerstange'] = $this->studentWorkPerstange($row['class_id'], $row['subject_id'], date('Y-m-d', strtotime($row['work_date'])));
             }
-           
+
             $result;
         } else {
             [];
         }
-        
-        return $result;
 
+        return $result;
     }
     public function insertWorkReport($data)
-{
-    if (!empty($data)) {
-        $this->db->trans_start(); 
-        
-        $this->db->insert_batch('class_teacher_report', $data);
-        // echo $this->db->last_query(); 
+    {
+       
+        if (!empty($data)) {
+            $this->db->trans_start();
 
-        $insert_id = $this->db->insert_id();
-        $message   = INSERT_RECORD_CONSTANT . " On class_teacher_report id " . $insert_id;
-        $action    = "Insert";
-        $record_id = $insert_id;
+            // $this->db->insert_batch('class_teacher_report', $data);
+            // echo $this->db->last_query(); 
+            foreach ($data as $key => $value) {
+                $class_id = $value['class_id'];
+                $subject_id = $value['subject_id'];
+                $this->db->select('class_teacher_report.class_id');
+                $this->db->from('class_teacher_report');
+                $this->db->where('class_teacher_report.class_id', $class_id);
+                $this->db->where('class_teacher_report.subject_id', $subject_id);
+                $this->db->where('class_teacher_report.today_date', date('Y-m-d'));
+                $query = $this->db->get();
+                $num_rows = $query->num_rows();
 
-        $this->log($message, $record_id, $action);
+                if ($num_rows < 1) {
+                    $this->db->insert('class_teacher_report', $data[$key]);
+                    $insert_id = $this->db->insert_id();
+                    $message   = INSERT_RECORD_CONSTANT . " On class_teacher_report id " . $insert_id;
+                    $action    = "Insert";
+                    $record_id = $insert_id;
 
-        $this->db->trans_complete(); 
+                    $this->log($message, $record_id, $action);
 
-        if ($this->db->trans_status() === false) {
-            $this->db->trans_rollback();
-           return false;
-        } else {
-            return $insert_id;
+                    $this->db->trans_complete();
+                }
+            }
+            if ($this->db->trans_status() === false) {
+                $this->db->trans_rollback();
+                return false;
+            } else {
+                return $insert_id;
+            }
         }
     }
-}
 
-    public function countLessonsBySubject($subject_id,$class_id)
+    public function countLessonsBySubject($subject_id, $class_id)
     {
         $this->db->select('COUNT(*) as total_lessons');
         $this->db->from('lesson_diary');
@@ -208,7 +221,7 @@ class Todaysworkreport_model extends MY_model
 
     public function getTodayReportData()
     {
-       
+
         $finaldata = array();
         $this->db->select('student_work_report.*');
         $this->db->from('student_work_report');
@@ -222,9 +235,9 @@ class Todaysworkreport_model extends MY_model
             $student_name = trim($result['student_name']);
             $subject_name = trim($result['subject_name']);
             if (!isset($subject_array[$subject_name])) {
-                $subject_array[$subject_name] = $subject_name; 
+                $subject_array[$subject_name] = $subject_name;
             }
-        
+
             $finaldata[$student_name][$subject_array[$subject_name]] = [
                 'fair_copy' => $result['fair_copy'],
                 'learning_work' => $result['learning_work'],
@@ -235,12 +248,12 @@ class Todaysworkreport_model extends MY_model
                 'dress' => $result['discipline_dress'],
                 'conduct' => $result['discipline_conduct'],
             ];
-        
         }
         return $finaldata;
     }
-    
-    public function getSubjectWiseReport(){
+
+    public function getSubjectWiseReport()
+    {
         $this->db->select('student_work_report.*');
         $this->db->from('student_work_report');
         // $this->db->where('student_work_report.status', 2);
@@ -248,23 +261,23 @@ class Todaysworkreport_model extends MY_model
 
         $query = $this->db->get();
         $results = $query->result_array();
-        $resultArray=array();
-        $Complete=0;
-        $totalstudent=0;
+        $resultArray = array();
+        $Complete = 0;
+        $totalstudent = 0;
         $resultArray = [];
         foreach ($results as $key => $result) {
-            
+
             $subjectName = $result['subject_name'];
             if (!isset($resultArray[$subjectName])) {
                 $Complete = 0;
-                $totalstudent=0; 
-            } 
-            
+                $totalstudent = 0;
+            }
+
             if ($result['fair_copy'] == 1 && $result['writing_work'] == 1 && $result['learning_work'] == 1) {
                 $Complete++;
-                $totalstudent++; 
-            }else{
-              $totalstudent++;  
+                $totalstudent++;
+            } else {
+                $totalstudent++;
             }
             $resultArray[$subjectName] = [
                 'complete' => $Complete,
@@ -273,25 +286,25 @@ class Todaysworkreport_model extends MY_model
         }
         return $resultArray;
     }
-    public function studentWorkPerstange($class_id,$subject_id,$date){
+    public function studentWorkPerstange($class_id, $subject_id, $date)
+    {
         $this->db->select('student_work_report.*');
         $this->db->from('student_work_report');
         // $this->db->where('student_work_report.status', 2);
         $this->db->where('student_work_report.class_id', $class_id);
         $this->db->where('student_work_report.subject_id', $subject_id);
-        $this->db->where('date(created_at)',$date);
+        $this->db->where('date(created_at)', $date);
 
         $query = $this->db->get();
         $results = $query->result_array();
-        $Complete=0;
-        $totalstudent=0;
+        $Complete = 0;
+        $totalstudent = 0;
         foreach ($results as $key => $result) {
-                        
+
             if ($result['fair_copy'] == 1 && $result['writing_work'] == 1 && $result['learning_work'] == 1) {
                 $Complete++;
-                
             }
-            $totalstudent++; 
+            $totalstudent++;
         }
         if ($totalstudent > 0) {
             $result = round(($Complete / $totalstudent) * 100, 2);
@@ -299,16 +312,17 @@ class Todaysworkreport_model extends MY_model
             $result = 0;
         }
         return $result;
-    } 
+    }
 
-    public function ApproveStudentWorkReport($class_id,$data){
+    public function ApproveStudentWorkReport($class_id, $data)
+    {
 
         $this->db->trans_start(); # Starting Transaction
         $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         if (isset($class_id) && $class_id != '') {
             $this->db->where('class_id', $class_id);
-            $this->db->where('date(created_at)',date('Y-m-d'));
+            $this->db->where('date(created_at)', date('Y-m-d'));
             $query     = $this->db->update('student_work_report', $data);
             $insert_id = $class_id;
             $message   = DELETE_RECORD_CONSTANT . " On student_work_report id " . $insert_id;
@@ -331,8 +345,5 @@ class Todaysworkreport_model extends MY_model
         } else {
             return $insert_id;
         }
-        
     }
-
-    
 }

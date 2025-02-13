@@ -81,7 +81,7 @@ class TodaysworkReport extends Admin_Controller
                     'syallabus_percentage' => $syllabus_percentages[$key],
                     'student_work_percentage' => $student_work_percentages[$key],
                     'total_percentage' => $total_percentages[$key],
-                    'date' => date('Y-m-d') 
+                    'today_date' => date('Y-m-d') 
                 ];
             }
             $result=$this->Todaysworkreport_model->insertWorkReport($insertData);
