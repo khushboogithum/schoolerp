@@ -114,25 +114,25 @@
                                 <div class="subject_wise_home">
                                     <div class="col-md-2">
                                         <strong>Today Student: <span id="totalStudents"><?= count($student_data) ?></span></strong></br>
-                                        <input type="text" id="total_student" name="total_student" value="<?= count($student_data) ?>">
+                                        <input type="hidden" id="total_student" name="total_student" value="<?= count($student_data) ?>">
 
                                         <strong>Complete work: <span id="complate"><?= count($student_data) ?></span></strong></br>
-                                        <input type="text" id="today_completed_work" name="today_completed_work" value="<?= count($student_data) ?>">
+                                        <input type="hidden" id="today_completed_work" name="today_completed_work" value="<?= count($student_data) ?>">
 
                                         <strong>Uncomplete work: <span id="incomplate"> 0 </span></strong></br>
-                                        <input type="text" id="today_uncompleted_work" name="today_uncompleted_work" value="0">
+                                        <input type="hidden" id="today_uncompleted_work" name="today_uncompleted_work" value="0">
                                     </div>
                                     <div class="col-md-4">
                                         <div class="subject-box-container">
                                             <div class="subject-box">
                                                 <div>Completed Work%</div>
                                                 <div id="complatePercentage">100</div>
-                                                <input type="text" id="today_completed_percentage" name="today_completed_percentage" value="100">
+                                                <input type="hidden" id="today_completed_percentage" name="today_completed_percentage" value="100">
                                             </div>
                                             <div class="subject-box">
                                                 <div>Uncompleted Work%</div>
                                                 <div id="incomplatePercentage">0</div>
-                                                <input type="text" id="today_uncompleted_percentage" name="today_uncompleted_percentage" value="0">
+                                                <input type="hidden" id="today_uncompleted_percentage" name="today_uncompleted_percentage" value="0">
                                             </div>
                                         </div>
                                     </div>

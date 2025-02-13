@@ -103,6 +103,9 @@
                     <h3 class="box-title titlefix"><?php echo $this->lang->line('todays_work_syllubus_report'); ?></h3>
 
                 </div><!-- /.box-header -->
+
+                <form id="form1" action="<?php echo site_url('todaysworkreport/allStudentWorkReport'); ?>" method="post" accept-charset="utf-8">
+                       
                 <div class="box-body">
                     <div class="table-responsive mailbox-messages overflow-visible">
                         <table class="table table-striped table-bordered table-hover example">
@@ -120,12 +123,18 @@
                             <tbody>
                                 <?php
                                 //$todayWorkId = $todaysWork[0]['today_work_id'];
-
+                                // echo "<pre>";
+                                // print_r($todaysWork);
                                 if (!empty($todaysWork)) {
                                     foreach ($todaysWork as $todayLists) {
                                 ?>
                                         <tr>
-                                            <td><?= $todayLists['subject_name'] ?></td>
+                                            <td>
+                                                <?= $todayLists['subject_name'] ?>
+                                                <input type="hidden" class="form-control" name="classid[]" value="<?= $todayLists['class_id'] ?>"/>
+                                                <input type="hidden" class="form-control" name="subjectid[]" value="<?= $todayLists['subject_id'] ?>"/>
+                                                <input type="hidden" class="form-control" name="staffid[]" value="<?= $todayLists['staff_id'] ?>"/>
+                                        </td>
                                             <td><?= $todayLists['total_lessons'] ?></td>
                                             <td><?= $todayLists['lesson_number'] ?>-<?= $todayLists['lesson_name'] ?></td>
                                             <td>
@@ -152,8 +161,18 @@
                                                 }
                                                 ?>
                                             </td>
-                                            <td><?= $todayLists['syllabus_percentage'] ?>%</td>
-                                            <td><?= $todayLists['studentWorkPerstange'] ?>%</td>
+                                            <td>
+                                                <?= $todayLists['syllabus_percentage'] ?>%
+                                                <input type="hidden" class="form-control" name="syallabus_percentage[]" value="<?= $todayLists['syllabus_percentage'] ?>"/>
+                                            </td>
+                                            <td>
+                                            <?= $todayLists['studentWorkPerstange'] ?>%
+                                            <input type="hidden" class="form-control" name="studuent_work_percentage[]" value="<?= $todayLists['studentWorkPerstange'] ?>"/>
+                                            <?php
+                                            $total_percentage=($todayLists['syllabus_percentage'] + $todayLists['syllabus_percentage'])/2;
+                                            ?>
+                                            <input type="hidden" class="form-control" name="total_percentage[]" value="<?= $total_percentage ?>"/>
+                                        </td>
                                         </tr>
                                     <?php
                                     }
@@ -169,14 +188,15 @@
                         </table>
                     </div>
                     <?php if (!empty($todaysWork)) { ?>
-                        <!-- <form id="form1" action="<?php echo site_url('todaysworkreport/allStudentWorkReport'); ?>" method="post" accept-charset="utf-8">
                             <input type="hidden" class="form-control" name="today_work_id" value="<?= $todayWorkId ?>"/>
-                            <div> <button type="submit"  class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('final_submit'); ?></button></div><br><br>
-                        </form> -->
+                            <!-- <div> <button type="submit"  class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('final_submit'); ?></button></div><br><br> -->
+                            <div> <button type="submit"  class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('go_for_all_student_work_report'); ?></button></div><br><br>
+                       
 
-                        <div><a href="<?php echo site_url('todaysworkreport/allstudentworkreports'); ?>" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('go_for_all_student_work_report'); ?></a></div>
+                        <!-- <div><a href="<?php echo site_url('todaysworkreport/allstudentworkreports'); ?>" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('go_for_all_student_work_report'); ?></a></div> -->
                     <?php } ?>
                 </div>
+                </form>
             </div>
         </div>
 </div>

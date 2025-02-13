@@ -95,11 +95,19 @@ class Todaysworkreport_model extends MY_model
         }
         
         $query = $this->db->get();
-        // echo $this->db->last_query();
-        // die();
         if ($query->num_rows() > 0) {
             $result = $query->result_array();
+    
             foreach ($result as &$row) {
+                $this->db->select('subject_timetable.staff_id');
+                $this->db->from('subject_timetable');
+                $this->db->join("subject_group_subjects", "subject_group_subjects.subject_group_id = subject_timetable.subject_group_id");
+                $this->db->where('subject_timetable.class_id', $row['class_id']);
+                $this->db->where('subject_group_subjects.subject_id', $row['subject_id']);
+                $staff_query = $this->db->get();
+                $staff_row = $staff_query->row_array();
+                $row['staff_id'] = !empty($staff_row) ? $staff_row['staff_id'] : null;
+
                 $row['class_work'] = $this->getClassWorkData($row['today_work_id']);
                 $row['class_notebook'] = $this->getClassWorkNoteBookData($row['today_work_id']);
                 $row['home_work'] = $this->getHomeWorkData($row['today_work_id']);
@@ -107,13 +115,40 @@ class Todaysworkreport_model extends MY_model
                 $row['total_lessons'] = $this->countLessonsBySubject($row['subject_id'],$row['class_id']);
                 $row['studentWorkPerstange']=$this->studentWorkPerstange($row['class_id'],$row['subject_id'],date('Y-m-d',strtotime($row['work_date'])));
             }
+           
             $result;
         } else {
             [];
         }
         
         return $result;
+
     }
+    public function insertWorkReport($data)
+{
+    if (!empty($data)) {
+        $this->db->trans_start(); 
+        
+        $this->db->insert_batch('class_teacher_report', $data);
+        // echo $this->db->last_query(); 
+
+        $insert_id = $this->db->insert_id();
+        $message   = INSERT_RECORD_CONSTANT . " On class_teacher_report id " . $insert_id;
+        $action    = "Insert";
+        $record_id = $insert_id;
+
+        $this->log($message, $record_id, $action);
+
+        $this->db->trans_complete(); 
+
+        if ($this->db->trans_status() === false) {
+            $this->db->trans_rollback();
+           return false;
+        } else {
+            return $insert_id;
+        }
+    }
+}
 
     public function countLessonsBySubject($subject_id,$class_id)
     {
