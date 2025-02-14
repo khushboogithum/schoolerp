@@ -115,9 +115,9 @@ class TodaysworkReport extends Admin_Controller
         $updateData = [
             'status' => $this->input->post('status')
         ];
-     
+        //todays report data
         $resultData = $this->Todaysworkreport_model->ApproveStudentWorkReport($class_id, $updateData);
-    
+        //subject_wise_report data
         if ($resultData) {
             $class_ids = $this->input->post('classid');
             $subject_ids = $this->input->post('subjectid');
@@ -141,6 +141,7 @@ class TodaysworkReport extends Admin_Controller
                 }
                 $this->Todaysworkreport_model->insertSubjectReport($insertSubjectData); 
             }
+            //class_wise_report data
             $insertClassData = [
                 'class_id' => $class_id,
                 'class_percentage' => $class_percentage,
@@ -155,4 +156,5 @@ class TodaysworkReport extends Admin_Controller
             $this->load->view('layout/footer', $data);
         }
     }
+    
 }
