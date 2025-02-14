@@ -2426,6 +2426,21 @@ $lang['teacher_wise']= "Teacher Wise";
 $lang['subject_wise']= "Subject Wise";
 $lang['from_date']= "From Date";
 $lang['to_date']= "To Date";
+$lang['class_wise_non_performer']= "Class wise Non-performer";
+
+$lang['admission_number']= "Admission Number";
+$lang['roll_no']= "Roll No";
+$lang['student_name']= "Student's Name";
+$lang['class']= "Class";
+$lang['section']= "Section";
+$lang['father_name']= "Father Name";
+$lang['mother_name']= "Mother Name";
+$lang['mobile_number']= "Mobile NUmber";
+$lang['subject_wise_performance']= "Subject wise Performance";
+$lang['message']= "Message";
+$lang['email']= "Email";
+$lang['whatsapp']= "Whatsapp";
+
 
 
 
