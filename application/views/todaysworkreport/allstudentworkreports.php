@@ -118,7 +118,7 @@
                                     <tr>
                                         <th></th>
                                         <th></th>
-                                        <th colspan="2" style="text-align: center;">Discipline</th>
+                                        <th colspan="2" style="text-align: center;"><?php echo $this->lang->line('discipline'); ?></th>
                                         <?php
                                         $subjects = array_keys($getreportdata[array_keys($getreportdata)[0]]);
                                         foreach ($subjects as $subject) {
