@@ -2440,6 +2440,21 @@ $lang['subject_wise_performance']= "Subject wise Performance";
 $lang['message']= "Message";
 $lang['email']= "Email";
 $lang['whatsapp']= "Whatsapp";
+$lang['student_work_evaluation_report']= "Student Work Evaluation Report";
+$lang['discipline']= "Discipline";
+$lang['attendence']= "Attendence";
+$lang['t_days']= "T days";
+$lang['p_attendence']= "P";
+$lang['a_attendence']= "A";
+$lang['report']= "Report";
+$lang['attendance_summary']= "Attendance Summary";
+$lang['discipline_summary']= "Discipline Summary";
+$lang['work_summary']= "Work Summary";
+$lang['no_of_day_school_open']= "No of days school open";
+$lang['no_of_day_student_attend_the_class']= "No of days student attend theclass";
+$lang['without_dress']= "Without Dress";
+$lang['bad_conduct_found']= "Bad Conduct Found";
+$lang['grade']= "Grade";
 
 
 
