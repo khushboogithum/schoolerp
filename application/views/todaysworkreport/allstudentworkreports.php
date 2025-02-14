@@ -11,7 +11,7 @@
                         <a href="" class="btn btn-info pull-right" style=""><?php echo $this->lang->line('download_pdf'); ?></a>
                     </div>
                     <div class="box-body">
-                    <?php
+                        <?php
                         if ($this->session->flashdata('msg')) {
                             echo $this->session->flashdata('msg');
                             $this->session->unset_userdata('msg');
@@ -120,7 +120,6 @@
                                         <th></th>
                                         <th colspan="2" style="text-align: center;">Discipline</th>
                                         <?php
-                                     
                                         $subjects = array_keys($getreportdata[array_keys($getreportdata)[0]]);
                                         foreach ($subjects as $subject) {
                                             if ($subject !== 'discipline') {
@@ -146,6 +145,9 @@
                                 </thead>
                                 <tbody>
                                     <?php
+                                    // echo "<pre>";
+                                    // print_r($getreportdata);
+
                                     if (!empty($getreportdata)) {
 
                                         $i = 1;
@@ -180,32 +182,47 @@
                                 </tbody>
                             </table>
                         </div>
-                        <?php
-                         if (!empty($getreportdata)) { ?>
-                        <div class="subject_wise_home"><b><?= $this->lang->line('subject_wise_home_work_percentage') ?></b></div>
-                        <div class="subject-grid">
-                        <?php foreach($getsubjectwisestatus as $key=>$subjecttatus){
-
-                                $percentage=$subjecttatus['complete']*100/$subjecttatus['totalstudent'];
-                            
-                            ?>
-                            <div>
-                               <span class="ml-2"><?=$key ?></span>
-                            <div class="subject-box d-flex" style="width:127px; padding:10px">
-                                <?=$subjecttatus['complete'] ?>/ <?=$subjecttatus['totalstudent'] ?> = <?=round($percentage,2,2) ?>%
-                            </div>
-                            </div>
-                            
-                        <?php } ?>
-
-                        </div>
                         <form method="post" action="<?= site_url('todaysworkreport/allstudentworkreports') ?>">
-                            
-                        <input type="hidden" name="class_id" value="2" />
-                        <input type="checkbox" required name="status" value="2" style="margin-top:10px;" /><b> <?php echo $this->lang->line('submitted_for_approval'); ?></b>
-                        <div><button type="submit" class="btn btn-info pull-right" style="margin-top:2%;"><?php echo $this->lang->line('final_submit'); ?></button></div>
+                            <?php
+                            if (!empty($getreportdata)) { ?>
+                                <div class="subject_wise_home"><b><?= $this->lang->line('subject_wise_home_work_percentage') ?></b></div>
+                                <div class="subject-grid">
+                                    <?php
+                                    $totalPercentage = 0;
+                                    $subjectCount = count($getsubjectwisestatus); // Get the number of subjects
+                                    // Get the first subject's class_id
+                                    $firstSubject = reset($getsubjectwisestatus); // Fetch the first element of the array
+                                    $class_id = $firstSubject['class_id']; // Extract class_id
+                                    foreach ($getsubjectwisestatus as $key => $subjecttatus) {
+
+                                        $percentage = $subjecttatus['complete'] * 100 / $subjecttatus['totalstudent'];
+                                        $incomplete_student = $subjecttatus['totalstudent'] - $subjecttatus['complete'];
+                                        $totalPercentage += $percentage; // Sum of all subject percentages
+                                    ?>
+                                        <div>
+                                            <span class="ml-2"><?= $key ?></span>
+                                            <div class="subject-box d-flex" style="width:127px; padding:10px">
+                                                <?= $subjecttatus['complete'] ?>/ <?= $subjecttatus['totalstudent'] ?> = <?= round($percentage, 2, 2) ?>%
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="classid[]" value="<?= $subjecttatus['class_id'] ?>" />
+                                        <input type="hidden" name="subjectid[]" value="<?= $subjecttatus['subject_id'] ?>" />
+                                        <input type="hidden" name="total_student[]" value="<?= $subjecttatus['totalstudent'] ?>" />
+                                        <input type="hidden" name="complate_student[]" value="<?= $subjecttatus['complete'] ?>" />
+                                        <input type="hidden" name="incomplate_student[]" value="<?= $incomplete_student ?>" />
+                                        <input type="hidden" name="subject_percentage[]" value="<?= round($percentage, 2, 2) ?>" />
+
+                                    <?php }
+                                    $class_percentage = ($subjectCount > 0) ? ($totalPercentage / $subjectCount) : 0;
+                                    ?>
+                                    <input type="hidden" name="class_id" value="<?=$class_id?>" />
+                                    <input type="hidden" name="class_percentage" value="<?= round($class_percentage, 2) ?>" />
+                                </div>
+                                <input type="checkbox" required name="status" value="2" style="margin-top:10px;" /><b> <?php echo $this->lang->line('submitted_for_approval'); ?></b>
+                                <div><button type="submit" class="btn btn-info pull-right" style="margin-top:2%;"><?php echo $this->lang->line('final_submit'); ?></button></div>
+
+                            <?php } ?>
                         </form>
-                    <?php } ?>
                     </div>
                 </div>
             </div>

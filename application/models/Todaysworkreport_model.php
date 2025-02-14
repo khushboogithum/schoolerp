@@ -125,7 +125,6 @@ class Todaysworkreport_model extends MY_model
     }
     public function insertWorkReport($data)
     {
-       
         if (!empty($data)) {
             $this->db->trans_start();
 
@@ -231,6 +230,7 @@ class Todaysworkreport_model extends MY_model
 
         $results = $query->result_array();
         $subject_array = [];
+
         foreach ($results as $result) {
             $student_name = trim($result['student_name']);
             $subject_name = trim($result['subject_name']);
@@ -268,6 +268,8 @@ class Todaysworkreport_model extends MY_model
         foreach ($results as $key => $result) {
 
             $subjectName = $result['subject_name'];
+            $subject_id = $result['subject_id'];
+            $class_id = $result['class_id'];
             if (!isset($resultArray[$subjectName])) {
                 $Complete = 0;
                 $totalstudent = 0;
@@ -280,6 +282,8 @@ class Todaysworkreport_model extends MY_model
                 $totalstudent++;
             }
             $resultArray[$subjectName] = [
+                'subject_id' => $subject_id,
+                'class_id' => $class_id,
                 'complete' => $Complete,
                 'totalstudent' => $totalstudent,
             ];
@@ -325,8 +329,8 @@ class Todaysworkreport_model extends MY_model
             $this->db->where('date(created_at)', date('Y-m-d'));
             $query     = $this->db->update('student_work_report', $data);
             $insert_id = $class_id;
-            $message   = DELETE_RECORD_CONSTANT . " On student_work_report id " . $insert_id;
-            $action    = "Delete";
+            $message   = UPDATE_RECORD_CONSTANT . " On student_work_report id " . $insert_id;
+            $action    = "update";
             $record_id = $insert_id;
             $this->db->where('class_id', $class_id);
         }
@@ -338,6 +342,81 @@ class Todaysworkreport_model extends MY_model
         $this->db->trans_complete(); # Completing transaction
         /* Optional */
 
+        if ($this->db->trans_status() === false) {
+            # Something went wrong.
+            $this->db->trans_rollback();
+            return false;
+        } else {
+            return $insert_id;
+        }
+    }
+    public function insertSubjectReport($data)
+    {
+        if (!empty($data)) {
+            $this->db->trans_start();
+            // $this->db->insert_batch('class_teacher_report', $data);
+            // echo $this->db->last_query(); 
+            foreach ($data as $key => $value) {
+                $class_id = $value['class_id'];
+                $subject_id = $value['subject_id'];
+                $this->db->select('subject_wise_report.class_id');
+                $this->db->from('subject_wise_report');
+                $this->db->where('subject_wise_report.class_id', $class_id);
+                $this->db->where('subject_wise_report.subject_id', $subject_id);
+                $this->db->where('subject_wise_report.today_date', date('Y-m-d'));
+                $query = $this->db->get();
+                $num_rows = $query->num_rows();
+
+                if ($num_rows < 1) {
+                    $this->db->insert('subject_wise_report', $data[$key]);
+                    $insert_id = $this->db->insert_id();
+                    $message   = INSERT_RECORD_CONSTANT . " On subject_wise_report id " . $insert_id;
+                    $action    = "Insert";
+                    $record_id = $insert_id;
+
+                    $this->log($message, $record_id, $action);
+
+                    $this->db->trans_complete();
+                }
+            }
+            if ($this->db->trans_status() === false) {
+                $this->db->trans_rollback();
+                return false;
+            } else {
+                return $insert_id;
+            }
+        }
+    }
+    public function insertClassReport($data)
+    {
+      
+        $class_id = $data['class_id'];
+        $this->db->trans_start(); # Starting Transaction
+        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+        //=======================Code Start===========================
+        $this->db->select('class_wise_report.class_id');
+        $this->db->from('class_wise_report');
+        $this->db->where('class_wise_report.class_id', $class_id);
+        $this->db->where('class_wise_report.today_date', date('Y-m-d'));
+        $query = $this->db->get();
+        // echo  $this->db->last_query();
+        // die();
+        $num_rows = $query->num_rows();
+
+        if ($num_rows < 1) {
+            $this->db->insert('class_wise_report', $data);
+            //   echo  $this->db->last_query();
+            //   die();
+            $insert_id = $this->db->insert_id();
+            $message   = INSERT_RECORD_CONSTANT . " On class_wise_report id " . $insert_id;
+            $action    = "Insert";
+            $record_id = $insert_id;
+
+            $this->log($message, $record_id, $action);
+            $this->db->trans_complete(); # Completing transaction
+        }
+        //======================Code End==============================
+        /* Optional */
         if ($this->db->trans_status() === false) {
             # Something went wrong.
             $this->db->trans_rollback();
