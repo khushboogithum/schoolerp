@@ -81,14 +81,14 @@ class TodaysworkReport extends Admin_Controller
                     'syallabus_percentage' => $syllabus_percentages[$key],
                     'student_work_percentage' => $student_work_percentages[$key],
                     'total_percentage' => $total_percentages[$key],
-                    'today_date' => date('Y-m-d') 
+                    'today_date' => date('Y-m-d')
                 ];
             }
-            $result=$this->Todaysworkreport_model->insertWorkReport($insertData);
+            $result = $this->Todaysworkreport_model->insertWorkReport($insertData);
             redirect('todaysworkreport/allstudentworkreports');
-         //   $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('submit_message') . '</div>');
+            //   $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('submit_message') . '</div>');
         } else {
-           
+
             $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('error_message') . '</div>');
             redirect('todaysworkreport');
         }
@@ -104,25 +104,52 @@ class TodaysworkReport extends Admin_Controller
     // }
     public function allstudentworkreports()
     {
-
-        $data['getreportdata'] = $this->Todaysworkreport_model->getTodayReportData();
-        $data['getsubjectwisestatus'] = $this->Todaysworkreport_model->getSubjectWiseReport();
         $this->session->set_userdata('top_menu', 'todaysworkreport');
         $this->session->set_userdata('sub_menu', 'todaysworkreport/index');
         $data['title']      = 'Student Home and Syllabus  Work Report';
         $data['title_list'] = 'Student Home and Syllabus  Work Report';
-
+        $data['getreportdata'] = $this->Todaysworkreport_model->getTodayReportData();
+        $data['getsubjectwisestatus'] = $this->Todaysworkreport_model->getSubjectWiseReport();
 
         $class_id = $this->input->post('class_id');
         $updateData = [
             'status' => $this->input->post('status')
         ];
+     
         $resultData = $this->Todaysworkreport_model->ApproveStudentWorkReport($class_id, $updateData);
-        if (($resultData)) {
+    
+        if ($resultData) {
+            $class_ids = $this->input->post('classid');
+            $subject_ids = $this->input->post('subjectid');
+            $total_student = $this->input->post('total_student');
+            $complate_student = $this->input->post('complate_student');
+            $incomplate_student = $this->input->post('incomplate_student');
+            $subject_percentage = $this->input->post('subject_percentage');
+            $class_percentage = $this->input->post('class_percentage');
+            if (!empty($class_ids)) {
+                $insertSubjectData = [];
+                foreach ($class_ids as $key => $class_id) {
+                    $insertSubjectData[] = [
+                        'class_id' => $class_id,
+                        'subject_id' => $subject_ids[$key],
+                        'total_student' => $total_student[$key],
+                        'complate_student' => $complate_student[$key],
+                        'incomplate_student' => $incomplate_student[$key],
+                        'subject_percentage' => $subject_percentage[$key],
+                        'today_date' => date('Y-m-d')
+                    ];
+                }
+                $this->Todaysworkreport_model->insertSubjectReport($insertSubjectData); 
+            }
+            $insertClassData = [
+                'class_id' => $class_id,
+                'class_percentage' => $class_percentage,
+                'today_date' => date('Y-m-d')
+            ];
+            $this->Todaysworkreport_model->insertClassReport($insertClassData);
             $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
             redirect('todaysworkreport/allstudentworkreports');
         } else {
-
             $this->load->view('layout/header', $data);
             $this->load->view('todaysworkreport/allstudentworkreports', $data);
             $this->load->view('layout/footer', $data);
