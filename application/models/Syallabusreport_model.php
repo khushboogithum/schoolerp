@@ -221,4 +221,160 @@ class Syallabusreport_model extends MY_model
         
         return array('subjectdata'=>$subjectArray,'subjectReport'=>$resultArray);
     }
+
+    public function get_winning_class() {
+        $todayDate = date('Y-m-d');
+        
+        $this->db->select('class_id, class_percentage,class as class_name');
+        $this->db->from('class_wise_report');
+        $this->db->join('classes', 'classes.id = class_wise_report.class_id');
+        $this->db->where('today_date', $todayDate);
+        $this->db->order_by('class_percentage', 'DESC');
+        $todayQuery = $this->db->get();
+        $todayMax = $todayQuery->result_array();
+        if (empty($todayMax)) {
+            return [
+                'final_class_name' => null,
+                'final_percentage' => null
+            ];
+        }
+
+        $maxPercentage = $todayMax[0]['class_percentage'];
+        $filteredClasses = [];
+
+        foreach ($todayMax as $row) {
+            if ($row['class_percentage'] == $maxPercentage) {
+                $filteredClasses[$row['class_name']] = $row['class_percentage'];
+            }
+        }
+        if (count($filteredClasses) > 1) {
+            $this->db->select('class_id, class_percentage,class as class_name');
+            $this->db->from('class_wise_report');
+            $this->db->join('classes', 'classes.id = class_wise_report.class_id');
+            $this->db->where('YEAR(today_date)', date('Y'));
+            $this->db->order_by('class_percentage', 'DESC');
+            $this->db->order_by('today_date', 'DESC');
+            $this->db->limit(1);
+            $yearlyQuery = $this->db->get();
+            $yearlyMax = $yearlyQuery->row_array();
+
+            return [
+                'final_class_name' => $yearlyMax['class_name'],
+                'final_percentage' => $yearlyMax['class_percentage']
+            ];
+        } else {
+            $finalClassId = array_key_first($filteredClasses);
+            $finalPercentage = $filteredClasses[$finalClassId];
+            return [
+                'final_class_name' => $finalClassId,
+                'final_percentage' => $finalPercentage
+            ];
+        }
+    }
+
+
+    
+    public function get_winning_teacher() {
+        $todayDate = date('Y-m-d');
+        
+        $this->db->select('staff_id, total_percentage,name,image');
+        $this->db->from('class_teacher_report');
+        $this->db->join('staff', 'staff.id = class_teacher_report.staff_id');
+        $this->db->where('today_date', $todayDate);
+        $this->db->order_by('total_percentage', 'DESC');
+        $todayQuery = $this->db->get();
+        // echo $this->db->last_query();
+        // die();
+        $todayMax = $todayQuery->result_array();
+        // print_r($todayMax);
+        if (empty($todayMax)) {
+            return [
+                'final_teacher_name' => null,
+                'final_percentage' => null
+            ];
+        }
+
+        $maxPercentage = $todayMax[0]['total_percentage'];
+        $filteredClasses = [];
+
+        foreach ($todayMax as $row) {
+            if ($row['total_percentage'] == $maxPercentage) {
+                $filteredClasses[] = $row['total_percentage'];
+            }
+        }
+        if (count($filteredClasses) > 1) {
+            $this->db->select('staff_id, total_percentage,name,image');
+            $this->db->from('class_teacher_report');
+            $this->db->join('staff', 'staff.id = class_teacher_report.staff_id');
+            $this->db->where('YEAR(today_date)', date('Y'));
+            $this->db->order_by('total_percentage', 'DESC');
+            $this->db->order_by('today_date', 'DESC');
+            $this->db->limit(1);
+            $yearlyQuery = $this->db->get();
+            $yearlyMax = $yearlyQuery->row_array();
+
+            return [
+                'name' => $yearlyMax['name'],
+                'image' => $yearlyMax['image'],
+                'percentage' => $yearlyMax['total_percentage']
+            ];
+        } else {
+            return [
+                'name' => $todayMax[0]['name'],
+                'image' => $todayMax[0]['image'],
+                'percentage' => $todayMax[0]['total_percentage']
+            ];
+        }
+    }
+
+    public function get_winning_subjectwise() {
+        $todayDate = date('Y-m-d');
+        
+        $this->db->select('subject_id, subject_percentage,name');
+        $this->db->from('subject_wise_report');
+        $this->db->join('subjects', 'subjects.id = subject_wise_report.subject_id');
+        $this->db->where('today_date', $todayDate);
+        $this->db->order_by('subject_percentage', 'DESC');
+        $todayQuery = $this->db->get();
+        // echo $this->db->last_query();
+        // die();
+        $todayMax = $todayQuery->result_array();
+        // print_r($todayMax);
+        if (empty($todayMax)) {
+            return [
+                'final_teacher_name' => null,
+                'final_percentage' => null
+            ];
+        }
+
+        $maxPercentage = $todayMax[0]['subject_percentage'];
+        $filteredClasses = [];
+
+        foreach ($todayMax as $row) {
+            if ($row['subject_percentage'] == $maxPercentage) {
+                $filteredClasses[] = $row['subject_percentage'];
+            }
+        }
+        if (count($filteredClasses) > 1) {
+            $this->db->select('subject_id, subject_percentage,name');
+            $this->db->from('subject_wise_report');
+            $this->db->join('subjects', 'subjects.id = subject_wise_report.subject_id');
+            $this->db->where('YEAR(today_date)', date('Y'));
+            $this->db->order_by('subject_percentage', 'DESC');
+            $this->db->order_by('today_date', 'DESC');
+            $this->db->limit(1);
+            $yearlyQuery = $this->db->get();
+            $yearlyMax = $yearlyQuery->row_array();
+
+            return [
+                'name' => $yearlyMax['name'],
+                'percentage' => $yearlyMax['subject_percentage']
+            ];
+        } else {
+            return [
+                'name' => $todayMax[0]['name'],
+                'percentage' => $todayMax[0]['subject_percentage']
+            ];
+        }
+    }
 }

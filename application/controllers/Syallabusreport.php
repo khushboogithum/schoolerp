@@ -19,6 +19,7 @@ class Syallabusreport extends Admin_Controller
     {
         // if (!$this->rbac->hasPrivilege('syallabusreport', 'can_view')) {
         //     access_denied();
+
         // }
         $this->session->set_userdata('top_menu', 'syallabusreport');
         $this->session->set_userdata('sub_menu', 'syallabusreport/index');
@@ -30,9 +31,12 @@ class Syallabusreport extends Admin_Controller
 
         $subject_result        = $this->subject_model->get();
         $data['subjectlist']   = $subject_result;
-        // print_r($data['subjectlist']);
+        $data['get_winning_subjectwise'] = $this->Syallabusreport_model->get_winning_subjectwise();
+
+        // echo "<pre>";
+        // print_r($data['get_winning_subjectwise']);
         // die();
-        $data['subjectgroup'] = $this->Syallabusreport_model->getGroupByClassandSection();
+        $data['subjectgroup'] = $this->Syallabusreport_model->getGroupByClassandSection();      
 
         ////////////////////////////teacher list//////////////////////////////////////////////////
         $teacherlist = $this->staff_model->getStaffbyrole($role = 2);
@@ -71,6 +75,7 @@ class Syallabusreport extends Admin_Controller
             if ($report_type == 'class_wise') {
                 $data['class_id'] = $class_id = $this->input->post('class_id');
                 $data['section_id'] = $section_id = $this->input->post('section_id');
+                $data['get_winning_class'] = $this->Syallabusreport_model->get_winning_class();
 
                 $syallabusReport = $this->Syallabusreport_model->syallabusReport($from_date, $to_date, $class_id, $section_id);
                 foreach ($syallabusReport as $work) {
@@ -88,10 +93,13 @@ class Syallabusreport extends Admin_Controller
                 $teacher_id = $this->input->post('teacher_id');
 
                 $data['teacher_id'] = $teacher_id;
+                
+                $data['get_winning_teacher'] = $this->Syallabusreport_model->get_winning_teacher();
                 $data['teacherwisereport'] = $this->Syallabusreport_model->TeacherWisesyallabus($from_date, $to_date, $teacher_id);
             }
 
             if ($report_type == 'subject_wise') {
+                $data['get_winning_subjectwise'] = $this->Syallabusreport_model->get_winning_subjectwise();
                 $data['subjectWiseReport'] = $this->Syallabusreport_model->getSubjectWiseReport($from_date, $to_date, $subject_id);
             }
 

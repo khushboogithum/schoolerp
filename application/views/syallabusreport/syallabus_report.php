@@ -319,15 +319,36 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="subject-grids">
+                    <div class="subject-grids" style="display: <?= ($report_type == 'class_wise') ? 'block' : 'none'; ?>;">
                         <div>Today Class Performance</div>
                         <div class="subject-boxs">
-                            <div>90%</div>
+                            <div><?=$get_winning_class['final_percentage'] ?>%</div>
                         </div>
                         <div>Today Winner Class</div>
                         <div class="subject-boxs">
-                            <div>First</div>
+                            <div><?=$get_winning_class['final_class_name'] ?></div>
                         </div>
+
+                    </div>
+                    <div class="subject-grids" style="display: <?= ($report_type == 'subject_wise') ? 'block' : 'none'; ?>;">
+                        <div>Today Subject Performance</div>
+                        <div class="subject-boxs">
+                            <div><?=$get_winning_subjectwise['percentage'] ?>%</div>
+                        </div>
+                        <div>Today Winner Subject</div>
+                        <div class="subject-boxs">
+                            <div><?=$get_winning_subjectwise['name'] ?></div>
+                        </div>
+
+                    </div>
+
+                    <div class="subject-grids" style="display: <?= ($report_type == 'teacher_wise') ? 'block' : 'none'; ?>;">
+                        <div>Today Marks: <?=$get_winning_teacher['percentage'] ?>%</div>
+                        <?php if($get_winning_teacher['image']!=''){ ?>
+                            <img src="<?=$get_winning_teacher['image'] ?>" alt="" height="100">
+                        <?php } ?>
+                        <div>Today Winner- <?=$get_winning_teacher['name'] ?></div>
+                        
 
                     </div>
                 </div>
