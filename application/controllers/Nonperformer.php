@@ -12,6 +12,7 @@ class Nonperformer extends Admin_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('Nonperformer_model');
+      
     }
 
     public function index()
@@ -24,8 +25,17 @@ class Nonperformer extends Admin_Controller
         $data['title']      = 'Nonperformer Report';
         $data['title_list'] = 'Nonperformer Report';
 
+        $classlist         = $this->class_model->get();
+        $data['classlist'] = $classlist;
+
+        $data['classPercentage']=$this->Nonperformer_model->getClassPercentageToday();  
+        $data['subjectPercentage']=$this->Nonperformer_model->getClassSubjectPercentage();  
+        // echo "<pre>";
+        // print_r($classPercentage); 
+        // die();     
+
         $this->load->view('layout/header', $data);
-        $this->load->view('nonperformer/non_performer');
+        $this->load->view('nonperformer/non_performer',$data);
         $this->load->view('layout/footer', $data);
       
     }
