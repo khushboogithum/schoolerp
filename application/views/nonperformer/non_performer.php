@@ -9,11 +9,17 @@
     }
 
     .subject-box {
-        padding:8px;
+        padding: 8px;
         border: 1px solid #000;
         text-align: center;
         width: 100px;
         border-radius: 5px;
+        min-height: 35px;
+    }
+
+    .sub-color {
+        background-color: #136b23d9;
+        color: white;
     }
 </style>
 <div class="content-wrapper">
@@ -29,13 +35,18 @@
                         <h3 class="box-title"><?php echo $this->lang->line('class_wise_non_performer'); ?></h3>
                     </div>
                     <div class="subject-grid">
+                        <?php
+                        // echo "<pre>"; print_r($classlist);
+                        foreach ($classlist as $key => $classlists) { ?>
                             <div>
-                                <span class="ml-2">Class Play</span>
-                                <div class="subject-box d-flex">
-                                     84.21%
+                                <span class="ml-2"><?= $classlists['class'] ?></span>
+                                <div class="subject-box d-flex <?php echo $classPercentage[$classlists['id']] ? 'sub-color' : '' ?>">
+                                    <?= $classPercentage[$classlists['id']] ?>
                                 </div>
                             </div>
-                            <div>
+                        <?php  } ?>
+
+                        <!-- <div>
                                 <span class="ml-2">Class K.G</span>
                                 <div class="subject-box d-flex">
                                      84.21%
@@ -118,8 +129,8 @@
                                 <div class="subject-box d-flex">
                                      70%
                                 </div>
-                            </div>
-                        </div>
+                            </div> -->
+                    </div>
                 </div>
 
             </div>
@@ -204,50 +215,54 @@
                             <h4 class="box-title titlefix"><?php echo $this->lang->line('subject_wise_performance'); ?></h4>
                         </div>
                         <div class="subject-grid">
-                            <div>
-                                <span class="ml-2">English</span>
-                                <div class="subject-box d-flex">
-                                     84.21%
+                            <?php
+                            foreach ($subjectPercentage as $subjectPercentages) { ?>
+                                <div>
+                                    <span class="ml-2"><?= $subjectPercentages['subject_name'] ?></span>
+                                    <div class="subject-box d-flex">
+                                        <?= $subjectPercentages['subject_percentage'] ?>%
+                                    </div>
                                 </div>
-                            </div>
-                            <div>
+                            <?php } ?>
+
+                            <!-- <div>
                                 <span class="ml-2">Mathmatics</span>
                                 <div class="subject-box d-flex">
-                                     84.21%
+                                    84.21%
                                 </div>
                             </div>
                             <div>
                                 <span class="ml-2">Hindi</span>
-                                <div class="subject-box d-flex" >
-                                     78.95%
+                                <div class="subject-box d-flex">
+                                    78.95%
                                 </div>
                             </div>
                             <div>
                                 <span class="ml-2">Science</span>
                                 <div class="subject-box d-flex">
-                                     95%
+                                    95%
                                 </div>
                             </div>
                             <div>
                                 <span class="ml-2">SST</span>
                                 <div class="subject-box d-flex">
-                                     90%
+                                    90%
                                 </div>
                             </div>
                             <div>
                                 <span class="ml-2">Drawing</span>
                                 <div class="subject-box d-flex">
-                                     92%
+                                    92%
                                 </div>
                             </div>
                             <div>
                                 <span class="ml-2">Computer</span>
                                 <div class="subject-box d-flex">
-                                     70%
+                                    70%
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
-                        
+
                         <button type="submit" class="btn btn-info pull-right" style="margin-top:2%;margin-right: 10px;"><?php echo $this->lang->line('message'); ?></button>
                         <button type="submit" class="btn btn-info pull-right" style="margin-top:2%;margin-right: 10px;"><?php echo $this->lang->line('email'); ?></button>
                         <button type="submit" class="btn btn-info pull-right" style="margin-top:2%;margin-right: 10px;"><?php echo $this->lang->line('whatsapp'); ?></button>
