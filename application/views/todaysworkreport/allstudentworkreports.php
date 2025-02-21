@@ -156,14 +156,14 @@
                                             <tr>
                                                 <td><?= $i++ ?></td>
                                                 <td class="text-left"><?= $student ?></td>
-                                                <td><input type="checkbox" <?= isset($data['discipline']['dress']) && $data['discipline']['dress'] ? 'checked' : ''; ?> disabled name="" value="" class="custom-checkbox" /></td>
-                                                <td><input type="checkbox" <?= isset($data['discipline']['dress']) && $data['discipline']['dress'] ? 'checked' : ''; ?> disabled name="" value="" class="custom-checkbox" /></td>
+                                                <td><input type="checkbox" <?= isset($data['discipline']['dress']) && $data['discipline']['dress']==1 ? 'checked' : ''; ?> disabled name="" value="" class="custom-checkbox" /></td>
+                                                <td><input type="checkbox" <?= isset($data['discipline']['conduct']) && $data['discipline']['conduct']==1 ? 'checked' : ''; ?> disabled name="" value="" class="custom-checkbox" /></td>
                                                 <?php
                                                 foreach ($subjects as $subject) {
                                                     if ($subject !== 'discipline') {
                                                         $fair_copy = (isset($data[$subject]['fair_copy']) && $data[$subject]['fair_copy'] == 1) ? 'checked' : '';
-                                                        $writing_work = isset($data[$subject]['writing_work']) ? 'checked' : '';
-                                                        $learning_work = isset($data[$subject]['learning_work']) ? 'checked' : '';
+                                                        $writing_work = isset($data[$subject]['writing_work']) && $data[$subject]['writing_work'] == 1 ? 'checked' : '';
+                                                        $learning_work = isset($data[$subject]['learning_work']) && $data[$subject]['learning_work'] == 1 ? 'checked' : '';
 
                                                 ?>
                                                         <td><input type="checkbox" <?= $fair_copy ?> name="" disabled value="" class="custom-checkbox" /></td>

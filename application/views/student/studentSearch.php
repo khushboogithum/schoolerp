@@ -307,7 +307,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                     resetFields($this.attr('value'));
                 },
                 success: function(response) { // your success handler
-
+                    // console.log(response);
                     if (!response.status) {
                         $.each(response.error, function(key, value) {
                             $('#error_' + key).html(value);

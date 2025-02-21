@@ -155,61 +155,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <?php foreach($nonPerformerStudent as $key=>$student){ ?>
                                     <tr>
                                         <td><input type="checkbox" name="check_student" value="1"></td>
-                                        <td>AC001</td>
-                                        <td>1</td>
-                                        <td>Ram</td>
-                                        <td>Class 1</td>
-                                        <td>Section A</td>
-                                        <td>Shayam</td>
-                                        <td>Rohani</td>
-                                        <td>9878767856</td>
+                                        <td><?=$student['admission_no'] ?></td>
+                                        <td><?=$student['roll_no'] ?></td>
+                                        <td><?=$student['firstname'] ?></td>
+                                        <td><?=$student['class'] ?></td>
+                                        <td><?=$student['section'] ?></td>
+                                        <td><?=$student['father_name'] ?></td>
+                                        <td><?=$student['mother_name'] ?></td>
+                                        <td><?=$student['mobileno'] ?></td>
                                     </tr>
-                                    <tr>
-                                        <td><input type="checkbox" name="check_student" value="1"></td>
-                                        <td>AC001</td>
-                                        <td>1</td>
-                                        <td>Ram</td>
-                                        <td>Class 1</td>
-                                        <td>Section A</td>
-                                        <td>Shayam</td>
-                                        <td>Rohani</td>
-                                        <td>9878767856</td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="checkbox" name="check_student" value="1"></td>
-                                        <td>AC001</td>
-                                        <td>1</td>
-                                        <td>Ram</td>
-                                        <td>Class 1</td>
-                                        <td>Section A</td>
-                                        <td>Shayam</td>
-                                        <td>Rohani</td>
-                                        <td>9878767856</td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="checkbox" name="check_student" value="1"></td>
-                                        <td>AC001</td>
-                                        <td>1</td>
-                                        <td>Ram</td>
-                                        <td>Class 1</td>
-                                        <td>Section A</td>
-                                        <td>Shayam</td>
-                                        <td>Rohani</td>
-                                        <td>9878767856</td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="checkbox" name="check_student" value="1"></td>
-                                        <td>AC001</td>
-                                        <td>1</td>
-                                        <td>Ram</td>
-                                        <td>Class 1</td>
-                                        <td>Section A</td>
-                                        <td>Shayam</td>
-                                        <td>Rohani</td>
-                                        <td>9878767856</td>
-                                    </tr>
+                                    <?php } ?>
                                 </tbody>
                             </table>
                             <h4 class="box-title titlefix"><?php echo $this->lang->line('subject_wise_performance'); ?></h4>
