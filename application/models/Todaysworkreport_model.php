@@ -249,6 +249,9 @@ class Todaysworkreport_model extends MY_model
                 'conduct' => $result['discipline_conduct'],
             ];
         }
+        // echo "<pre>";
+        // print_r($finaldata);
+        // die();
         return $finaldata;
     }
 
@@ -265,6 +268,7 @@ class Todaysworkreport_model extends MY_model
         $Complete = 0;
         $totalstudent = 0;
         $resultArray = [];
+        
         foreach ($results as $key => $result) {
 
             $subjectName = $result['subject_name'];

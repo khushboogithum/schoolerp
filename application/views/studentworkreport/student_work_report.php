@@ -89,140 +89,74 @@
                                         <th></th>
                                         <th colspan="3" style="text-align: center;"><?php echo $this->lang->line('attendence'); ?></th>
                                         <th colspan="2" style="text-align: center;"><?php echo $this->lang->line('discipline'); ?></th>
-                                        <th colspan="3">English</th>
-                                        <th colspan="3">Mathmatics</th>
-                                        <th colspan="3">Hindi</th>
+                                        <?php
+
+                                        foreach ($getreportdata as $entries) {
+                                            foreach ($entries as $subject => $fields) {
+                                                if ($subject !== "discipline") {
+                                                    if (!isset($subjects[$subject])) {
+                                                        $subjects[$subject] = array_keys($fields);
+                                                    } else {
+                                                        $subjects[$subject] = array_unique(array_merge($subjects[$subject], array_keys($fields)));
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        foreach ($subjects as $subject => $fields) {
+                                            echo "<th colspan='3'>$subject</th>";
+                                        }
+                                        ?>
                                     </tr>
                                     <tr>
                                         <th><?php echo $this->lang->line('s_no'); ?></th>
-                                        <th class="report_date"><?php echo $this->lang->line('date'); ?></th>
-
+                                        <th class="report_date"><?php echo $this->lang->line('date'); ?></th> 
                                         <th><?php echo $this->lang->line('t_days'); ?></th>
                                         <th><?php echo $this->lang->line('p_attendence'); ?></th>
-                                        <th><?php echo $this->lang->line('a_attendence'); ?></th>
+                                        <th><?php echo $this->lang->line('a_attendence'); ?></th> 
 
                                         <th><?php echo $this->lang->line('dress'); ?></th>
                                         <th><?php echo $this->lang->line('conduct'); ?></th>
-                                        <th><?= $this->lang->line('fair_copy') ?></th>
-                                        <th><?= $this->lang->line('writing_copy') ?></th>
-                                        <th><?= $this->lang->line('learning_copy') ?></th>
-                                        <th><?= $this->lang->line('fair_copy') ?></th>
-                                        <th><?= $this->lang->line('writing_copy') ?></th>
-                                        <th><?= $this->lang->line('learning_copy') ?></th>
-                                        <th><?= $this->lang->line('fair_copy') ?></th>
-                                        <th><?= $this->lang->line('writing_copy') ?></th>
-                                        <th><?= $this->lang->line('learning_copy') ?></th>
+                                        <?php
+                                        foreach ($subjects as $key => $subject) {
+                                            if ($subject !== 'discipline') {
+                                                echo "<th>" . $this->lang->line('fair_copy') . "</th><th>" . $this->lang->line('writing_copy') . "</th><th>" . $this->lang->line('learning_copy') . "</th>";
+                                            }
+                                        }
+                                        ?>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <?php 
+                                    $i=1;
+                                        foreach ($getreportdata as $date => $data) {
+
+                                    ?>
                                     <tr>
-                                        <td>1</td>
-                                        <td class="text-left">10-02-2025</td>
+                                        <td><?=$i++ ?></td>
+                                        <td class="text-left"><?=$date ?></td>
+                                         <td><input type="checkbox" checked="" disabled="" name="" value="" class="custom-checkbox"></td>
                                         <td><input type="checkbox" checked="" disabled="" name="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" disabled="" name="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" disabled="" name="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" disabled="" name="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
+                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td> 
+                                        <td><input type="checkbox" <?= isset($data['discipline']['dress']) && $data['discipline']['dress']==1 ? 'checked' : ''; ?> disabled name="" value="" class="custom-checkbox" /></td>
+                                        <td><input type="checkbox" <?= isset($data['discipline']['conduct']) && $data['discipline']['conduct']==1 ? 'checked' : ''; ?> disabled name="" value="" class="custom-checkbox" /></td>
+                                         
+                                        
+                                        <?php
+
+                                        foreach ($subjects as $subject => $fields) {
+                                            foreach ($fields as $field) {
+                                                $checked = isset($data[$subject][$field]) && $data[$subject][$field] == 1 ? "checked" : "";
+                                                echo "<td><input type='checkbox' $checked disabled class='custom-checkbox'></td>";
+                                            }
+                                        }
+                                        
+                                        
+                                        ?>
+                                        
+                                        
                                     </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td class="text-left">11-02-2025</td>
-                                        <td><input type="checkbox" checked="" disabled="" name="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" disabled="" name="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" disabled="" name="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" disabled="" name="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td class="text-left">05-01-2025</td>
-                                        <td><input type="checkbox" checked="" disabled="" name="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" disabled="" name="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" disabled="" name="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" disabled="" name="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td class="text-left">10-02-2025</td>
-                                        <td><input type="checkbox" checked="" disabled="" name="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" disabled="" name="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" disabled="" name="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" disabled="" name="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td class="text-left">09-01-2025</td>
-                                        <td><input type="checkbox" checked="" disabled="" name="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" disabled="" name="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" disabled="" name="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" disabled="" name="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td class="text-left">16-01-2025</td>
-                                        <td><input type="checkbox" checked="" disabled="" name="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" disabled="" name="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" disabled="" name="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" disabled="" name="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                        <td><input type="checkbox" checked="" name="" disabled="" value="" class="custom-checkbox"></td>
-                                    </tr>
+                                    <?php } ?>
                                 </tbody>
                             </table>
                         </div>

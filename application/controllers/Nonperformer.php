@@ -4,6 +4,7 @@ if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
 
+
 class Nonperformer extends Admin_Controller
 {
 
@@ -27,7 +28,9 @@ class Nonperformer extends Admin_Controller
 
         $classlist         = $this->class_model->get();
         $data['classlist'] = $classlist;
+        
 
+        $data['nonPerformerStudent']=$this->Nonperformer_model->nonPerformerStudent();   
         $data['classPercentage']=$this->Nonperformer_model->getClassPercentageToday();  
         $data['subjectPercentage']=$this->Nonperformer_model->getClassSubjectPercentage();  
         // echo "<pre>";

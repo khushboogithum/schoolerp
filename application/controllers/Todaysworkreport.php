@@ -83,6 +83,7 @@ class TodaysworkReport extends Admin_Controller
                     'total_percentage' => $total_percentages[$key],
                     'today_date' => date('Y-m-d')
                 ];
+                
             }
             $result = $this->Todaysworkreport_model->insertWorkReport($insertData);
             redirect('todaysworkreport/allstudentworkreports');
