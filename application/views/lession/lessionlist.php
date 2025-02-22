@@ -4,7 +4,7 @@
 
     <section class="content-header">
         <h1>
-            <i class="fa fa-mortar-board"></i> <?php echo $this->lang->line('academics'); ?>     </h1>
+            <i class="fa fa-mortar-board">dddd</i> <?php echo $this->lang->line('academics'); ?>     </h1>
     </section>
 
     <!-- Main content -->
