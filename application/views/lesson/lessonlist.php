@@ -4,7 +4,7 @@
 
     <section class="content-header">
         <h1>
-            <i class="fa fa-mortar-board"></i> <?php echo $this->lang->line('lesson'); ?>
+            <i class="fa fa-mortar-board"> dfdg</i> <?php echo $this->lang->line('lesson'); ?>
         </h1>
     </section>
 
