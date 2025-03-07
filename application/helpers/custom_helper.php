@@ -623,6 +623,8 @@ function getLocation()
     return $ipResult;
 }
 
+
+
 function getAgentDetail()
 {
     $CI           = &get_instance();
@@ -656,4 +658,50 @@ function getAgentDetail()
     $user_agent .= $CI->agent->platform() . " | ";
     $user_agent .= $agent;
     return  $user_agent;
+}
+
+
+if (!function_exists('get_school_year_range')) {
+    function get_school_year_range() {
+        $today = date("Y-m-d");
+        $currentYear = date("Y");
+        $currentMonth = date("m");
+
+        if ($currentMonth < 4) {
+            // If the current month is before April
+            $start_date = ($currentYear - 1) . '-04-01';
+            $end_date = $currentYear . '-04-01';
+        } else {
+            // If the current month is after or in April
+            $start_date = $currentYear . '-04-01';
+            $end_date = ($currentYear + 1) . '-04-01';
+        }
+
+        return [
+            'start_date' => $start_date,
+            'end_date' => $end_date
+        ];
+    }
+}
+
+
+if (!function_exists('getGrade')) {
+    function getGrade($percentage) {
+        if ($percentage >= 90) {
+            $grade = 'A+';
+        } elseif ($percentage >= 80) {
+            $grade = 'A';
+        } elseif ($percentage >= 70) {
+            $grade = 'B+';
+        } elseif ($percentage >= 60) {
+            $grade = 'B';
+        } elseif ($percentage >= 50) {
+            $grade = 'C+';
+        } elseif ($percentage >= 40) {
+            $grade = 'C';
+        } else {
+            $grade = 'F';
+        }
+        return $grade;
+    }
 }

@@ -4,7 +4,7 @@ if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
 
-class Studentworkreport_model extends MY_model
+class Ptm_model extends MY_model
 {
     public function __construct()
     {
@@ -20,9 +20,8 @@ class Studentworkreport_model extends MY_model
             $start_date = date("Y-m-d",strtotime($from_date));
             $end_date = date("Y-m-d",strtotime($to_date));
         }else{
-            $school_year = get_school_year_range();
-            $start_date = $school_year['start_date'];
-            $end_date = $school_year['end_date'];
+            $start_date = date("Y-m-d", strtotime("first day of last month"));
+            $end_date = date("Y-m-d", strtotime("last day of last month"));
 
         }
 
@@ -75,9 +74,8 @@ class Studentworkreport_model extends MY_model
             $start_date = date("Y-m-d",strtotime($from_date));
             $end_date = date("Y-m-d",strtotime($to_date));
         }else{
-            $school_year = get_school_year_range();
-            $start_date = $school_year['start_date'];
-            $end_date = $school_year['end_date'];
+            $start_date = date("Y-m-d", strtotime("first day of last month"));
+            $end_date = date("Y-m-d", strtotime("last day of last month"));
 
         }
         $resultArray = array();
@@ -88,7 +86,7 @@ class Studentworkreport_model extends MY_model
         if($student_id!=''){
         $this->db->select('student_work_report.*');
         $this->db->from('student_work_report');
-        $this->db->where('student_work_report.student_id',12);
+        $this->db->where('student_work_report.student_id',$student_id);
         $this->db->where('date(created_at) >=', $start_date);
         $this->db->where('date(created_at) <=', $end_date);
         $this->db->group_by('subject_id');
@@ -137,9 +135,8 @@ class Studentworkreport_model extends MY_model
             $start_date = date("Y-m-d",strtotime($from_date));
             $end_date = date("Y-m-d",strtotime($to_date));
         }else{
-            $school_year = get_school_year_range();
-            $start_date = $school_year['start_date'];
-            $end_date = $school_year['end_date'];
+            $start_date = date("Y-m-d", strtotime("first day of last month"));
+            $end_date = date("Y-m-d", strtotime("last day of last month"));
 
         }
         $attendenceArray = [];
@@ -192,6 +189,23 @@ class Studentworkreport_model extends MY_model
         $section = $query->result_array();
 
         return $section;
+    }
+    
+    public function studentDetails($student_id)
+    {
+        
+            $query= $this->db->select('classes.id AS `class_id`,student_session.id as student_session_id,students.id,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no, students.roll_no,students.admission_date,students.firstname,students.middlename,  students.lastname,students.image,students.mobileno,students.email ,students.state,students.city, students.pincode,students.religion,DATE(students.dob) as dob,students.current_address,students.permanent_address,IFNULL(students.category_id, 0) as `category_id`,IFNULL(categories.category, "") as `category`,students.adhar_no,students.samagra_id,students.bank_account_no,students.bank_name,students.ifsc_code , students.guardian_name, students.guardian_relation,students.guardian_phone,students.guardian_address,students.is_active,students.created_at ,students.updated_at,students.father_name,students.mother_name,students.app_key,students.parent_app_key,students.rte,students.gender')->from('students')
+            ->join('student_session', 'student_session.student_id = students.id')
+            ->join('classes', 'student_session.class_id = classes.id')
+            ->join('sections', 'sections.id = student_session.section_id')
+            ->join('categories', 'students.category_id = categories.id', 'left')
+            ->where('students.is_active', 'yes')
+            ->where_in('students.id', $student_id)
+            ->group_By('students.id')   
+            ->order_By('students.admission_no', 'ASC')
+            ->get(); 
+            $reuslt=$query->result_array();
+            return $reuslt;
     }
 }
 

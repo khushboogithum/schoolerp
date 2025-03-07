@@ -4,18 +4,19 @@ if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
 
-class Studentworkreport extends Admin_Controller
+class Ptmreport extends Admin_Controller
 {
 
     public function __construct()
     {
         parent::__construct();
         $this->load->library('form_validation');
-        $this->load->model('Studentworkreport_model');
+        $this->load->model('Ptm_model');
     }
 
     public function index()
     {
+             
         // if (!$this->rbac->hasPrivilege('Studentworkreport', 'can_view')) {
         //     access_denied();
         // }
@@ -24,10 +25,10 @@ class Studentworkreport extends Admin_Controller
         $data['classlist'] = $classlist;
 
 
-        $this->session->set_userdata('top_menu', 'studentworkreport');
-        $this->session->set_userdata('sub_menu', 'studentworkreport/index');
-        $data['title']      = 'Studentworkreport Report';
-        $data['title_list'] = 'Studentworkreport Report';
+        $this->session->set_userdata('top_menu', 'ptmreport');
+        $this->session->set_userdata('sub_menu', 'ptmreport/index');
+        $data['title']      = 'Ptm Report';
+        $data['title_list'] = 'Ptm Report';
 
         $this->form_validation->set_rules('class_id', $this->lang->line('class_id'), 'required');
         $this->form_validation->set_rules('section_id', $this->lang->line('section_id'), 'required');
@@ -41,17 +42,20 @@ class Studentworkreport extends Admin_Controller
 
 
             if ($this->form_validation->run() == false) {
-
                 $this->load->view('layout/header', $data);
-                $this->load->view('studentworkreport/student_work_report');
+                $this->load->view('ptm/ptm_report');
                 $this->load->view('layout/footer', $data);
             }else{
                 
-                $data['getreportdata'] = $this->Studentworkreport_model->getStudentMonthlyReport($student_id,$from_date,$to_date);
-                $data['getsubjectwisestatus'] = $this->Studentworkreport_model->getSubjectWiseReportMonthly($student_id,$from_date,$to_date);
-                $data['getAttendenceReport'] = $this->Studentworkreport_model->getAttendenceReport($student_id,$from_date,$to_date);
+                $data['getreportdata'] = $this->Ptm_model->getStudentMonthlyReport($student_id,$from_date,$to_date);
+                $data['getsubjectwisestatus'] = $this->Ptm_model->getSubjectWiseReportMonthly($student_id,$from_date,$to_date);
+                $data['getAttendenceReport'] = $this->Ptm_model->getAttendenceReport($student_id,$from_date,$to_date);
+                $data['studentDetails'] = $this->Ptm_model->studentDetails($student_id,$from_date,$to_date);
+                // echo "<pre>";
+                // print_r($data['studentDetails']);
+                // die();
                 $this->load->view('layout/header', $data);
-                $this->load->view('studentworkreport/student_work_report');
+                $this->load->view('ptm/ptm_report');
                 $this->load->view('layout/footer', $data);
             }
       
@@ -61,7 +65,7 @@ class Studentworkreport extends Admin_Controller
     {
         $class_id = $this->input->get('class_id');
         $section_id = $this->input->get('section_id');
-        $data     = $this->Studentworkreport_model->getAllStudentBySection($class_id,$section_id);
+        $data     = $this->Ptm_model->getAllStudentBySection($class_id,$section_id);
         echo json_encode($data);
     }
 }
