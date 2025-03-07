@@ -63,17 +63,22 @@
             color: #ffffff;
         }
 
-        table.dataTable, 
-        table.dataTable th, 
-        table.dataTable td {
-            border: 1px solid black !important;
-            text-align: center !important;
-            vertical-align: middle !important;
+        
+        table, th, td {
+            border: 1px solid gray !important;
+            border-collapse: collapse !important;
         }
 
-        table.dataTable {
-            border-collapse: collapse;
-        } 
+        th,
+        td {
+            
+            text-align: center;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
     </style>
 
     <section class="content">
@@ -86,7 +91,7 @@
                         <!-- <h3 class="box-title"><?php echo $this->lang->line('todays_work_syllubus_report'); ?></h3> -->
                     </div><!-- /.box-header -->
                     <div class="box-body">
-                        <form method="post" action="<?php echo base_url('studentworkreport/index'); ?>">
+                        <form method="post" action="<?php echo base_url('ptmreport/index'); ?>">
                             <?php echo $this->customlib->getCSRF(); ?>
                             <div class="row">
 
@@ -163,6 +168,31 @@
 
         </div>
         <div class="row">
+            <div class="col-md-10 text-center">
+                <h1 class="text-danger">Pt.R.N.S. Public school, Lahchore Baghpat</h1>
+            </div>
+            <div class="col-md-2">
+                <img src="" alt="">
+            </div>
+        </div>
+        <div class="row m-1 mt-2">
+            <div class="col-md-4">
+                <p>Admission No.-  <?=$studentDetails[0]['admission_no'] ?></p>
+                <p>Class Name - <?=$studentDetails[0]['class'] ?></p>
+                <p>Roll No. - <?=$studentDetails[0]['roll_no'] ?></p>  
+
+            </div>
+            <div class="col-md-4">
+                <p>Student's Name -  <?=$studentDetails[0]['firstname'] ?></p>
+                <p>Father's Name - <?=$studentDetails[0]['father_name'] ?></p>
+                <p>Address - <?=$studentDetails[0]['current_address'] ?></p>  
+            </div>
+            <div class="col-md-4">
+                <p>Mother's Name - <?=$studentDetails[0]['mother_name'] ?></p>
+                <p>DOB - <?=$studentDetails[0]['dob'] ?></p>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-12">
                 <div class="box box-primary">
                     <div class="box-header ptbnull">
@@ -170,7 +200,7 @@
                     </div>
                     <div class="box-body">
                         <div class="table-responsive overflow-visible">
-                            <table class="table table-striped table-bordered table-hover example">
+                            <table class="table">
                                 <thead>
                                     <tr>
                                         
@@ -283,38 +313,16 @@
                                 <span class="">Hindi</span>
                                 <div class="subject-box-student highlight">45/50</div>
                             </div> -->
-                            <?php foreach ($getsubjectwisestatus['subjectReport'] as $key => $subjectStatus) { ?>
+                            <?php foreach ($getsubjectwisestatus['subjectReport'] as $key => $subjectStatus) { 
+                                    
+                                
+                                ?>
                                 <div>
                                     <span class=""><?= $key ?></span>
                                     <div class="subject-box-student"><?php echo ($subjectStatus['complete'] ?? 0) . '/' . ($subjectStatus['totalstudent'] ?? 0) ?></div>
                                 </div>
                             <?php } ?>
-                            <!-- <div>
-                                <span class="">English</span>
-                                <div class="subject-box-student">45/50</div>
-                            </div>
-                            <div>
-                                <span class="">Mathematics</span>
-                                <div class="subject-box-student">45/50</div>
-                            </div>
-                            <div>
-                                <span class="">Science</span>
-                                <div class="subject-box-student">45/50</div>
-                            </div>
-                            <div>
-                                <span class="">SST</span>
-                                <div class="subject-box-student">45/50</div>
-                            </div>
-                            <div>
-                                <span class="">Drawing</span>
-                                <div class="subject-box-student">45/50</div>
-                            </div>
-                            <div>
-                                <span class="">Computer</span>
-                                <div class="subject-box-student">45/50</div>
-                            </div> -->
-
-                            <!-- Grade Box -->
+                            
                             <div>
                                 <span class="">Grade</span>
                                 <div class="grade-box">A</div>

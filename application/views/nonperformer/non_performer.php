@@ -21,6 +21,7 @@
         background-color: #136b23d9;
         color: white;
     }
+
 </style>
 <div class="content-wrapper">
     <!-- Main content -->
@@ -38,12 +39,12 @@
                         <?php
                         // echo "<pre>"; print_r($classlist);
                         foreach ($classlist as $key => $classlists) { ?>
-                            <div>
+                            <a href="?class_id=<?=$classlists['id'] ?>" style="text-decoration:none; color:#000000">
                                 <span class="ml-2"><?= $classlists['class'] ?></span>
                                 <div class="subject-box d-flex <?php echo $classPercentage[$classlists['id']] ? 'sub-color' : '' ?>">
                                     <?= $classPercentage[$classlists['id']] ?>
                                 </div>
-                            </div>
+                            </a>
                         <?php  } ?>
 
                         <!-- <div>
