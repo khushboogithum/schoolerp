@@ -41,6 +41,7 @@ class Lesson extends Admin_Controller
         $this->form_validation->set_rules('lesson_name', $this->lang->line('lesson_name'), 'trim|required|xss_clean');
 
         if ($this->form_validation->run() == false) {
+            
         } else {
             $data = array(
                 'class_id'        => $this->input->post('class_id'),

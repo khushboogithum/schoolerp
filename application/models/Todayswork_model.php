@@ -6,6 +6,7 @@ if (!defined('BASEPATH')) {
 $tz = 'Asia/Kolkata';
 date_default_timezone_set($tz);
 
+
 class Todayswork_model extends MY_model
 {
     public function __construct()
@@ -120,25 +121,35 @@ class Todayswork_model extends MY_model
     }
     public function getNotebookByClasswork($teaching_activity_id)
     {
-        $this->db->select('note_book_type.note_book_type_id, note_book_type.note_book_title');
-        $this->db->from('teaching_notebook');
-        $this->db->join('note_book_type', 'teaching_notebook.note_book_type_id = note_book_type.note_book_type_id', 'left');
-        $this->db->where_in('teaching_notebook.teaching_activity_id', $teaching_activity_id);
-        $query = $this->db->get();
-        //echo $this->db->last_query();
-
-        return $query->result_array();
+        if (!empty($teaching_activity_id) && is_array($teaching_activity_id)) {
+            $this->db->select('note_book_type.note_book_type_id, note_book_type.note_book_title');
+            $this->db->from('teaching_notebook');
+            $this->db->join('note_book_type', 'teaching_notebook.note_book_type_id = note_book_type.note_book_type_id', 'left');
+            $this->db->where_in('teaching_notebook.teaching_activity_id', $teaching_activity_id);
+            $query = $this->db->get();
+           // echo $this->db->last_query();
+           
+    
+            return $query->result_array();
+        }else{
+            return [];
+        }
+       
     }
     public function getNotebookByHomework($teaching_activity_home_work_id)
     {
+        if (!empty($teaching_activity_home_work_id) && is_array($teaching_activity_home_work_id)) {
         $this->db->select('note_book_type.note_book_type_id, note_book_type.note_book_title');
         $this->db->from('teaching_notebook');
         $this->db->join('note_book_type', 'teaching_notebook.note_book_type_id = note_book_type.note_book_type_id', 'left');
         $this->db->where_in('teaching_notebook.teaching_activity_id', $teaching_activity_home_work_id);
         $query = $this->db->get();
         //echo $this->db->last_query();
-
         return $query->result_array();
+        }else{
+            return [];
+        }
+
     }
     public function todaysWorkList()
     {

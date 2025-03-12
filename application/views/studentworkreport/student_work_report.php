@@ -222,16 +222,18 @@
                                             <td class="text-left"><?= $date ?></td>
                                             <td><?= isset($getAttendenceReport[$date]['attendence']) && $getAttendenceReport[$date]['attendence'] == 'P' ? '<span class="btn present">P</span>' : '<span class="btn absent">A</span>'; ?></td>
 
-                                            <td><input type="checkbox" <?= isset($data['discipline']['dress']) && $data['discipline']['dress'] == 1 ? 'checked' : ''; ?> disabled name="" value="" class="custom-checkbox" /></td>
-                                            <td><input type="checkbox" <?= isset($data['discipline']['conduct']) && $data['discipline']['conduct'] == 1 ? 'checked' : ''; ?> disabled name="" value="" class="custom-checkbox" /></td>
-
+                                            <!-- <td><input type="checkbox" <?= isset($data['discipline']['dress']) && $data['discipline']['dress'] == 1 ? 'checked' : ''; ?> disabled name="" value="" class="custom-checkbox" /></td>
+                                            <td><input type="checkbox" <?= isset($data['discipline']['conduct']) && $data['discipline']['conduct'] == 1 ? 'checked' : ''; ?> disabled name="" value="" class="custom-checkbox" /></td> -->
+                                            <td><span style="font-size:20px;"><?= isset($data['discipline']['dress']) && $data['discipline']['dress'] == 1 ? '✅' : '❌'; ?></span></td>
+                                            <td><span style="font-size:20px;"><?= isset($data['discipline']['conduct']) && $data['discipline']['conduct'] == 1 ? '✅' : '❌'; ?></span></td>
 
                                             <?php
 
                                             foreach ($subjects as $subject => $fields) {
                                                 foreach ($fields as $field) {
-                                                    $checked = isset($data[$subject][$field]) && $data[$subject][$field] == 1 ? "checked" : "";
-                                                    echo "<td><input type='checkbox' $checked disabled class='custom-checkbox'></td>";
+                                                    $checked = isset($data[$subject][$field]) && $data[$subject][$field] == 1 ? '✅' : '❌';
+                                                    // echo "<td><input type='checkbox' $checked disabled class='custom-checkbox'></td>";
+                                                    echo "<td><span style='font-size:20px;'>".$checked."</span></td>";
                                                 }
                                             }
 
@@ -240,6 +242,10 @@
 
 
                                         </tr>
+
+                                       
+                                                        
+                                                        <td><span style="font-size:20px;"><?= $learning_work ?></span></td>
                                     <?php } ?>
                                 </tbody>
                             </table>

@@ -208,6 +208,7 @@
                                         <th><?php echo $this->lang->line('home_work'); ?></th>
                                         <th><?php echo $this->lang->line('syllabus_percentage'); ?></th>
                                         <th><?php echo $this->lang->line('action'); ?></th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
