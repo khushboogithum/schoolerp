@@ -78,11 +78,11 @@
                                                 </td>
                                                 <td>
                                                     <input type="hidden" name="dress[<?= $key ?>]" value="0" />
-                                                    <input type="checkbox" checked name="dress[<?= $key ?>]" value="1" />
+                                                    <input type="checkbox" class="custom-checkbox" checked  name="dress[<?= $key ?>]" value="1" style="pointer-events: none;" />
                                                 </td>
                                                 <td>
                                                     <input type="hidden" name="conduct[<?= $key ?>]" value="0" />
-                                                    <input type="checkbox" checked name="conduct[<?= $key ?>]" value="1" />
+                                                    <input type="checkbox" class="custom-checkbox" checked  name="conduct[<?= $key ?>]" value="1" style="pointer-events: none;" />
                                                 </td>
                                                 <td>
                                                     <input type="hidden" name="fair_copy[<?= $key ?>]" value="0" />

@@ -144,7 +144,6 @@
                             <table class="table table-striped table-bordered table-hover example">
                                 <thead>
                                     <tr>
-                                        <th><?php echo $this->lang->line('s_no'); ?></th>
                                         <th><?php echo $this->lang->line('admission_number'); ?></th>
                                         <th><?php echo $this->lang->line('roll_no'); ?></th>
                                         <th><?php echo $this->lang->line('student_name'); ?></th>
@@ -156,12 +155,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach($nonPerformerStudent as $key=>$student){ ?>
+                                    <?php 
+                                    foreach($nonPerformerStudent as $key=>$student){
+                                            $url="/schoolerp/ptmreport/index?class_id=".$student['class_id']."&section_id=".$student['section_id']."&student_id=".$student['id']."&from_date=".date("Y-m-d")."&to_date=".date('Y-m-d');
+                                        
+                                    ?>
                                     <tr>
-                                        <td><input type="checkbox" name="check_student" value="1"></td>
                                         <td><?=$student['admission_no'] ?></td>
                                         <td><?=$student['roll_no'] ?></td>
-                                        <td><?=$student['firstname'] ?></td>
+                                        <td><a href="<?=$url ?>"><?=$student['firstname'] ?></a></td>
                                         <td><?=$student['class'] ?></td>
                                         <td><?=$student['section'] ?></td>
                                         <td><?=$student['father_name'] ?></td>
@@ -208,6 +210,7 @@
                                     90%
                                 </div>
                             </div>
+
                             <div>
                                 <span class="ml-2">Drawing</span>
                                 <div class="subject-box d-flex">

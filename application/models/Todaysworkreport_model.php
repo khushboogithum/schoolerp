@@ -76,9 +76,11 @@ class Todaysworkreport_model extends MY_model
         $this->db->join("lesson_diary", "lesson_diary.lesson_id = today_work.lesson_id");
         $this->db->where('today_work.today_status', '1');
         $this->db->where('today_work.status', '1');
-        $this->db->where('DATE(today_work.work_date)', $today);
+      
         if (!empty($todays_date)) {
             $this->db->where('DATE(today_work.work_date)', $todays_date);
+        }else{
+            $this->db->where('DATE(today_work.work_date)', $today);
         }
 
         if (!empty($class_id)) {
@@ -93,8 +95,9 @@ class Todaysworkreport_model extends MY_model
         if (!empty($subject_id)) {
             $this->db->where('today_work.subject_id', $subject_id);
         }
-
         $query = $this->db->get();
+        // echo $this->db->last_query();
+        // die();
         if ($query->num_rows() > 0) {
             $result = $query->result_array();
 

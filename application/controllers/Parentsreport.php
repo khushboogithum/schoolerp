@@ -30,10 +30,12 @@ class Parentsreport extends Admin_Controller
         $this->form_validation->set_rules('class_id', $this->lang->line('class_id'), 'required');
         $this->form_validation->set_rules('section_id', $this->lang->line('section_id'), 'required');
         $this->form_validation->set_rules('student_id', $this->lang->line('student_id'), 'required');
+        $this->form_validation->set_rules('tdate', $this->lang->line('tdate'), 'required');
 
         $data['class_id'] = $class_id = $this->input->post('class_id');
         $data['section_id'] = $section_id = $this->input->post('section_id');
         $data['student_id'] = $student_id = $this->input->post('student_id');
+        $data['tdate'] = $tdate = $this->input->post('tdate');
 
         
         $classlist= $this->class_model->get();
@@ -44,10 +46,10 @@ class Parentsreport extends Admin_Controller
             $this->load->view('parents/parents_report', $data);
             $this->load->view('layout/footer', $data);
         }else{
-            
+ 
             $classwork = $this->Parents_model->getClasswork();
             $data['teachingClassWork'] = $classwork;
-            $todaysWorkList = $this->Parents_model->todaysWorkList();
+            $todaysWorkList = $this->Parents_model->todaysWorkList($class_id,$student_id,$tdate);
             $workData = [];
             foreach ($todaysWorkList as $work) {
                 $lesson_number = $work['lesson_number'];
@@ -60,8 +62,8 @@ class Parentsreport extends Admin_Controller
             }
             $data['todaysWork'] = $workData;
             $data['studentDetails'] = $this->Parents_model->studentDetails($student_id);
-            $data['studentAttendence'] = $this->Parents_model->getAttendenceReport($student_id);
-            $data['getSubjectWiseReport'] = $this->Parents_model->getSubjectWiseReport($student_id);
+            $data['studentAttendence'] = $this->Parents_model->getAttendenceReport($student_id,$tdate);
+            $data['getSubjectWiseReport'] = $this->Parents_model->getSubjectWiseReport($student_id,$tdate);
             
 
             $this->load->view('layout/header', $data);

@@ -46,7 +46,6 @@ class Nonperformer_model extends MY_model
 
     public function nonPerformerStudent($class_id)
     {
-        
         $this->db->select('student_work_report.*');
         $this->db->from('student_work_report');
         $this->db->where('date(created_at)', date('Y-m-d'));

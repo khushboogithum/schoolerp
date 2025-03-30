@@ -46,7 +46,7 @@ class Parents_model extends MY_model
         // die();
         return $query->result_array();
     }
-    public function todaysWorkList()
+    public function todaysWorkList($class_id,$student_id,$tdate)
     {
         $today = date('Y-m-d');
         $this->db->select('today_work.today_work_id, today_work.work_date,today_work.class_id, today_work.subject_id, today_work.lesson_id, subjects.name as subject_name, today_work.lesson_name, lesson_diary.lesson_number');
@@ -54,9 +54,17 @@ class Parents_model extends MY_model
         $this->db->join("subjects", "subjects.id = today_work.subject_id");
         $this->db->join("lesson_diary", "lesson_diary.lesson_id = today_work.lesson_id");
         //$this->db->where('today_work.today_status', '0');
-        $this->db->where('today_work.status', '1');
-        $this->db->where('DATE(today_work.work_date)', $today);
+        if($class_id!=''){
+            $this->db->where('today_work.class_id', $class_id);
+        }if($tdate!=''){
+            $this->db->where('DATE(today_work.work_date)', $tdate);
+        }else{
+            $this->db->where('DATE(today_work.work_date)', $today);
+
+        }
         $query = $this->db->get();
+        // echo $this->db->last_query();
+        // die();
         if ($query->num_rows() > 0) {
             $result = $query->result_array();
             foreach ($result as &$row) {
@@ -146,67 +154,97 @@ class Parents_model extends MY_model
     }
 
 
-    public function getAttendenceReport($student_id)
+    public function getAttendenceReport($student_id,$tdate)
     {
         if($student_id!=''){
             $this->db->select('student_attendences.date as attendece_date,attendence_type_id');
             $this->db->from('student_attendences');
             $this->db->where_in('student_attendences.student_session_id', 'SELECT id FROM student_session WHERE student_id ="'.$student_id.'"', false);
-            $this->db->where('student_attendences.date=', date('Y-m-d'));
+            if($tdate!=''){
+                $this->db->where('DATE(student_attendences.date)', $tdate);
+            }else{
+                $this->db->where('DATE(student_attendences.date)', date('Y-m-d'));
+            }
             $query = $this->db->get();
-            //echo $this->db->last_query();
-            //die();
             $results = $query->result_array();
         }
         return $results;
-       
     }
 
-    public function getSubjectWiseReport($student_id)
+    public function getSubjectWiseReport($student_id,$tdate)
     {
         
         $resultArray = array();
         $subStatus=$backgroundColor ='';
         $dreessStatus='found guilty';
         $conductStatus='found guilty';
+        $dreessStatus='NA';
+        $conductStatus='NA';
+        $grade='NA';
+        $complatetot=0;
+        $total=0;
+        $percentage=0;
         if($student_id!=''){
         $this->db->select('student_work_report.*');
         $this->db->from('student_work_report');
-        $this->db->where('student_work_report.student_id',12);
-        $this->db->where('date(created_at)=', date('Y-m-d'));
+        $this->db->where('student_work_report.student_id',$student_id);
+        if($tdate!=''){
+            $this->db->where('date(created_at)', $tdate);
+        }else{
+           // $this->db->where('date(created_at)', date('Y-m-d'));
+        
+        }
+      
         $this->db->group_by('subject_id');
         $query = $this->db->get();
+        // echo $this->db->last_query();
+        // die();
 
         $results = $query->result_array();
         foreach ($results as $key => $result) {
 
             $subjectName = trim($result['subject_name']);
             if($result['discipline_dress'] == 1){
-                    $dreessStatus='Completed';
+                $dreessStatus='Completed';
+                $complatetot++;
+                $total++;
             }
 
             if($result['discipline_conduct'] == 1){
                 $conductStatus='Completed';
+                $complatetot++;
+                $total++;
             }   
 
             if ($result['fair_copy'] == 1 && $result['writing_work'] == 1 && $result['learning_work'] == 1) {
                 $subStatus='Completed';
                 $backgroundColor='completed';
+                $total++;
+                $complatetot++;
             }elseif($result['fair_copy'] == 0 && $result['writing_work'] == 0 && $result['learning_work'] == 0) {
                 $subStatus='Not Completed';
                 $backgroundColor='critical';
+                $total++;
             }else{
                 $subStatus='Not Completed';
                 $backgroundColor='not-completed';
+                $total++;
             }
             $resultArray[$subjectName] = [
                 'subStatus' => $subStatus,
                 'backgroundColor' => $backgroundColor,
             ];
         }
+        if($total>0 && $complatetot>0){
+            $percentage=($complatetot/$total)*100;
+            $grade=getGrade($percentage);
+
+        }
+       
+
         }
 
-        return array('subjectReport'=>$resultArray,'dreessStatus'=>$dreessStatus,'conductStatus'=>$conductStatus);
+        return array('subjectReport'=>$resultArray,'dreessStatus'=>$dreessStatus,'conductStatus'=>$conductStatus,'grade'=>$grade);
         
     }
 

@@ -61,7 +61,13 @@
                         <form method="post" action="<?php echo base_url('parentsreport/index'); ?>">
                             <?php echo $this->customlib->getCSRF(); ?>
                             <div class="row">
-
+                            <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1"> Date</label><small class="req"> *</small>
+                                        <input autofocus="" id="tdate" name="tdate" placeholder="" type="date" class="form-control" value="<?=@$tdate?>" autocomplete="off">
+                                        <span class="text-danger"><?php echo form_error('tdate'); ?></span>
+                                    </div>
+                                </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label><?php echo $this->lang->line('class'); ?></label><small class="req"> *</small>
@@ -158,7 +164,7 @@
                             <table class="table ">
                                 <thead>
                                     <tr>
-                                        <th><?php echo $this->lang->line('subject'); ?>dddd</th>
+                                        <th><?php echo $this->lang->line('subject'); ?></th>
                                         <th><?php echo $this->lang->line('total_lesson'); ?></th>
                                         <th><?php echo $this->lang->line('now_going_on'); ?></th>
                                         <th><?php echo $this->lang->line('class_work'); ?></th>
@@ -255,7 +261,7 @@
                             <?php } ?>
                             <div>
                                 <span class="">Grade</span>
-                                <div class="grade-box">A</div>
+                                <div class="grade-box"><?=$getSubjectWiseReport['grade'] ?></div>
                             </div>
                         </div>
 

@@ -20,6 +20,7 @@ class Ptmreport extends Admin_Controller
         // if (!$this->rbac->hasPrivilege('Studentworkreport', 'can_view')) {
         //     access_denied();
         // }
+        $this->form_validation->set_data($this->input->get());
 
         $classlist         = $this->class_model->get();
         $data['classlist'] = $classlist;
@@ -34,11 +35,11 @@ class Ptmreport extends Admin_Controller
         $this->form_validation->set_rules('section_id', $this->lang->line('section_id'), 'required');
         $this->form_validation->set_rules('student_id', $this->lang->line('student_id'), 'required');
            
-            $data['class_id'] = $class_id = $this->input->post('class_id');
-            $data['section_id'] = $section_id = $this->input->post('section_id');
-            $data['student_id'] = $student_id = $this->input->post('student_id');
-            $data['from_date'] = $from_date = $this->input->post('from_date');
-            $data['to_date'] = $to_date = $this->input->post('to_date');
+            $data['class_id'] = $class_id = $this->input->get('class_id');
+            $data['section_id'] = $section_id = $this->input->get('section_id');
+            $data['student_id'] = $student_id = $this->input->get('student_id');
+            $data['from_date'] = $from_date = $this->input->get('from_date');
+            $data['to_date'] = $to_date = $this->input->get('to_date');
 
 
             if ($this->form_validation->run() == false) {
@@ -46,7 +47,6 @@ class Ptmreport extends Admin_Controller
                 $this->load->view('ptm/ptm_report');
                 $this->load->view('layout/footer', $data);
             }else{
-                
                 $data['getreportdata'] = $this->Ptm_model->getStudentMonthlyReport($student_id,$from_date,$to_date);
                 $data['getsubjectwisestatus'] = $this->Ptm_model->getSubjectWiseReportMonthly($student_id,$from_date,$to_date);
                 $data['getAttendenceReport'] = $this->Ptm_model->getAttendenceReport($student_id,$from_date,$to_date);

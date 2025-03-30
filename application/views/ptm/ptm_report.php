@@ -91,8 +91,8 @@
                         <!-- <h3 class="box-title"><?php echo $this->lang->line('todays_work_syllubus_report'); ?></h3> -->
                     </div><!-- /.box-header -->
                     <div class="box-body">
-                        <form method="post" action="<?php echo base_url('ptmreport/index'); ?>">
-                            <?php echo $this->customlib->getCSRF(); ?>
+                        <form method="get" action="<?php echo base_url('ptmreport/index'); ?>">
+                            <?php //echo $this->customlib->getCSRF(); ?>
                             <div class="row">
 
                                 <div class="col-md-2">
@@ -157,7 +157,7 @@
                                         <button type="submit" name="search" value="search_filter" class="btn btn-primary btn-sm" style="margin-top: 21px;">
                                             <i class="fa fa-search"></i> Search
                                         </button>
-                                        <a href="<?= base_url() ?>/todaysworkreport/index" type="reset" name="reset" value="reset_filter" class="btn btn-primary btn-sm" style=" margin-top: 21px;"><i class="fa fa-filter"></i> Reset</a>
+                                        <a href="<?= base_url() ?>/ptmreport/index" type="reset" name="reset" value="reset_filter" class="btn btn-primary btn-sm" style=" margin-top: 21px;"><i class="fa fa-filter"></i> Reset</a>
                                     </div>
                                 </div>
                             </div>
@@ -313,7 +313,12 @@
                                 <span class="">Hindi</span>
                                 <div class="subject-box-student highlight">45/50</div>
                             </div> -->
-                            <?php foreach ($getsubjectwisestatus['subjectReport'] as $key => $subjectStatus) { 
+                            <?php $percentage=array();
+                            foreach ($getsubjectwisestatus['subjectReport'] as $key => $subjectStatus) { 
+                                if($subjectStatus['complete']>0){
+                                    $percentage[]=round(($subjectStatus['complete']/$subjectStatus['totalstudent'])*100,0,2);
+
+                                }
                                     
                                 
                                 ?>
@@ -321,11 +326,17 @@
                                     <span class=""><?= $key ?></span>
                                     <div class="subject-box-student"><?php echo ($subjectStatus['complete'] ?? 0) . '/' . ($subjectStatus['totalstudent'] ?? 0) ?></div>
                                 </div>
-                            <?php } ?>
+                            <?php }
+                            ?>
                             
                             <div>
                                 <span class="">Grade</span>
-                                <div class="grade-box">A</div>
+                                <div class="grade-box">
+
+                                <?php echo !empty($percentage) ? getGrade(array_sum($percentage) / count($percentage)) : 'NA';?>
+
+
+                                </div>
                             </div>
                         </div>
 
