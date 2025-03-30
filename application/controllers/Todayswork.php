@@ -12,6 +12,9 @@ class Todayswork extends Admin_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('Todayswork_model');
+        $this->load->model('Section_model'); 
+        $this->load->model('subjectgroup_model'); 
+        $this->load->model('Subject_model');
     }
 
     public function index()
@@ -103,7 +106,7 @@ class Todayswork extends Admin_Controller
         }
     }
 
-    public function edit()
+    public function edit($id)
     {
         // if (!$this->rbac->hasPrivilege('lesson', 'can_view')) {
         //     access_denied();
@@ -116,9 +119,33 @@ class Todayswork extends Admin_Controller
         $data['title']      = 'Todays Work';
         $data['title_list'] = 'Todays Work';
 
-        $classlist         = $this->class_model->get();
-        $data['classlist'] = $classlist;
+        $today_work_id=$id;
+        $data['editData']=$todayworkedit = $this->Todayswork_model->getClassworkid($today_work_id);
+        // echo "<pre>";
+        // print_r($todayworkedit);
+        // die();
+        $data['class_id']=$todayworkedit['class_id'];
+        $data['section_id']=$todayworkedit['section_id'];
+        $data['subject_group_id']=$todayworkedit['subject_group_id'];
+        $data['subject_id']=$todayworkedit['subject_id'];
+        $data['lesson_number']=$todayworkedit['lesson_id'];
+        $data['lesson_name']=$todayworkedit['lesson_name'];
 
+        $data['lesson_id']= $this->Todayswork_model->getLessionId($data['class_id'],$data['subject_id'],$data['lesson_number']);
+      
+        // print_r($data['subjectid']);
+        // die();
+            // $lesson_id=$todayworkedit['lesson_id'];
+        //    $lesson_name= $todayworkedit['lesson_name'];
+            $data['classlist']         = $this->class_model->get();
+            // $data['sectionlist']       = $this->Section_model->get();
+            // $data['subjectgroupList']  = $this->subjectgroup_model->getByID();
+            // $data['subjectlist']       = $this->Subject_model->getSubject();
+
+        //    echo "<pre>";
+        //  print_r($data['subjectlist']);
+        //  die();
+        
         $classwork = $this->Todayswork_model->getClasswork();
         $data['teachingClassWork'] = $classwork;
 
@@ -183,17 +210,14 @@ class Todayswork extends Admin_Controller
 
             if ($insert_id) {
                 $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
-                redirect('todayswork');
+                redirect('todaysworkedit');
             } else {
 
                 $this->session->set_flashdata('msg', '<div class="alert alert-danger">' . $this->lang->line('error_message') . '</div>');
-                redirect('todayswork');
+                redirect('todaysworkedit');
             }
         }
     }
-
-
-
 
 
 

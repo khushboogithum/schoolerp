@@ -127,29 +127,27 @@ class Todayswork_model extends MY_model
             $this->db->join('note_book_type', 'teaching_notebook.note_book_type_id = note_book_type.note_book_type_id', 'left');
             $this->db->where_in('teaching_notebook.teaching_activity_id', $teaching_activity_id);
             $query = $this->db->get();
-           // echo $this->db->last_query();
-           
-    
+            // echo $this->db->last_query();
+
+
             return $query->result_array();
-        }else{
+        } else {
             return [];
         }
-       
     }
     public function getNotebookByHomework($teaching_activity_home_work_id)
     {
         if (!empty($teaching_activity_home_work_id) && is_array($teaching_activity_home_work_id)) {
-        $this->db->select('note_book_type.note_book_type_id, note_book_type.note_book_title');
-        $this->db->from('teaching_notebook');
-        $this->db->join('note_book_type', 'teaching_notebook.note_book_type_id = note_book_type.note_book_type_id', 'left');
-        $this->db->where_in('teaching_notebook.teaching_activity_id', $teaching_activity_home_work_id);
-        $query = $this->db->get();
-        //echo $this->db->last_query();
-        return $query->result_array();
-        }else{
+            $this->db->select('note_book_type.note_book_type_id, note_book_type.note_book_title');
+            $this->db->from('teaching_notebook');
+            $this->db->join('note_book_type', 'teaching_notebook.note_book_type_id = note_book_type.note_book_type_id', 'left');
+            $this->db->where_in('teaching_notebook.teaching_activity_id', $teaching_activity_home_work_id);
+            $query = $this->db->get();
+            //echo $this->db->last_query();
+            return $query->result_array();
+        } else {
             return [];
         }
-
     }
     public function todaysWorkList()
     {
@@ -175,7 +173,6 @@ class Todayswork_model extends MY_model
         } else {
             return [];
         }
-       
     }
     public function getlessonnumber($lesson_id)
     {
@@ -343,5 +340,29 @@ class Todayswork_model extends MY_model
         } else {
             return $today_work_report_id;
         }
+    }
+
+
+    public function getclassworkid($today_work_id)
+    {
+        $this->db->select('today_work.*');
+        $this->db->from('today_work');
+        $this->db->where('today_work.today_work_id', $today_work_id);
+        $query = $this->db->get();
+        // echo $this->db->last_query();
+        // die();
+        return $query->row_array();
+    }
+
+    public function getLessionId($class_id,$subject_id,$lession_number)
+    {
+        $this->db->select('lesson_id');
+        $this->db->from('lesson_diary');
+        $this->db->where('class_id', $class_id);
+        $this->db->where('subject_id', $subject_id);
+        $this->db->where('lesson_number', $lession_number);
+        $query = $this->db->get();
+        $result = $query->row_array();
+        return $result['lesson_id'];
     }
 }
