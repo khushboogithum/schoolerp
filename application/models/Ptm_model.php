@@ -35,8 +35,8 @@ class Ptm_model extends MY_model
             $this->db->group_by('date(created_at)');
             $this->db->group_by('subject_id');
             $query = $this->db->get();
-            // echo $this->db->last_query();
-            // die();
+          //  echo $this->db->last_query();
+          //  die();
 
             $results = $query->result_array();
             $subject_array = [];
@@ -78,6 +78,7 @@ class Ptm_model extends MY_model
             $end_date = date("Y-m-d", strtotime("last day of last month"));
 
         }
+
         $resultArray = array();
         $Complete = 0;
         $totalstudent = 0;

@@ -289,7 +289,13 @@
                                 <span class="">Hindi</span>
                                 <div class="subject-box-student highlight">45/50</div>
                             </div> -->
-                            <?php foreach ($getsubjectwisestatus['subjectReport'] as $key => $subjectStatus) { ?>
+                            <?php   $percentage=array();
+                                    foreach ($getsubjectwisestatus['subjectReport'] as $key => $subjectStatus) {
+                                        if($subjectStatus['complete']>0){
+                                            $percentage[]=round(($subjectStatus['complete']/$subjectStatus['totalstudent'])*100,0,2);
+        
+                                        }
+                                ?>
                                 <div>
                                     <span class=""><?= $key ?></span>
                                     <div class="subject-box-student"><?php echo ($subjectStatus['complete'] ?? 0) . '/' . ($subjectStatus['totalstudent'] ?? 0) ?></div>
@@ -323,7 +329,7 @@
                             <!-- Grade Box -->
                             <div>
                                 <span class="">Grade</span>
-                                <div class="grade-box">A</div>
+                                <div class="grade-box"><?=!empty($percentage) ? getGrade(array_sum($percentage) / count($percentage)) : 'NA';?></div>
                             </div>
                         </div>
 

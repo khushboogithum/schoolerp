@@ -264,8 +264,6 @@ class Todayswork extends Admin_Controller
     //         $subjectname = $result[0]['subject_name'];
     //         $subjectid = $result[0]['subject_id'];
     //     }
-
-        
         $postdata = $this->input->post();
         // echo "<pre>";
         // print_r($postdata);

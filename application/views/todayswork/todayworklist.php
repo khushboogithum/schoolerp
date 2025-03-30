@@ -540,11 +540,10 @@
                
                 
                 $('#note_book_type_id').html(note_book);
-                setTimeout(function () {
-                   
+               // setTimeout(function () {
                     $('#note_book_type_id')[0].sumo.reload();
                     $('.sumo_note_book_type_id').find('.CaptionCont').removeClass('SumoUnder ');
-                }, 100);
+              //  }, 100);
             },
             error: function(xhr) {
                 alert("<?php echo $this->lang->line('error_occurred_please_try_again'); ?>");
@@ -577,11 +576,11 @@
                     home_work_note_book += "<option value='" + obj.note_book_type_id + "'>" + obj.note_book_title + "</option>";
                 });
                 $('#note_book_type_id_home_work').html(home_work_note_book);
-                setTimeout(function () {
+                // setTimeout(function () {
                    
                     $('#note_book_type_id_home_work')[0].sumo.reload();
                     $('.sumo_note_book_type_id_home_work').find('.CaptionCont').removeClass('SumoUnder ');
-               }, 100);
+            //    }, 100);
                
             },
             error: function(xhr) {
