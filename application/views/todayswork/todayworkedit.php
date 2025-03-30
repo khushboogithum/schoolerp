@@ -61,7 +61,6 @@
                                                 }
                                                 ?>
                                             </select>
-                                            <input type="hidden" id="lesson_subjectid" name="lesson_subjectid">
                                             <span class="class_id_error text-danger"><?php echo form_error('class_id'); ?></span>
                                         </div>
                                     </div>
@@ -80,8 +79,9 @@
                                             <label><?php echo $this->lang->line('subject_group'); ?></label><small class="req"> *</small>
                                             <select id="subject_group_id" name="subject_group_id" class="form-control">
                                                 <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                            
                                             </select>
-                                            <span class="section_id_error text-danger"><?php echo form_error('subject_group_id'); ?></span>
+                                            <span class="subject_group_id_error text-danger"><?php echo form_error('subject_group_id'); ?></span>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
@@ -90,7 +90,7 @@
                                             <select id="subid" name="subject_id" class="form-control">
                                                 <option value=""><?php echo $this->lang->line('select'); ?></option>
                                             </select>
-                                            <span class="section_id_error text-danger"><?php echo form_error('subject_id'); ?></span>
+                                            <span class="subject_id_error text-danger"><?php echo form_error('subject_id'); ?></span>
                                         </div>
                                     </div>
 
@@ -181,7 +181,7 @@
                                 </div>
                             </div>
                             <div class="box-footer">
-                                <button type="submit" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('add'); ?></button>
+                                <button type="submit" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('update'); ?></button>
                             </div>
                         </form>
                     </div>
@@ -315,6 +315,11 @@
         getSectionByClass("<?php echo $class_id ?>", "<?php echo $section_id ?>", 'secid');
         getSubjectGroup("<?php echo $class_id ?>", "<?php echo $section_id ?>", "<?php echo $subject_group_id ?>", 'subject_group_id')
         getsubjectBySubjectGroup("<?php echo $class_id ?>", "<?php echo $section_id ?>", "<?php echo $subject_group_id ?>", "<?php echo $subject_id ?>", 'subid');
+        getLessionBySubject("<?php echo $subject_id ?>","<?php echo $class_id ?>","<?=$lesson_number ?>");
+        getLessionNameById("<?=$lesson_id ?>","<?=$lesson_name ?>");
+
+
+
     });
 
     function getSectionByClass(class_id, section_id, select_control) {
@@ -403,7 +408,7 @@
     function getsubjectBySubjectGroup(class_id, section_id, subject_group_id, subject_group_subject_id, subject_target) {
         if (class_id != "" && section_id != "" && subject_group_id != "") {
             var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
-
+           // alert(subject_group_subject_id);
             $.ajax({
                 type: 'POST',
                 url: base_url + 'admin/subjectgroup/getGroupsubjects',
@@ -419,7 +424,8 @@
                     console.log(data);
                     $.each(data, function(i, obj) {
                         var sel = "";
-                        if (subject_group_subject_id == obj.id) {
+                        if (subject_group_subject_id == obj.subject_id) {
+                            // alert('hii');
                             sel = "selected";
                         }
 
@@ -445,9 +451,15 @@
 
 
     $(document).on('change', '#subid', function() {
+
         var subid = $('#subid').val();
         let class_id = $('#searchclassid').val();
-        // console.log(subid);
+        getLessionBySubject(subid,class_id,'');
+        
+    });
+
+    function getLessionBySubject(subid,class_id,lession_id){
+       
         var div_lession_no = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
         // var div_lession_name = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
         $.ajax({
@@ -466,6 +478,11 @@
                 // console.log(data);
                 $.each(data, function(i, obj) {
                     var sel = "";
+                    if (lession_id == obj.lesson_number) {
+                            // alert('hii');
+                            sel = "selected";
+                        }
+
                     div_lession_no += "<option value=" + obj.lesson_id + " " + sel + ">" + obj.lesson_number + "</option>";
 
                 });
@@ -480,19 +497,23 @@
                 // $('#lesson_name').removeClass('dropdownloading');
             }
         });
-    });
+    }
 
 
     $(document).on('change', '#lesson_number', function() {
         var lesson_number = $('#lesson_number').val();
-        // console.log(lesson_number);
+        getLessionNameById(lesson_number,'');
+       
+    });
+
+    function getLessionNameById(lesson_id,lesson_name){
         var div_lession_name = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
         $.ajax({
 
             type: 'POST',
             url: base_url + 'todayswork/getlessionDataByLessionId',
             data: {
-                'lesson_id': lesson_number
+                'lesson_id': lesson_id
             },
             dataType: 'JSON',
             beforeSend: function() {
@@ -502,6 +523,9 @@
                 //console.log(data);
                 $.each(data, function(i, obj) {
                     var sel = "";
+                    if (lesson_name == obj.lesson_name) {
+                            sel = "selected";
+                        }
                     div_lession_name += "<option value=" + obj.lesson_name + " " + sel + ">" + obj.lesson_name + "</option>";
                 });
                 $('#lesson_name').html(div_lession_name);
@@ -514,7 +538,7 @@
                 $('#lesson_name').removeClass('dropdownloading');
             }
         });
-    });
+    }
 
     $('#teaching_activity_id').on('change', function() {
         var teaching_activity_id = [];
