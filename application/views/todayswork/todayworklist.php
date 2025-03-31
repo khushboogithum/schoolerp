@@ -19,7 +19,7 @@
                     <!-- Horizontal Form -->
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title"><?php echo $this->lang->line('todays_work_syllubus_report'); ?></h3>
+                            <h3 class="box-title"> KHushboo skk<?php echo $this->lang->line('todays_work_syllubus_report'); ?></h3>
                         </div><!-- /.box-header -->
                         <form id="form1" action="<?php echo site_url('todayswork'); ?>" method="post" accept-charset="utf-8">
                             <div class="box-body">
