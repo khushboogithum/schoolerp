@@ -35,6 +35,7 @@ class Todayswork extends Admin_Controller
 
         $classwork = $this->Todayswork_model->getClasswork();
         $data['teachingClassWork'] = $classwork;
+        
 
         $todaysWorkList = $this->Todayswork_model->todaysWorkList();
         $workData = [];
@@ -119,11 +120,35 @@ class Todayswork extends Admin_Controller
         $data['title']      = 'Todays Work';
         $data['title_list'] = 'Todays Work';
 
-        $today_work_id=$id;
+        $data['today_work_id']=$today_work_id=$id;
+        
         $data['editData']=$todayworkedit = $this->Todayswork_model->getClassworkid($today_work_id);
-        // echo "<pre>";
-        // print_r($todayworkedit);
-        // die();
+        $classworkedit = $this->Todayswork_model->getClassworkdrop($today_work_id);
+        $homeworkedit = $this->Todayswork_model->getHomeworkdrop($today_work_id);
+        
+        $data['teaching_activity_id']=$teaching_activity_ids = $classworkedit['teaching_activity_ids'];
+        $teachingactivityID=explode(',',$teaching_activity_ids);
+        
+        $data['homework_teaching_activity_id']=$homework_teaching_activity_id = $homeworkedit['teaching_activity_ids'];
+        $hometeachingactivityID=explode(',',$homework_teaching_activity_id);
+
+        $todays_class_notebooks=$this->Todayswork_model->getNotebookByClasswork($teachingactivityID);
+        $data['todays_class_notebook']=$todays_class_notebooks;
+
+        $todays_homework_notebooks=$this->Todayswork_model->getNotebookByHomework($hometeachingactivityID);
+        $data['todays_homework_notebook']=$todays_homework_notebooks;
+       
+        
+        $classworkNoteedit = $this->Todayswork_model->getClassworkNotedrop($today_work_id);
+        $data['note_book_type_id'] = $classworkNoteedit['note_book_type_ids'];
+
+        $homeworkNoteedit = $this->Todayswork_model->getClassworkNotedrop($today_work_id);
+        $data['homework_note_book_type_id'] = $homeworkNoteedit['note_book_type_ids'];
+
+        $data['work_date']=$todayworkedit['work_date'];
+       // print_r($todayworkedit);
+        // print_r($);
+       // die();
         $data['class_id']=$todayworkedit['class_id'];
         $data['section_id']=$todayworkedit['section_id'];
         $data['subject_group_id']=$todayworkedit['subject_group_id'];
@@ -132,24 +157,12 @@ class Todayswork extends Admin_Controller
         $data['lesson_name']=$todayworkedit['lesson_name'];
 
         $data['lesson_id']= $this->Todayswork_model->getLessionId($data['class_id'],$data['subject_id'],$data['lesson_number']);
-      
-        // print_r($data['subjectid']);
-        // die();
-            // $lesson_id=$todayworkedit['lesson_id'];
-        //    $lesson_name= $todayworkedit['lesson_name'];
-            $data['classlist']         = $this->class_model->get();
-            // $data['sectionlist']       = $this->Section_model->get();
-            // $data['subjectgroupList']  = $this->subjectgroup_model->getByID();
-            // $data['subjectlist']       = $this->Subject_model->getSubject();
-
-        //    echo "<pre>";
-        //  print_r($data['subjectlist']);
-        //  die();
-        
+        $data['classlist']         = $this->class_model->get();
+          
         $classwork = $this->Todayswork_model->getClasswork();
         $data['teachingClassWork'] = $classwork;
 
-        $todaysWorkList = $this->Todayswork_model->todaysWorkList();
+        $todaysWorkList = $this->Todayswork_model->todaysWorkListEdit();
         $workData = [];
         foreach ($todaysWorkList as $work) {
            // $class_id = $work['class_id'];
@@ -166,10 +179,11 @@ class Todayswork extends Admin_Controller
 
             $workData[] = $work;
         }
-        // echo "<pre>";
-        // print_r($workData);
-        // die();
         $data['todaysWork'] = $workData;
+        $teaching_activity_id = $this->input->post('teaching_activity_id');
+        $teaching_activity_home_work_id = $this->input->post('teaching_activity_home_work_id');
+        $note_book_type_id = $this->input->post('note_book_type_id');
+        $note_book_type_id_home_work = $this->input->post('note_book_type_id_home_work');
 
         $this->form_validation->set_rules('work_date', $this->lang->line('work_date'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('class_id', $this->lang->line('class'), 'trim|required|xss_clean');
@@ -201,20 +215,15 @@ class Todayswork extends Admin_Controller
                 'lesson_name'       => $this->input->post('lesson_name'),
                 'created_by'        => $user_id,
             );
-
-            $teaching_activity_id = $this->input->post('teaching_activity_id');
-            $teaching_activity_home_work_id = $this->input->post('teaching_activity_home_work_id');
-            $note_book_type_id = $this->input->post('note_book_type_id');
-            $note_book_type_id_home_work = $this->input->post('note_book_type_id_home_work');
-            $insert_id = $this->Todayswork_model->addTodaysClassWork($todays_data, $teaching_activity_id, $teaching_activity_home_work_id, $note_book_type_id, $note_book_type_id_home_work);
-
-            if ($insert_id) {
-                $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
-                redirect('todaysworkedit');
+            
+            $update_id = $this->Todayswork_model->updateTodaysClassWork($todays_data,$today_work_id, $teaching_activity_id, $teaching_activity_home_work_id, $note_book_type_id, $note_book_type_id_home_work);
+            if ($update_id) {
+                $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('update_message') . '</div>');
+                redirect('todayswork/edit/'.$today_work_id);
             } else {
 
                 $this->session->set_flashdata('msg', '<div class="alert alert-danger">' . $this->lang->line('error_message') . '</div>');
-                redirect('todaysworkedit');
+                redirect('todayswork/edit/'.$today_work_id);
             }
         }
     }

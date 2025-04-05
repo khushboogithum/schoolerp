@@ -1,192 +1,222 @@
 <?php $currency_symbol = $this->customlib->getSchoolCurrencyFormat(); ?>
 <!-- Content Wrapper. Contains page content -->
+ <style>
+.readonly-select {
+    pointer-events: none;
+    background-color:rgb(235, 239, 243);
+    color: #495057;
+    cursor: not-allowed;
+
+}
+ </style>   
 <div class="content-wrapper">
-
-    <section class="content-header">
-        <h1>
-            <i class="fa fa-mortar-board"></i> <?php echo $this->lang->line('lesson'); ?>
-
-        </h1>
-    </section>
-
     <!-- Main content -->
     <section class="content">
         <div class="row">
             <?php
-           // if ($this->rbac->hasPrivilege('todayswork', 'can_add')) {
+            // if ($this->rbac->hasPrivilege('todayswork', 'can_add')) {
             ?>
-                <div class="col-md-12">
-                    <!-- Horizontal Form -->
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title"><?php echo $this->lang->line('todays_work_syllubus_report'); ?></h3>
-                        </div><!-- /.box-header -->
-                        <form id="form1" action="<?php echo site_url('todayswork'); ?>" method="post" accept-charset="utf-8">
-                            <div class="box-body">
-                                <?php
-                                if ($this->session->flashdata('msg')) {
-                                    echo $this->session->flashdata('msg');
-                                    $this->session->unset_userdata('msg');
-                                }
-                                ?>
+            <div class="col-md-12">
+                <!-- Horizontal Form -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><?php echo $this->lang->line('todays_work_syllubus_report'); ?></h3>
+                    </div><!-- /.box-header -->
+                    <form id="form1" action="<?php echo site_url('todayswork/edit/' . $today_work_id); ?>" method="post" accept-charset="utf-8">
+                    <div class="box-body">
+                            <?php
+                            if ($this->session->flashdata('msg')) {
+                                echo $this->session->flashdata('msg');
+                                $this->session->unset_userdata('msg');
+                            }
+                            ?>
 
-                                <?php
-                                if (isset($error_message)) {
-                                    echo "<div class='alert alert-danger'>" . $error_message . "</div>";
-                                }
-                                ?>
-                                <?php echo $this->customlib->getCSRF(); ?>
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1"><?php echo $this->lang->line('todays_date'); ?></label><small class="req"> *</small>
-                                            <input autofocus="" id="work_date" name="work_date" placeholder="" type="date" class="form-control" value="<?php echo set_value('todays_date'); ?>" />
-                                            <span class="text-danger"><?php echo form_error('work_date'); ?></span>
-                                        </div>
+                            <?php
+                            if (isset($error_message)) {
+                                echo "<div class='alert alert-danger'>" . $error_message . "</div>";
+                            }
+                            ?>
+                            <?php echo $this->customlib->getCSRF(); ?>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1"><?php echo $this->lang->line('todays_date'); ?></label><small class="req"> *</small>
+                                        <input autofocus="" id="work_date" name="work_date" placeholder="" type="date" class="form-control readonly-select" value="<?php echo $work_date; ?>" />
+                                        <span class="text-danger"><?php echo form_error('work_date'); ?></span>
                                     </div>
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <label><?php echo $this->lang->line('class'); ?></label><small class="req"> *</small>
-                                            <select autofocus="" id="searchclassid" name="class_id" onchange="getSectionByClass(this.value, 0, 'secid')" class="form-control">
-                                                <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                                <?php
-                                                foreach ($classlist as $class) {
-                                                ?>
-                                                    <option <?php
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label><?php echo $this->lang->line('class'); ?></label><small class="req"> *</small>
+                                        <select autofocus="" id="searchclassid" name="class_id" onchange="getSectionByClass(this.value, 0, 'secid')" class="form-control readonly-select">
+                                            <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                            <?php
+                                            foreach ($classlist as $class) {
+                                            ?>
+                                                <option <?php
                                                         if ($class_id == $class["id"]) {
                                                             echo "selected";
                                                         }
                                                         ?> value="<?php echo $class['id'] ?>"><?php echo $class['class'] ?></option>
-                                                <?php
-                                                }
-                                                ?>
-                                            </select>
-                                            <span class="class_id_error text-danger"><?php echo form_error('class_id'); ?></span>
-                                        </div>
+                                            <?php
+                                            }
+                                            ?>
+                                        </select>
+                                        <span class="class_id_error text-danger"><?php echo form_error('class_id'); ?></span>
                                     </div>
+                                </div>
 
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <label><?php echo $this->lang->line('section'); ?></label><small class="req"> *</small>
-                                            <select id="secid" name="section_id" class="form-control">
-                                                <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                            </select>
-                                            <span class="section_id_error text-danger"><?php echo form_error('section_id'); ?></span>
-                                        </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label><?php echo $this->lang->line('section'); ?></label><small class="req"> *</small>
+                                        <select id="secid" name="section_id" class="form-control readonly-select">
+                                            <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                        </select>
+                                        <span class="section_id_error text-danger"><?php echo form_error('section_id'); ?></span>
                                     </div>
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <label><?php echo $this->lang->line('subject_group'); ?></label><small class="req"> *</small>
-                                            <select id="subject_group_id" name="subject_group_id" class="form-control">
-                                                <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                            
-                                            </select>
-                                            <span class="subject_group_id_error text-danger"><?php echo form_error('subject_group_id'); ?></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <label><?php echo $this->lang->line('subject'); ?></label><small class="req"> *</small>
-                                            <select id="subid" name="subject_id" class="form-control">
-                                                <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                            </select>
-                                            <span class="subject_id_error text-danger"><?php echo form_error('subject_id'); ?></span>
-                                        </div>
-                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label><?php echo $this->lang->line('subject_group'); ?></label><small class="req"> *</small>
+                                        <select id="subject_group_id" name="subject_group_id" class="form-control readonly-select">
+                                            <option value=""><?php echo $this->lang->line('select'); ?></option>
 
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <label><?php echo $this->lang->line('lesson_no'); ?></label><small class="req"> *</small>
-                                            <select id="lesson_number" name="lesson_number" class="form-control">
-                                                <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                            </select>
-                                            <span class="lesson_number_error text-danger"><?php echo form_error('lesson_number'); ?></span>
-                                        </div>
+                                        </select>
+                                        <span class="subject_group_id_error text-danger"><?php echo form_error('subject_group_id'); ?></span>
                                     </div>
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <label><?php echo $this->lang->line('lesson_name'); ?></label><small class="req"> *</small>
-                                            <select id="lesson_name" name="lesson_name" class="form-control">
-                                                <option value=""><?php echo $this->lang->line('select'); ?></option>
-                                            </select>
-                                            <span class="section_id_error text-danger"><?php echo form_error('lesson_name'); ?></span>
-                                        </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label><?php echo $this->lang->line('subject'); ?></label><small class="req"> *</small>
+                                        <select id="subid" name="subject_id" class="form-control readonly-select">
+                                            <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                        </select>
+                                        <span class="subject_id_error text-danger"><?php echo form_error('subject_id'); ?></span>
                                     </div>
+                                </div>
 
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1"><?php echo $this->lang->line('class_work'); ?></label><small class="req"> *</small><br>
-                                            <select id="teaching_activity_id" name="teaching_activity_id[]" multiple class="form-control select2">
-
-                                                <?php
-                                                if (!empty($teachingClassWork)) {
-                                                    foreach ($teachingClassWork as $classwork) { ?>
-                                                        <option value="<?php echo $classwork['teaching_activity_id']; ?>">
-                                                            <?php echo $classwork['teaching_activity_title']; ?>
-                                                        </option>
-                                                <?php }
-                                                } else {
-                                                    echo "<option value=''>No Teaching Activities Found</option>";
-                                                } ?>
-                                            </select>
-                                            <span class="text-danger"><?php echo form_error('teaching_activity_id[]'); ?></span>
-                                        </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label><?php echo $this->lang->line('lesson_no'); ?></label><small class="req"> *</small>
+                                        <select id="lesson_number" name="lesson_number" class="form-control">
+                                            <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                        </select>
+                                        <span class="lesson_number_error text-danger"><?php echo form_error('lesson_number'); ?></span>
                                     </div>
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1"><?php echo $this->lang->line('class_work_note_book'); ?></label><small class="req"> *</small><br>
-                                            <select id="note_book_type_id" name="note_book_type_id[]" multiple class="form-control select2">
-                                                <?php /*$notebookList = ["Fair Copy", "Rough Copy", "Chat Paper", "Project Sheet"];
-                                                foreach ($notebookList as $notebook) { ?>
-                                                    <option value="<?php echo $notebook; ?>">
-                                                        <?php echo $notebook; ?>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label><?php echo $this->lang->line('lesson_name'); ?></label><small class="req"> *</small>
+                                        <select id="lesson_name" name="lesson_name" class="form-control">
+                                            <option value=""><?php echo $this->lang->line('select'); ?></option>
+                                        </select>
+                                        <span class="section_id_error text-danger"><?php echo form_error('lesson_name'); ?></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1"><?php echo $this->lang->line('class_work'); ?></label><small class="req"> *</small><br>
+                                        <select id="teaching_activity_id" name="teaching_activity_id[]" multiple class="form-control select2">
+
+                                            <?php
+                                            if (!empty($teachingClassWork)) {
+                                                foreach ($teachingClassWork as $classwork) { ?>
+                                                    <option value="<?php echo $classwork['teaching_activity_id']; ?>"
+                                                        <?php
+                                                        if (!empty($teaching_activity_id) && in_array($classwork['teaching_activity_id'], explode(',', $teaching_activity_id))) {
+                                                            echo "selected";
+                                                        }
+                                                        ?>>
+                                                        <?php echo $classwork['teaching_activity_title']; ?>
                                                     </option>
-                                                <?php }  */ ?>
-                                            </select>
-                                            <span class="text-danger"><?php echo form_error('note_book_type_id[]'); ?></span>
-                                        </div>
+                                            <?php }
+                                            } else {
+                                                echo "<option value=''>No Teaching Activities Found</option>";
+                                            } ?>
+
+                                        </select>
+                                        <span class="text-danger"><?php echo form_error('teaching_activity_id[]'); ?></span>
                                     </div>
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1"><?php echo $this->lang->line('home_work'); ?></label><small class="req"> *</small><br>
-                                            <select id="teaching_activity_home_work_id" name="teaching_activity_home_work_id[]" multiple class="form-control select2">
-                                                <?php
-                                                if (!empty($teachingClassWork)) {
-                                                    foreach ($teachingClassWork as $classwork) { ?>
-                                                        <option value="<?php echo $classwork['teaching_activity_id']; ?>">
-                                                            <?php echo $classwork['teaching_activity_title']; ?>
-                                                        </option>
-                                                <?php }
-                                                } else {
-                                                    echo "<option value=''>No Teaching Activities Found</option>";
-                                                } ?>
-                                            </select>
-                                            <span class="text-danger"><?php echo form_error('teaching_activity_home_work_id[]'); ?></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1"><?php echo $this->lang->line('home_work_note_book'); ?></label><small class="req"> *</small><br>
-                                            <select id="note_book_type_id_home_work" name="note_book_type_id_home_work[]" multiple class="form-control select2">
-                                                <?php /*$notebookHome = ["Practical Copy", "Fair Copy", "Rough Copy", "Chat Paper", "Project Sheet"];
-                                                foreach ($notebookHome as $notebookhome) { ?>
-                                                    <option value="<?php echo $notebookhome; ?>">
-                                                        <?php echo $notebookhome; ?>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1"><?php echo $this->lang->line('class_work_note_book'); ?></label><small class="req"> *</small><br>
+                                        <select id="note_book_type_id" name="note_book_type_id[]" multiple class="form-control select2">
+                                        <?php
+                                            if (!empty($todays_class_notebook)) {
+                                                foreach ($todays_class_notebook as $classNoteBook) { ?>
+                                                    <option value="<?php echo $classNoteBook['note_book_type_id']; ?>"
+                                                        <?php
+                                                        if (!empty($note_book_type_id) && in_array($classNoteBook['note_book_type_id'], explode(',', $note_book_type_id))) {
+                                                            echo "selected";
+                                                        }
+                                                        ?>>
+                                                        <?php echo $classNoteBook['note_book_title']; ?>
                                                     </option>
-                                                <?php } */ ?>
-                                            </select>
-                                            <span class="text-danger"><?php echo form_error('note_book_type_id_home_work[]'); ?></span>
-                                        </div>
+                                            <?php }
+                                            } else {
+                                                echo "<option value=''>No note book Found</option>";
+                                            } ?>
+                                        </select>
+                                        <span class="text-danger"><?php echo form_error('note_book_type_id[]'); ?></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1"><?php echo $this->lang->line('home_work'); ?></label><small class="req"> *</small><br>
+                                        <select id="teaching_activity_home_work_id" name="teaching_activity_home_work_id[]" multiple class="form-control select2">
+                                        <?php
+                                            if (!empty($teachingClassWork)) {
+                                                foreach ($teachingClassWork as $classwork) { ?>
+                                                    <option value="<?php echo $classwork['teaching_activity_id']; ?>"
+                                                        <?php
+                                                        if (!empty($homework_teaching_activity_id) && in_array($classwork['teaching_activity_id'], explode(',', $homework_teaching_activity_id))) {
+                                                            echo "selected";
+                                                        }
+                                                        ?>>
+                                                        <?php echo $classwork['teaching_activity_title']; ?>
+                                                    </option>
+                                            <?php }
+                                            } else {
+                                                echo "<option value=''>No Teaching Activities Found</option>";
+                                            } ?>
+                                        </select>
+                                        <span class="text-danger"><?php echo form_error('teaching_activity_home_work_id[]'); ?></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1"><?php echo $this->lang->line('home_work_note_book'); ?></label><small class="req"> *</small><br>
+                                        <select id="note_book_type_id_home_work" name="note_book_type_id_home_work[]" multiple class="form-control select2">
+                                        <?php
+                                            if (!empty($todays_homework_notebook)) {
+                                                foreach ($todays_homework_notebook as $homeNoteBook) { ?>
+                                                    <option value="<?php echo $homeNoteBook['note_book_type_id']; ?>"
+                                                        <?php
+                                                        if (!empty($homework_note_book_type_id) && in_array($homeNoteBook['note_book_type_id'], explode(',', $homework_note_book_type_id))) {
+                                                            echo "selected";
+                                                        }
+                                                        ?>>
+                                                        <?php echo $homeNoteBook['note_book_title']; ?>
+                                                    </option>
+                                            <?php }
+                                            } else {
+                                                echo "<option value=''>No note book Found</option>";
+                                            } ?>
+                                        </select>
+                                        <span class="text-danger"><?php echo form_error('note_book_type_id_home_work[]'); ?></span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="box-footer">
-                                <button type="submit" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('update'); ?></button>
-                            </div>
-                        </form>
-                    </div>
-
+                        </div>
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('update'); ?></button>
+                        </div>
+                    </form>
                 </div>
+
+            </div>
             <?php //}
             ?>
             <div class="col-md-12">
@@ -213,7 +243,7 @@
                                 </thead>
                                 <tbody>
                                     <?php
-                                   
+
                                     $todayWorkId = $todaysWork[0]['today_work_id'];
                                     $classid = $todaysWork[0]['class_id'];
                                     $subjectname = $todaysWork[0]['subject_name'];
@@ -253,7 +283,7 @@
                                                 </td>
                                                 <td><?= $todayLists['syllabus_percentage'] ?>%</td>
                                                 <td>
-                                                    <a href="<?php echo base_url(); ?>todayswork/edit/<?php echo $todayLists['today_work_id']; ?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>">
+                                                    <a href="<?php echo base_url(); ?>todayswork/edit/<?php echo $todayLists['today_work_id']; ?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>">
                                                         <i class="fa fa-pencil"></i>
                                                     </a>
                                                 </td>
@@ -271,14 +301,14 @@
                                 </tbody>
                             </table>
                         </div>
-                        
-                        <?php  if (!empty($todaysWork)) { ?>
-                        <form id="form1" action="<?php echo site_url('todayswork/todayStudentWorkReport'); ?>" method="post" accept-charset="utf-8">
-                            <input type="hidden" class="form-control" name="today_work_id" value="<?=$todayWorkId?>"/>
-                            <div> <button type="submit"  class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('go_for_student_work_report'); ?></button></div><br><br>
-                        </form>
-                        <!-- <div><a href="<?php echo site_url('todayswork/studentworkreport'); ?><?=$classSubjectID?>" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('go_for_student_work_report'); ?></a></div> -->
-                    <?php } ?>
+
+                        <?php if (!empty($todaysWork)) { ?>
+                            <form id="form1" action="<?php echo site_url('todayswork/todayStudentWorkReport'); ?>" method="post" accept-charset="utf-8">
+                                <input type="hidden" class="form-control" name="today_work_id" value="<?= $todayWorkId ?>" />
+                                <div> <button type="submit" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('go_for_student_work_report'); ?></button></div><br><br>
+                            </form>
+                            <!-- <div><a href="<?php echo site_url('todayswork/studentworkreport'); ?><?= $classSubjectID ?>" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('go_for_student_work_report'); ?></a></div> -->
+                        <?php } ?>
                     </div>
                 </div>
             </div>
@@ -315,9 +345,12 @@
         getSectionByClass("<?php echo $class_id ?>", "<?php echo $section_id ?>", 'secid');
         getSubjectGroup("<?php echo $class_id ?>", "<?php echo $section_id ?>", "<?php echo $subject_group_id ?>", 'subject_group_id')
         getsubjectBySubjectGroup("<?php echo $class_id ?>", "<?php echo $section_id ?>", "<?php echo $subject_group_id ?>", "<?php echo $subject_id ?>", 'subid');
-        getLessionBySubject("<?php echo $subject_id ?>","<?php echo $class_id ?>","<?=$lesson_number ?>");
-        getLessionNameById("<?=$lesson_id ?>","<?=$lesson_name ?>");
+        getLessionBySubject("<?php echo $subject_id ?>", "<?php echo $class_id ?>", "<?= $lesson_number ?>");
+        getLessionNameById("<?= $lesson_id ?>", "<?= $lesson_name ?>");
+        var selectedTeachingActivityIds = "<?= $teaching_activity_id ?>".split(',');
 
+        // Load Class Notebooks based on pre-selected teaching activity
+       // getClassNoteBook(selectedTeachingActivityIds, "<?= $note_book_type_id ?>");
 
 
     });
@@ -408,7 +441,7 @@
     function getsubjectBySubjectGroup(class_id, section_id, subject_group_id, subject_group_subject_id, subject_target) {
         if (class_id != "" && section_id != "" && subject_group_id != "") {
             var div_data = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
-           // alert(subject_group_subject_id);
+            // alert(subject_group_subject_id);
             $.ajax({
                 type: 'POST',
                 url: base_url + 'admin/subjectgroup/getGroupsubjects',
@@ -454,12 +487,12 @@
 
         var subid = $('#subid').val();
         let class_id = $('#searchclassid').val();
-        getLessionBySubject(subid,class_id,'');
-        
+        getLessionBySubject(subid, class_id, '');
+
     });
 
-    function getLessionBySubject(subid,class_id,lession_id){
-       
+    function getLessionBySubject(subid, class_id, lession_id) {
+
         var div_lession_no = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
         // var div_lession_name = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
         $.ajax({
@@ -479,9 +512,9 @@
                 $.each(data, function(i, obj) {
                     var sel = "";
                     if (lession_id == obj.lesson_number) {
-                            // alert('hii');
-                            sel = "selected";
-                        }
+                        // alert('hii');
+                        sel = "selected";
+                    }
 
                     div_lession_no += "<option value=" + obj.lesson_id + " " + sel + ">" + obj.lesson_number + "</option>";
 
@@ -502,11 +535,11 @@
 
     $(document).on('change', '#lesson_number', function() {
         var lesson_number = $('#lesson_number').val();
-        getLessionNameById(lesson_number,'');
-       
+        getLessionNameById(lesson_number, '');
+
     });
 
-    function getLessionNameById(lesson_id,lesson_name){
+    function getLessionNameById(lesson_id, lesson_name) {
         var div_lession_name = '<option value=""><?php echo $this->lang->line('select'); ?></option>';
         $.ajax({
 
@@ -524,8 +557,8 @@
                 $.each(data, function(i, obj) {
                     var sel = "";
                     if (lesson_name == obj.lesson_name) {
-                            sel = "selected";
-                        }
+                        sel = "selected";
+                    }
                     div_lession_name += "<option value=" + obj.lesson_name + " " + sel + ">" + obj.lesson_name + "</option>";
                 });
                 $('#lesson_name').html(div_lession_name);
@@ -539,13 +572,56 @@
             }
         });
     }
+    // $('#teaching_activity_id').on('change', function() {
+    //     var teaching_activity_id = [];
+    //     $("#teaching_activity_id option:selected").each(function() {
+    //         teaching_activity_id.push($(this).val());
+    //     });
 
+    //     getClassNoteBook(teaching_activity_id, '');
+    // });
+
+    // function getClassNoteBook(teaching_activity_id, note_book_type_id) {
+    //     var note_book = '';
+
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: base_url + 'todayswork/getNotebooksByClasswork',
+    //         data: {
+    //             'teaching_activity_id': teaching_activity_id
+    //         },
+    //         dataType: 'JSON',
+    //         beforeSend: function() {
+    //             // $('#note_book_type_id').html("").addClass('dropdownloading');
+    //         },
+    //         success: function(data) {
+
+    //             $.each(data, function(i, obj) {
+    //                 var selectedIds = note_book_type_id ? note_book_type_id.split(',') : [];
+    //                 var sel = selectedIds.includes(obj.note_book_type_id) ? "selected" : "";
+    //                 // console.log(sel);
+
+    //                 note_book += "<option value='" + obj.note_book_type_id + "' " + sel + ">" + obj.note_book_title + "</option>";
+    //             });
+
+    //             $('#note_book_type_id').html(note_book);
+
+    //             setTimeout(function() {
+    //                 $('#note_book_type_id')[0].sumo.reload();
+    //                 $('.sumo_note_book_type_id').find('.CaptionCont').removeClass('SumoUnder');
+    //             }, 100);
+    //         },
+    //         error: function(xhr) {
+    //             alert("<?php echo $this->lang->line('error_occurred_please_try_again'); ?>");
+    //         }
+    //     });
+    // }
+      
     $('#teaching_activity_id').on('change', function() {
         var teaching_activity_id = [];
         $("#teaching_activity_id option:selected").each(function() {
             teaching_activity_id.push($(this).val());
-        });
-
+        });  
         var note_book = '';
         $.ajax({
             type: 'POST',
@@ -560,16 +636,17 @@
             success: function(data) {
                 // console.log(data);
                 $.each(data, function(i, obj) {
-                    note_book += "<option value='" + obj.note_book_type_id + "'>" + obj.note_book_title + "</option>";
+                    var sel = "";
+                    if (note_book_type_id == obj.note_book_type_id) {
+                        sel = "selected";
+                    }
+                    note_book += "<option value='" + obj.note_book_type_id + "  " + sel + "'>" + obj.note_book_title + "</option>";
                 });
-               
-                
+
+
                 $('#note_book_type_id').html(note_book);
-                setTimeout(function () {
-                   
-                    $('#note_book_type_id')[0].sumo.reload();
-                    $('.sumo_note_book_type_id').find('.CaptionCont').removeClass('SumoUnder ');
-                }, 100);
+                $('#note_book_type_id')[0].sumo.reload();
+                $('.sumo_note_book_type_id').find('.CaptionCont').removeClass('SumoUnder ');
             },
             error: function(xhr) {
                 alert("<?php echo $this->lang->line('error_occurred_please_try_again'); ?>");
@@ -597,17 +674,14 @@
                 // $('#note_book_type_id').html("").addClass('dropdownloading');
             },
             success: function(data) {
-                console.log(data);
+               // console.log(data);
                 $.each(data, function(i, obj) {
                     home_work_note_book += "<option value='" + obj.note_book_type_id + "'>" + obj.note_book_title + "</option>";
                 });
                 $('#note_book_type_id_home_work').html(home_work_note_book);
-                setTimeout(function () {
-                   
-                    $('#note_book_type_id_home_work')[0].sumo.reload();
-                    $('.sumo_note_book_type_id_home_work').find('.CaptionCont').removeClass('SumoUnder ');
-               }, 100);
-               
+                $('#note_book_type_id_home_work')[0].sumo.reload();
+                $('.sumo_note_book_type_id_home_work').find('.CaptionCont').removeClass('SumoUnder ');
+
             },
             error: function(xhr) {
                 alert("<?php echo $this->lang->line('error_occurred_please_try_again'); ?>");

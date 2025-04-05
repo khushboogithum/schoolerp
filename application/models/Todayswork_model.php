@@ -18,9 +18,6 @@ class Todayswork_model extends MY_model
 
     public function addTodaysClassWork($data, $teachingClassworkIds, $teachingHomeworkIds, $classnoteIds, $homenoteIds)
     {
-        $this->db->trans_start();
-        $this->db->trans_strict(false);
-
         $this->db->insert('today_work', $data);
         $today_work_id = $this->db->insert_id();
         // echo $this->db->last_query();
@@ -88,6 +85,130 @@ class Todayswork_model extends MY_model
             return $today_work_id;
         }
     }
+    public function updateTodaysClassWork($todays_data,$today_work_id, $teachingClassworkIds,$teachingHomeworkIds, $classnoteIds, $homenoteIds)
+    {
+        // echo "khushboo";
+        // print_r($teachingHomeworkIds);
+        // die();
+        if (isset($today_work_id) && $today_work_id != '') {
+            $this->db->where('today_work_id', $today_work_id);
+            $query     = $this->db->update('today_work', $todays_data);
+            $message   = UPDATE_RECORD_CONSTANT . " On today_work in today_work_id " . $today_work_id;
+            $action    = "Update";
+            $record_id = $today_work_id;
+            $this->log($message, $record_id, $action);
+
+        }
+        if (!empty($teachingClassworkIds)) {
+            $this->db->where('today_work_id', $today_work_id)->delete('today_class_work');
+            $classWorkData = [];
+            foreach ($teachingClassworkIds as $teachingClassworkId) {
+                $classWorkData[] = [
+                    'today_work_id' => $today_work_id,
+                    'teaching_activity_id' => $teachingClassworkId,
+                ];
+            }
+
+            if (!empty($classWorkData)) {
+                $this->db->insert_batch('today_class_work', $classWorkData);
+            }
+        }
+        
+        if (!empty($teachingHomeworkIds)) {
+            $this->db->where('today_work_id', $today_work_id)->delete('today_home_work');
+        
+            $homeWorkData = [];
+            foreach ($teachingHomeworkIds as $teachingHomeworkId) {
+                $homeWorkData[] = [
+                    'today_work_id' => $today_work_id,
+                    'teaching_activity_id'    => $teachingHomeworkId,
+                ];
+            }
+
+            if (!empty($homeWorkData)) {
+                $this->db->insert_batch('today_home_work', $homeWorkData);
+            }
+        }
+        if (!empty($classnoteIds)) {
+            $this->db->where('today_work_id', $today_work_id)->delete('class_work_note_book');
+        
+            $classNotebookData = [];
+            foreach ($classnoteIds as $classnoteId) {
+                $classNotebookData[] = [
+                    'today_work_id' => $today_work_id,
+                    'note_book_type_id'    => $classnoteId,
+                ];
+            }
+
+            if (!empty($classNotebookData)) {
+                $this->db->insert_batch('class_work_note_book', $classNotebookData);
+            }
+        }
+        if (!empty($homenoteIds)) {
+            $this->db->where('today_work_id', $today_work_id)->delete('home_work_note_book');
+            
+            $homeNoteBookData = [];
+            foreach ($homenoteIds as $homenoteId) {
+                $homeNoteBookData[] = [
+                    'today_work_id' => $today_work_id,
+                    'note_book_type_id'    => $homenoteId,
+                ];
+            }
+
+            if (!empty($homeNoteBookData)) {
+                $this->db->insert_batch('home_work_note_book', $homeNoteBookData);
+            }
+        }
+
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === false) {
+
+            $this->db->trans_rollback();
+            return false;
+        } else {
+            return $today_work_id;
+        }
+    }
+    public function getClassworkdrop($today_work_id)
+    {
+        $this->db->select('GROUP_CONCAT(today_class_work.teaching_activity_id) as teaching_activity_ids');
+        $this->db->from('today_class_work');
+        $this->db->where('today_class_work.today_work_id', $today_work_id);
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->row_array();
+        } else {
+            return []; 
+        }
+    }
+    public function getClassworkNotedrop($today_work_id)
+    {
+        $this->db->select('GROUP_CONCAT(class_work_note_book.note_book_type_id) as note_book_type_ids');
+        $this->db->from('class_work_note_book');
+        $this->db->where('class_work_note_book.today_work_id', $today_work_id);
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->row_array();
+        } else {
+            return []; 
+        }
+    }
+    public function getHomeworkdrop($today_work_id)
+    {
+        $this->db->select('GROUP_CONCAT(today_home_work.teaching_activity_id) as teaching_activity_ids');
+        $this->db->from('today_home_work');
+        $this->db->where('today_home_work.today_work_id', $today_work_id);
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->row_array();
+        } else {
+            return []; 
+        }
+    }
     public function getLessionDetailsBySubjectId($subject_id, $class_id)
     {
         $this->db->select('lesson_diary.*');
@@ -126,15 +247,16 @@ class Todayswork_model extends MY_model
             $this->db->from('teaching_notebook');
             $this->db->join('note_book_type', 'teaching_notebook.note_book_type_id = note_book_type.note_book_type_id', 'left');
             $this->db->where_in('teaching_notebook.teaching_activity_id', $teaching_activity_id);
+            $this->db->group_by('note_book_type.note_book_type_id');
             $query = $this->db->get();
-            // echo $this->db->last_query();
-
-
+        //    echo $this->db->last_query();
+        //    die();
             return $query->result_array();
         } else {
             return [];
         }
     }
+    
     public function getNotebookByHomework($teaching_activity_home_work_id)
     {
         if (!empty($teaching_activity_home_work_id) && is_array($teaching_activity_home_work_id)) {
@@ -142,9 +264,36 @@ class Todayswork_model extends MY_model
             $this->db->from('teaching_notebook');
             $this->db->join('note_book_type', 'teaching_notebook.note_book_type_id = note_book_type.note_book_type_id', 'left');
             $this->db->where_in('teaching_notebook.teaching_activity_id', $teaching_activity_home_work_id);
+            $this->db->group_by('note_book_type.note_book_type_id');
+
             $query = $this->db->get();
             //echo $this->db->last_query();
             return $query->result_array();
+        } else {
+            return [];
+        }
+    }
+    public function todaysWorkListEdit()
+    {
+        $today = date('Y-m-d');
+        $this->db->select('today_work.today_work_id, today_work.work_date,today_work.class_id, today_work.subject_id, today_work.lesson_id, subjects.name as subject_name, today_work.lesson_name, lesson_diary.lesson_number');
+        $this->db->from('today_work');
+        $this->db->join("subjects", "subjects.id = today_work.subject_id");
+        $this->db->join("lesson_diary", "lesson_diary.lesson_id = today_work.lesson_id");
+        $this->db->where('today_work.today_status', '1');
+        $this->db->where('today_work.status', '1');
+        $this->db->where('DATE(today_work.work_date)', $today);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            $result = $query->result_array();
+            foreach ($result as &$row) {
+                $row['class_work'] = $this->getClassWorkData($row['today_work_id']);
+                $row['class_notebook'] = $this->getClassWorkNoteBookData($row['today_work_id']);
+                $row['home_work'] = $this->getHomeWorkData($row['today_work_id']);
+                $row['home_notebook'] = $this->getHomeWorkNoteBookData($row['today_work_id']);
+                $row['total_lessons'] = $this->countLessonsBySubject($row['subject_id'], $row['class_id']);
+            }
+            return $result;
         } else {
             return [];
         }
@@ -156,7 +305,7 @@ class Todayswork_model extends MY_model
         $this->db->from('today_work');
         $this->db->join("subjects", "subjects.id = today_work.subject_id");
         $this->db->join("lesson_diary", "lesson_diary.lesson_id = today_work.lesson_id");
-        //$this->db->where('today_work.today_status', '0');
+        $this->db->where('today_work.today_status', '0');
         $this->db->where('today_work.status', '1');
         $this->db->where('DATE(today_work.work_date)', $today);
         $query = $this->db->get();
@@ -354,7 +503,7 @@ class Todayswork_model extends MY_model
         return $query->row_array();
     }
 
-    public function getLessionId($class_id,$subject_id,$lession_number)
+    public function getLessionId($class_id, $subject_id, $lession_number)
     {
         $this->db->select('lesson_id');
         $this->db->from('lesson_diary');
