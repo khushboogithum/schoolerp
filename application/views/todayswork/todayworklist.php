@@ -278,9 +278,9 @@
                         <?php  if (!empty($todaysWork)) { ?>
                         <!-- <form id="form1" action="<?php echo site_url('todayswork/todayStudentWorkReport'); ?>" method="post" accept-charset="utf-8"> -->
                         <form id="form1" action="<?php echo site_url('todayswork/studentworkreport'); ?>" method="get" accept-charset="utf-8">
-                            <input type="hidden" class="form-control" name="subject_id[]" value="<?=implode(",",$subjectArray)?>"/>
-                            <input type="hidden" class="form-control" name="today_work_id[]" value="<?=implode(",",$todayWorkArray)?>"/>
-                            <input type="hidden" class="form-control" name="class_id" value="<?=$$todaysWork[0]['class_id']?>"/>
+                            <input type="hidden" class="form-control" name="subject_id" value="<?=implode(",",$subjectArray)?>"/>
+                            <input type="hidden" class="form-control" name="today_work_id" value="<?=implode(",",$todayWorkArray)?>"/>
+                            <input type="hidden" class="form-control" name="class_id" value="<?=$todaysWork[0]['class_id']?>"/>
                             <div> <button type="submit"  class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('go_for_student_work_report'); ?></button></div><br><br>
                         </form>
                         <!-- <div><a href="<?php echo site_url('todayswork/studentworkreport'); ?><?=$classSubjectID?>" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('go_for_student_work_report'); ?></a></div> -->
