@@ -19,6 +19,8 @@ class Studentworkreport extends Admin_Controller
         // if (!$this->rbac->hasPrivilege('Studentworkreport', 'can_view')) {
         //     access_denied();
         // }
+        // echo "hello";
+        // die();
 
         $classlist         = $this->class_model->get();
         $data['classlist'] = $classlist;
