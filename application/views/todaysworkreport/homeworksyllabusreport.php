@@ -118,13 +118,15 @@
                                     <th><?php echo $this->lang->line('home_work'); ?></th>
                                     <th><?php echo $this->lang->line('syllabus_percentage'); ?></th>
                                     <th><?php echo $this->lang->line('student_work_percentage'); ?></th>
+                                    <th><?php echo $this->lang->line('action'); ?></th>
+
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
-                                //$todayWorkId = $todaysWork[0]['today_work_id'];
+                               // $todayWorkId = $todaysWork[0]['today_work_id'];
                                 // echo "<pre>";
-                                // print_r($todaysWork);
+                                // print_r($todayWorkId);
                                 if (!empty($todaysWork)) {
                                     foreach ($todaysWork as $todayLists) {
                                 ?>
@@ -172,7 +174,12 @@
                                             $total_percentage=($todayLists['syllabus_percentage'] + $todayLists['studentWorkPerstange'])/2;
                                             ?>
                                             <input type="hidden" class="form-control" name="total_percentage[]" value="<?= round($total_percentage,2) ?>"/>
-                                        </td>
+                                            </td>
+                                            <td>
+                                                <a href="<?php echo base_url(); ?>todayswork/edit/<?=$todayLists['today_work_id']?>" class="btn btn-default btn-xs" data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>">
+                                                    <i class="fa fa-pencil"></i>
+                                                </a>
+                                            </td>
                                         </tr>
                                     <?php
                                     }

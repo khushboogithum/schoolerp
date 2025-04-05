@@ -170,7 +170,7 @@ class Todayswork extends Admin_Controller
         $classwork = $this->Todayswork_model->getClasswork();
         $data['teachingClassWork'] = $classwork;
 
-        $todaysWorkList = $this->Todayswork_model->todaysWorkListEdit();
+        $todaysWorkList = $this->Todayswork_model->todaysWorkListEdit($today_work_id);
         $workData = [];
         foreach ($todaysWorkList as $work) {
            // $class_id = $work['class_id'];

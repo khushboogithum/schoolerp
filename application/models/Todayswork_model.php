@@ -273,7 +273,7 @@ class Todayswork_model extends MY_model
             return [];
         }
     }
-    public function todaysWorkListEdit()
+    public function todaysWorkListEdit($today_work_id)
     {
         $today = date('Y-m-d');
         $this->db->select('today_work.today_work_id, today_work.work_date,today_work.class_id, today_work.subject_id, today_work.lesson_id, subjects.name as subject_name, today_work.lesson_name, lesson_diary.lesson_number');
@@ -282,6 +282,7 @@ class Todayswork_model extends MY_model
         $this->db->join("lesson_diary", "lesson_diary.lesson_id = today_work.lesson_id");
         $this->db->where('today_work.today_status', '1');
         $this->db->where('today_work.status', '1');
+        $this->db->where('today_work.today_work_id', $today_work_id);
         $this->db->where('DATE(today_work.work_date)', $today);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {

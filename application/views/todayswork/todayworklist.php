@@ -208,7 +208,6 @@
                                         <th><?php echo $this->lang->line('class_work'); ?></th>
                                         <th><?php echo $this->lang->line('home_work'); ?></th>
                                         <th><?php echo $this->lang->line('syllabus_percentage'); ?></th>
-                                        <th><?php echo $this->lang->line('action'); ?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -255,11 +254,11 @@
                                                     ?>
                                                 </td>
                                                 <td><?= $todayLists['syllabus_percentage'] ?>%</td>
-                                                <td>
+                                                <!-- <td>
                                                     <a href="<?php echo base_url(); ?>todayswork/edit/<?php echo $todayLists['today_work_id']; ?>" class="btn btn-default btn-xs"  data-toggle="tooltip" title="<?php echo $this->lang->line('edit'); ?>">
                                                         <i class="fa fa-pencil"></i>
                                                     </a>
-                                                </td>
+                                                </td> -->
                                             </tr>
                                         <?php
                                         }
