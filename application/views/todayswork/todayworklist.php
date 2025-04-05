@@ -180,6 +180,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <input type="text" name="old_class_id" value="<?=$todaysWork[0]['class_id'] ?>">
                             <div class="box-footer">
                                 <button type="submit" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('add'); ?></button>
                             </div>
@@ -218,9 +219,12 @@
                                     $subjectname = $todaysWork[0]['subject_name'];
                                     $subjectid = $todaysWork[0]['subject_id'];
                                     //$classSubjectID='?class_id='.$classid.'&subject_name='.$subjectname.'&subject_id='.$subjectid;
-
+                                    $subjectArray=$todayWorkArray=array();
                                     if (!empty($todaysWork)) {
                                         foreach ($todaysWork as $todayLists) {
+                                            $subjectArray[]=$todayLists['subject_id'];
+                                            $todayWorkArray[]=$todayLists['today_work_id'];
+
                                     ?>
                                             <tr>
                                                 <td><?= $todayLists['subject_name'] ?></td>
@@ -272,8 +276,11 @@
                         </div>
                         
                         <?php  if (!empty($todaysWork)) { ?>
-                        <form id="form1" action="<?php echo site_url('todayswork/todayStudentWorkReport'); ?>" method="post" accept-charset="utf-8">
-                            <input type="hidden" class="form-control" name="today_work_id" value="<?=$todayWorkId?>"/>
+                        <!-- <form id="form1" action="<?php echo site_url('todayswork/todayStudentWorkReport'); ?>" method="post" accept-charset="utf-8"> -->
+                        <form id="form1" action="<?php echo site_url('todayswork/studentworkreport'); ?>" method="get" accept-charset="utf-8">
+                            <input type="hidden" class="form-control" name="subject_id" value="<?=implode(",",$subjectArray)?>"/>
+                            <input type="hidden" class="form-control" name="today_work_id" value="<?=implode(",",$todayWorkArray)?>"/>
+                            <input type="hidden" class="form-control" name="class_id" value="<?=$todaysWork[0]['class_id']?>"/>
                             <div> <button type="submit"  class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('go_for_student_work_report'); ?></button></div><br><br>
                         </form>
                         <!-- <div><a href="<?php echo site_url('todayswork/studentworkreport'); ?><?=$classSubjectID?>" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('go_for_student_work_report'); ?></a></div> -->

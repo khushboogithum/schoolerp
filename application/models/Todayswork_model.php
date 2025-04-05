@@ -240,53 +240,54 @@ class Todayswork_model extends MY_model
         return $query->result_array();
     }
 
-    public function goForStudentWorkReport($today_work_id, $data)
+    public function goForStudentWorkReport($today_work_id)
     {
-        $this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+       
         //=======================Code Start===========================
-        if (isset($today_work_id) && $today_work_id != '') {
-            $this->db->where('today_work_id', $today_work_id);
-            $query     = $this->db->update('today_work', $data);
-            $insert_id = $data['today_work_id'];
-            $message   = DELETE_RECORD_CONSTANT . " On today_work id " . $insert_id;
-            $action    = "Delete";
-            $record_id = $insert_id;
-            $this->db->where('today_work_id', $today_work_id);
-        }
-
-        $this->log($message, $record_id, $action);
-
-        //======================Code End==============================
-
-        $this->db->trans_complete(); # Completing transaction
-        /* Optional */
-
-        if ($this->db->trans_status() === false) {
-            # Something went wrong.
-            $this->db->trans_rollback();
-            return false;
+        if (isset($today_work_id) && !empty($today_work_id)) {
+            $id_list = explode(",", $today_work_id);
+            $data = [
+                'today_status' => 1,
+            ];
+            $this->db->where_in('today_work_id', $id_list);
+            $result = $this->db->update('today_work', $data);
+            return $result;
         } else {
-            return $insert_id;
+
+            return false;
         }
+    
+        
     }
     //Student Report
-    public function getStudents($class_id, $subject_name)
+    public function getStudents($class_id, $subject_id)
     {
-        $this->db->select('classes.id AS `class_id`, student_session.id as student_session_id, students.id, students.firstname, students.middlename, students.lastname')
+        $this->db->select('classes.id AS `class_id`,classes.class as class_name, student_session.id as student_session_id, students.id, students.firstname, students.middlename, students.lastname')
             ->from('students')
             ->join('student_session', 'student_session.student_id = students.id')
             ->join('classes', 'student_session.class_id = classes.id')
             ->where('student_session.class_id', $class_id)
             ->where('students.is_active', 'yes')
-            ->where("students.id NOT IN (SELECT student_id FROM student_work_report where date(created_at)='" . date('Y-m-d') . "' and subject_name='" . $subject_name . "')", NULL, FALSE)
-            ->order_by('students.firstname', 'ASC');
-        // ->limit(2);
+            ->where("students.id NOT IN (SELECT student_id FROM student_work_report where date(created_at)='" . date('Y-m-d') . "' and subject_name in(" . $subject_id . "))", NULL, FALSE)
+            ->order_by('students.firstname', 'ASC')
+             ->limit(2);
         $query = $this->db->get();
         // echo $this->db->last_query();
         // die();
 
         return $query->result_array();
+    }
+
+    public function getSubjectDetails($subject_id){
+        $subject_id=explode(",",$subject_id);
+
+        $this->db->select('subjects.id AS `subject_id`,subjects.name')
+            ->from('subjects')
+            ->where_in('subjects.id', $subject_id)
+            ->order_by('subjects.name', 'ASC');
+        $query = $this->db->get();
+        return $query->result_array();
+        
     }
 
     public function insertTodayStudentReport($data)
@@ -323,7 +324,10 @@ class Todayswork_model extends MY_model
         $this->db->trans_strict(false);
 
         // Since $data is a single record, use insert() instead of insert_batch()
-        $this->db->insert('today_work_report', $data);
+       $this->db->insert('today_work_report', $data);
+      
+        // echo $this->db->last_query();
+        // die();
         $today_work_report_id = $this->db->insert_id();
 
         // Logging the insert action

@@ -1,4 +1,12 @@
-<?php $currency_symbol = $this->customlib->getSchoolCurrencyFormat(); ?>
+<?php $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
+$subject_ids = isset($_GET['subject_id']) ? $_GET['subject_id'] : '';
+$class_id = isset($_GET['class_id']) ? $_GET['class_id'] : '';
+$today_work_ids = isset($_GET['today_work_id']) ? $_GET['today_work_id'] : '';
+$url = '?subject_id=' . $subject_ids . '&class_id=' . $class_id . '&today_work_id=' . $today_work_ids;
+
+
+
+?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
 
@@ -7,7 +15,8 @@
             <div class="col-md-12">
                 <div class="box box-primary">
                     <div class="box-header ptbnull">
-                        <h3 class="box-title titlefix" style="margin-left:40%;"><?php echo $this->lang->line('student_work_report'); ?> - <?= $subject_name; ?></h3>
+                    <?php //echo "<pre>"; print_r($student_data); die();?>
+                        <h3 class="box-title titlefix" style="margin-left:40%;"><?php echo $this->lang->line('student_work_report'); ?> - <?= $student_data[0]['class_name']; ?></h3>
                     </div>
                     <div class="box-body">
                         <?php
@@ -40,151 +49,172 @@
                                     background-color: #f2f2f2;
                                 }
                             </style>
-                        <form method="post" action="<?= site_url('todayswork/studentworkreport') ?>">
-                            <table id="studentTable">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th></th>
-                                        <th colspan="2" style="text-align: center;">Discipline</th>
-                                        <th colspan="3" style="text-align: center;"><?= $subject_name; ?></th>
-                                        <th></th>
-                                    </tr>
-                                    <tr>
-                                        <th><?php echo $this->lang->line('s_no'); ?></th>
-                                        <th><?php echo $this->lang->line('student_name'); ?></th>
-                                        <th><?php echo $this->lang->line('dress'); ?></th>
-                                        <th><?php echo $this->lang->line('conduct'); ?></th>
-                                        <th><?php echo $this->lang->line('fair_copy'); ?></th>
-                                        <th><?php echo $this->lang->line('writing_copy'); ?></th>
-                                        <th><?php echo $this->lang->line('learning_copy'); ?></th>
-                                        <th><?php echo $this->lang->line('remarks'); ?></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <input type="hidden" name="subject_id" value="<?= $subject_id ?>" />
-                                    <input type="hidden" name="subject_name" value="<?= $subject_name ?>" />
-                                    <input type="hidden" name="class_name" value="<?= $class_id ?>" />
-                                    <?php
-                                    if (!empty($student_data)) {
-                                        foreach ($student_data as $key => $students) {
-                                    ?>
-                                            <tr>
-                                                <td><?= $key + 1 ?></td>
-                                                <td>
-                                                    <input type="hidden" name="studentId[]" value="<?= $students['id'] ?>" />
-                                                    <input type="hidden" name="student_name[]" value="<?= $students['firstname'] ?> <?= $students['middlename'] ?> <?= $students['lastname'] ?>" />
-                                                    <?= $students['firstname'] ?> <?= $students['middlename'] ?> <?= $students['lastname'] ?>
-                                                </td>
-                                                <td>
-                                                    <input type="hidden" name="dress[<?= $key ?>]" value="0" />
-                                                    <input type="checkbox" class="custom-checkbox" checked  name="dress[<?= $key ?>]" value="1" style="pointer-events: none;" />
-                                                </td>
-                                                <td>
-                                                    <input type="hidden" name="conduct[<?= $key ?>]" value="0" />
-                                                    <input type="checkbox" class="custom-checkbox" checked  name="conduct[<?= $key ?>]" value="1" style="pointer-events: none;" />
-                                                </td>
-                                                <td>
-                                                    <input type="hidden" name="fair_copy[<?= $key ?>]" value="0" />
-                                                    <input type="checkbox" checked name="fair_copy[<?= $key ?>]" value="1" />
-                                                </td>
-                                                <td>
-                                                    <input type="hidden" name="writing_copy[<?= $key ?>]" value="0" />
-                                                    <input type="checkbox" checked name="writing_copy[<?= $key ?>]" value="1" />
-                                                </td>
-                                                <td>
-                                                    <input type="hidden" name="learning_copy[<?= $key ?>]" value="0" />
-                                                    <input type="checkbox" checked name="learning_copy[<?= $key ?>]" value="1" />
-                                                </td>
-                                                <td><input type="text" class="form-control" name="remarks[]" placeholder="Text .........." /></td>
-                                            </tr>
-                                        <?php
-                                        }
-                                    } else { ?>
+                            <form method="post" action="<?= site_url('todayswork/studentworkreport' . $url) ?>">
+                                <table id="studentTable">
+                                    <thead>
                                         <tr>
-                                            <td colspan="8" style="text-align: center;">No data available</td>
+                                            <th></th>
+                                            <th></th>
+                                            <th colspan="2" style="text-align: center;">Discipline</th>
+                                           
+                                            <?php foreach ($subject_details as $subject_detail) { ?>
+                                                <th colspan="3" style="text-align: center;"><?= $subject_detail['name']; ?></th>
+                                            <?php } ?>
+                                            <th></th>
                                         </tr>
-                                    <?php }
-                                    ?>
-                                </tbody>
-                            </table>
-                            </div>
-                            <?php
-                            if (!empty($student_data)) { ?>
-                                <div class="subject_wise_home">
+                                        <tr>
+                                            <th><?php echo $this->lang->line('s_no'); ?></th>
+                                            <th><?php echo $this->lang->line('student_name'); ?></th>
+                                            <th><?php echo $this->lang->line('dress'); ?></th>
+                                            <th><?php echo $this->lang->line('conduct'); ?></th>
+                                            <?php foreach ($subject_details as $subject_detail) { ?>
+                                                <th><?php echo $this->lang->line('fair_copy'); ?></th>
+                                                <th><?php echo $this->lang->line('writing_copy'); ?></th>
+                                                <th><?php echo $this->lang->line('learning_copy'); ?></th>
+                                            <?php } ?>
+                                            <th><?php echo $this->lang->line('remarks'); ?></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <input type="hidden" name="class_id" value="<?= $class_id ?>" />
+                                        <?php
+
+                                        if (!empty($student_data)) {
+                                            foreach ($student_data as $key => $students) {
+                                        ?>
+                                                <tr>
+                                                    <td><?= $key + 1 ?></td>
+                                                    <td>
+                                                        <input type="hidden" name="studentId[]" value="<?= $students['id'] ?>" />
+                                                        <input type="hidden" name="student_name[]" value="<?= $students['firstname'] ?> <?= $students['middlename'] ?> <?= $students['lastname'] ?>" />
+                                                        <?= $students['firstname'] ?> <?= $students['middlename'] ?> <?= $students['lastname'] ?>
+                                                    </td>
+                                                    <td>
+                                                        <input type="hidden" name="dress[<?= $key ?>]" value="0" />
+                                                        <input type="checkbox" class="custom-checkbox" checked name="dress[<?= $key ?>]" value="1" style="pointer-events: none;" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="hidden" name="conduct[<?= $key ?>]" value="0" />
+                                                        <input type="checkbox" class="custom-checkbox" checked name="conduct[<?= $key ?>]" value="1" style="pointer-events: none;" />
+                                                    </td>
+                                                    <?php foreach ($subject_details as $student_key => $subject_detail) { ?>
+
+                                                        <td>
+                                                            <input type="hidden" name="subject_id[<?= $key ?>][<?= $subject_key ?>]" value="<?= $students['id'] ?>" />
+                                                            <input type="hidden" name="subject_name[<?= $key ?>][<?= $subject_key ?>]" value="<?= $subject_detail['name'] ?>" />
+                                                            <input type="hidden" name="fair_copy[<?= $key ?>][<?= $student_key ?>]" value="0" />
+                                                            <input type="checkbox" class="<?= trim(strtolower($subject_detail['name'])) ?>" checked name="fair_copy[<?= $key ?>][<?= $student_key ?>]" value="1" />
+                                                        </td>
+                                                        <td>
+                                                            <input type="hidden" name="writing_copy[<?= $key ?>][<?= $student_key ?>]" value="0" />
+                                                            <input type="checkbox" class="<?= trim(strtolower($subject_detail['name'])) ?>" checked name="writing_copy[<?= $key ?>][<?= $student_key ?>]" value="1" />
+                                                        </td>
+                                                        <td>
+                                                            <input type="hidden" name="learning_copy[<?= $key ?>][<?= $student_key ?>]" value="0" />
+                                                            <input type="checkbox" class="<?= trim(strtolower($subject_detail['name'])) ?>" checked name="learning_copy[<?= $key ?>][<?= $student_key ?>]" value="1" />
+                                                        </td>
+                                                    <?php } ?>
+                                                    <td><input type="text" class="form-control" name="remarks[<?= $key ?>]" placeholder="Text .........." /></td>
+                                                </tr>
+                                            <?php
+                                            }
+                                        } else { ?>
+                                            <tr>
+                                                <td colspan="8" style="text-align: center;">No data available</td>
+                                            </tr>
+                                        <?php }
+                                        ?>
+                                    </tbody>
+                                </table>
+                        </div>
+                        <?php
+                        if (!empty($student_data)) { ?>
+                            <div class="subject_wise_home">
+                                <?php foreach ($subject_details as $student_key => $subject_detail) { ?>
+
                                     <div class="col-md-2">
-                                        <strong>Today Student: <span id="totalStudents"><?= count($student_data) ?></span></strong></br>
-                                        <input type="hidden" id="total_student" name="total_student" value="<?= count($student_data) ?>">
+                                        <strong>Today Student: <span id="totalStudents<?= ucfirst($subject_detail['name']) ?>"><?= count($student_data) ?></span></strong></br>
+                                        <input type="hidden" id="counttotalStudents<?= ucfirst($subject_detail['name']) ?>" name="total_student[]" value="<?= count($student_data) ?>">
 
-                                        <strong>Complete work: <span id="complate"><?= count($student_data) ?></span></strong></br>
-                                        <input type="hidden" id="today_completed_work" name="today_completed_work" value="<?= count($student_data) ?>">
+                                        <strong>Complete work: <span id="completedWork<?= ucfirst($subject_detail['name']) ?>"><?= count($student_data) ?></span></strong></br>
+                                        <input type="hidden" id="countcompletedWork<?= ucfirst($subject_detail['name']) ?>" name="today_completed_work[]" value="<?= count($student_data) ?>">
 
-                                        <strong>Uncomplete work: <span id="incomplate"> 0 </span></strong></br>
-                                        <input type="hidden" id="today_uncompleted_work" name="today_uncompleted_work" value="0">
+                                        <strong>Uncomplete work: <span id="uncompletedWork<?= ucfirst($subject_detail['name']) ?>"> 0 </span></strong></br>
+                                        <input type="hidden" id="countuncompletedWork<?= ucfirst($subject_detail['name']) ?>" name="today_uncompleted_work[]" value="0">
                                     </div>
                                     <div class="col-md-4">
                                         <div class="subject-box-container">
                                             <div class="subject-box">
                                                 <div>Completed Work%</div>
-                                                <div id="complatePercentage">100</div>
-                                                <input type="hidden" id="today_completed_percentage" name="today_completed_percentage" value="100">
+                                                <div id="completedPercentage<?= ucfirst($subject_detail['name']) ?>">100</div>
+                                                <input type="hidden" id="countcompletedPercentage<?= ucfirst($subject_detail['name']) ?>" name="today_completed_percentage[]" value="100">
                                             </div>
                                             <div class="subject-box">
                                                 <div>Uncompleted Work%</div>
-                                                <div id="incomplatePercentage">0</div>
-                                                <input type="hidden" id="today_uncompleted_percentage" name="today_uncompleted_percentage" value="0">
+                                                <div id="uncompletedPercentage<?= ucfirst($subject_detail['name']) ?>">0</div>
+                                                <input type="hidden" id="countuncompletedPercentage<?= ucfirst($subject_detail['name']) ?>" name="today_uncompleted_percentage[]" value="0">
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div><button type="submit" class="btn btn-info pull-right button-right"><?php echo $this->lang->line('final_submit'); ?></button></div>
                                 <?php } ?>
+
+                                <div><button type="submit" class="btn btn-info pull-right button-right"><?php echo $this->lang->line('final_submit'); ?></button></div>
+                            <?php } ?>
                             </div>
-                        </form>
+                            </form>
                     </div>
                 </div>
             </div>
     </section>
 </div>
+
+
 <script>
     $(document).ready(function() {
-        function updateCounts() {
+        function updateSubjectWiseCounts(subjectClass, totalStudentsId, completedWorkId, uncompletedWorkId, completedPercentageId, uncompletedPercentageId) {
             let totalStudents = $('#studentTable tbody tr').length;
-            let complateStudent = 0;
-            let incomplateStudent = 0;
+            let completedStudents = 0;
+            let uncompletedStudents = 0;
+
             $('#studentTable tbody tr').each(function() {
-                const totalCheckboxes = $(this).find('input[type="checkbox"]').length;
-                const checkedCheckboxes = $(this).find('input[type="checkbox"]:checked').length;
+                let totalCheckboxes = $(this).find('.' + subjectClass).length;
+                let checkedCheckboxes = $(this).find('.' + subjectClass + ':checked').length;
+
                 if (totalCheckboxes === checkedCheckboxes) {
-                    complateStudent++;
+                    completedStudents++;
                 } else {
-                    incomplateStudent++;
+                    uncompletedStudents++;
                 }
             });
 
+            let completedPercentage = totalStudents > 0 ? ((completedStudents / totalStudents) * 100).toFixed(2) : 0;
+            let uncompletedPercentage = totalStudents > 0 ? ((uncompletedStudents / totalStudents) * 100).toFixed(2) : 0;
+            $('#'+totalStudentsId).text(totalStudents);
+            $('#' + completedWorkId).text(completedStudents);
+            $('#' + uncompletedWorkId).text(uncompletedStudents);
+            $('#' + completedPercentageId).text(completedPercentage + '%');
+            $('#' + uncompletedPercentageId).text(uncompletedPercentage + '%');
 
-            let complatePercentage = totalStudents > 0 ?
-                ((complateStudent / totalStudents) * 100).toFixed(2) :
-                0;
-
-            let incomplatePercentage = totalStudents > 0 ?
-                ((incomplateStudent / totalStudents) * 100).toFixed(2) :
-                0;
-            $('#complate').text(complateStudent);
-            $('#incomplate').text(incomplateStudent);
-            $('#complatePercentage').text(complatePercentage + '%');
-            $('#incomplatePercentage').text(incomplatePercentage + '%');
-
-            $('#total_student').val(totalStudents);
-            $('#today_completed_work').val(complateStudent);
-            $('#today_uncompleted_work').val(incomplateStudent);
-            $('#today_completed_percentage').val(complatePercentage);
-            $('#today_uncompleted_percentage').val(incomplatePercentage);
+            $('#count'+totalStudentsId).val(totalStudents);
+            $('#count' + completedWorkId).val(completedStudents);
+            $('#count' + uncompletedWorkId).val(uncompletedStudents);
+            $('#count' + completedPercentageId).val(completedPercentage);
+            $('#count' + uncompletedPercentageId).val(uncompletedPercentage);
         }
 
-        updateCounts();
+        function updateAllSubjects() {
+            <?php foreach ($subject_details as $student_key => $subject_detail) {
+                $subjectName = trim(strtolower($subject_detail['name']));
+            ?>
+                updateSubjectWiseCounts('<?= $subjectName ?>', 'totalStudents<?= ucfirst($subjectName) ?>', 'completedWork<?= ucfirst($subjectName) ?>', 'uncompletedWork<?= ucfirst($subjectName) ?>', 'completedPercentage<?= ucfirst($subjectName) ?>', 'uncompletedPercentage<?= ucfirst($subjectName) ?>');
+            <?php } ?>
+        }
+        updateAllSubjects();
+
         $('#studentTable').on('change', 'input[type="checkbox"]', function() {
-            updateCounts();
+            updateAllSubjects();
         });
+
     });
 </script>
