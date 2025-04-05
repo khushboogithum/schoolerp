@@ -245,29 +245,16 @@ class Todayswork_model extends MY_model
         $this->db->trans_start(); # Starting Transaction
         $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
-        if (isset($today_work_id) && $today_work_id != '') {
-            $this->db->where('today_work_id', $today_work_id);
-            $query     = $this->db->update('today_work', $data);
-            $insert_id = $data['today_work_id'];
-            $message   = DELETE_RECORD_CONSTANT . " On today_work id " . $insert_id;
-            $action    = "Delete";
-            $record_id = $insert_id;
-            $this->db->where('today_work_id', $today_work_id);
-        }
+        if (isset($today_work_id) && !empty($today_work_id)) {
+            $today_work_id=$today_work_id[0];
+            // $today_work_id = array_map('intval', $today_work_id);
+            $sql = "UPDATE today_work SET today_status = 1 WHERE today_work_id IN ($today_work_id)";
 
-        $this->log($message, $record_id, $action);
-
-        //======================Code End==============================
-
-        $this->db->trans_complete(); # Completing transaction
-        /* Optional */
-
-        if ($this->db->trans_status() === false) {
-            # Something went wrong.
-            $this->db->trans_rollback();
-            return false;
-        } else {
-            return $insert_id;
+            // Execute the query
+            $result = $this->db->query($sql);
+          //  echo $this->db->last_query();
+           // die();
+            return $result;
         }
     }
     //Student Report

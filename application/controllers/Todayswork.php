@@ -77,6 +77,14 @@ class Todayswork extends Admin_Controller
             $this->load->view('todayswork/todayworklist', $data);
             $this->load->view('layout/footer', $data);
         } else {
+            
+            // if ($this->input->post('class_id') != $this->input->post('old_class_id')) {
+            //     echo '<script type="text/javascript">
+            //             alert("Please submit this class data after adding another class data.");
+            //             window.location.href = "' . site_url('todayswork') . '";
+            //           </script>';
+            //     exit; // Prevent further execution
+            // }
             $lessonNumber = $this->Todayswork_model->getlessonnumber($this->input->post('lesson_number'));
             $todays_data = array(
                 'work_date'        => $this->input->post('work_date'),
@@ -251,19 +259,19 @@ class Todayswork extends Admin_Controller
     }
     public function todayStudentWorkReport()
     {
+        $subject_id = $this->input->post('subject_id');
+        $class_id = $this->input->post('class_id');
         $today_work_id = $this->input->post('today_work_id');
+        // print_r($today_work_id);
+        // die();
         $data = ['today_status' => 1];
-        $result = $this->Todayswork_model->todaysWorkList();
-
-        if (!empty($result)) {
-            $classid = $result[0]['class_id'];
-            $subjectname = $result[0]['subject_name'];
-            $subjectid = $result[0]['subject_id'];
-            $classSubjectID = '?class_id=' . $classid . '&subject_name=' . $subjectname. '&subject_id=' . $subjectid;
-            $this->Todayswork_model->goForStudentWorkReport($today_work_id, $data);
+        $result=$this->Todayswork_model->goForStudentWorkReport($today_work_id, $data);
+        if ($result) {
+          //  $classSubjectID = '?class_id=' . $classid . '&subject_name=' . $subjectname. '&subject_id=' . $subjectid;
+           
             $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('submit_message') . '</div>');
 
-            redirect('todayswork/studentworkreport' . $classSubjectID);
+            redirect('todayswork/studentworkreport?class_id='.$class_id.'&subject_id[]='.$subject_id[0]);
         } else {
             $this->session->set_flashdata('msg', '<div class="alert alert-danger">No work data found for the given ID.</div>');
             redirect('todayswork');
