@@ -7,6 +7,31 @@ $url = '?subject_id=' . $subject_ids . '&class_id=' . $class_id . '&today_work_i
 
 
 ?>
+ <style>
+    .card {
+        border-radius: 10px;
+        margin-top: 10px;
+    }
+
+    .card-header h5 {
+        font-weight: 600;
+    }
+
+    .display-6 {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+    .p-4{
+        padding-left: 10px;
+    }
+    .fw-bold{
+        font-weight: 600;
+
+    }
+    p {
+        margin: 0 0 2px !important;
+    }
+</style>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
 
@@ -15,7 +40,8 @@ $url = '?subject_id=' . $subject_ids . '&class_id=' . $class_id . '&today_work_i
             <div class="col-md-12">
                 <div class="box box-primary">
                     <div class="box-header ptbnull">
-                    <?php //echo "<pre>"; print_r($student_data); die();?>
+                        <?php //echo "<pre>"; print_r($student_data); die();
+                        ?>
                         <h3 class="box-title titlefix" style="margin-left:40%;"><?php echo $this->lang->line('student_work_report'); ?> - <?= $student_data[0]['class_name']; ?></h3>
                     </div>
                     <div class="box-body">
@@ -56,7 +82,7 @@ $url = '?subject_id=' . $subject_ids . '&class_id=' . $class_id . '&today_work_i
                                             <th></th>
                                             <th></th>
                                             <th colspan="2" style="text-align: center;">Discipline</th>
-                                           
+
                                             <?php foreach ($subject_details as $subject_detail) { ?>
                                                 <th colspan="3" style="text-align: center;"><?= $subject_detail['name']; ?></th>
                                             <?php } ?>
@@ -128,39 +154,70 @@ $url = '?subject_id=' . $subject_ids . '&class_id=' . $class_id . '&today_work_i
                                     </tbody>
                                 </table>
                         </div>
-                        <?php
-                        if (!empty($student_data)) { ?>
-                            <div class="subject_wise_home">
-                                <?php foreach ($subject_details as $student_key => $subject_detail) { ?>
+                       
+                    <?php if (!empty($student_data)) { ?>
+                        <div class="row">
+                            <?php foreach ($subject_details as $student_key => $subject_detail) { ?>
+                                <div class="col-md-4 mb-4">
+                                    <div class="card shadow-sm border-primary">
+                                        <div class="card-header bg-primary text-white p-4">
+                                            <h5 class="mb-0"><?= ucfirst($subject_detail['name']) ?> Overview</h5>
+                                        </div>
+                                        <div class="card-body p-4"> 
+                                            <div class="row align-items-center">
+                                                <!-- Left Side: Student Counts -->
+                                                <div class="col-md-6">
+                                                    <p><strong>Total Students:</strong>
+                                                        <span id="totalStudents<?= ucfirst($subject_detail['name']) ?>"><?= count($student_data) ?></span>
+                                                    </p>
+                                                    <input type="hidden" id="counttotalStudents<?= ucfirst($subject_detail['name']) ?>" name="total_student[]" value="<?= count($student_data) ?>">
 
-                                    <div class="col-md-2">
-                                        <strong>Today Student: <span id="totalStudents<?= ucfirst($subject_detail['name']) ?>"><?= count($student_data) ?></span></strong></br>
-                                        <input type="hidden" id="counttotalStudents<?= ucfirst($subject_detail['name']) ?>" name="total_student[]" value="<?= count($student_data) ?>">
+                                                    <p><strong>Completed Work:</strong>
+                                                        <span id="completedWork<?= ucfirst($subject_detail['name']) ?>"><?= count($student_data) ?></span>
+                                                    </p>
+                                                    <input type="hidden" id="countcompletedWork<?= ucfirst($subject_detail['name']) ?>" name="today_completed_work[]" value="<?= count($student_data) ?>">
 
-                                        <strong>Complete work: <span id="completedWork<?= ucfirst($subject_detail['name']) ?>"><?= count($student_data) ?></span></strong></br>
-                                        <input type="hidden" id="countcompletedWork<?= ucfirst($subject_detail['name']) ?>" name="today_completed_work[]" value="<?= count($student_data) ?>">
+                                                    <p><strong>Uncompleted Work:</strong>
+                                                        <span id="uncompletedWork<?= ucfirst($subject_detail['name']) ?>">0</span>
+                                                    </p>
+                                                    <input type="hidden" id="countuncompletedWork<?= ucfirst($subject_detail['name']) ?>" name="today_uncompleted_work[]" value="0">
+                                                </div>
 
-                                        <strong>Uncomplete work: <span id="uncompletedWork<?= ucfirst($subject_detail['name']) ?>"> 0 </span></strong></br>
-                                        <input type="hidden" id="countuncompletedWork<?= ucfirst($subject_detail['name']) ?>" name="today_uncompleted_work[]" value="0">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="subject-box-container">
-                                            <div class="subject-box">
-                                                <div>Completed Work%</div>
-                                                <div id="completedPercentage<?= ucfirst($subject_detail['name']) ?>">100</div>
-                                                <input type="hidden" id="countcompletedPercentage<?= ucfirst($subject_detail['name']) ?>" name="today_completed_percentage[]" value="100">
-                                            </div>
-                                            <div class="subject-box">
-                                                <div>Uncompleted Work%</div>
-                                                <div id="uncompletedPercentage<?= ucfirst($subject_detail['name']) ?>">0</div>
-                                                <input type="hidden" id="countuncompletedPercentage<?= ucfirst($subject_detail['name']) ?>" name="today_uncompleted_percentage[]" value="0">
+                                                <!-- Right Side: Percentages -->
+                                                <!-- Completed Percentage -->
+                                                <div class="p-3 mb-3 rounded bg-light">
+                                                    <h6 class="mb-0">
+                                                        <span class="text-success fw-bold">Completed: 
+                                                            <span id="completedPercentage<?= ucfirst($subject_detail['name']) ?>">100.00%</span>
+                                                        </span>
+                                                    </h6>
+                                                    <input type="hidden" id="countcompletedPercentage<?= ucfirst($subject_detail['name']) ?>" name="today_completed_percentage[]" value="100">
+                                                </div>
+
+                                                <!-- Uncompleted Percentage -->
+                                                <div class="p-3 rounded bg-light">
+                                                    <h6 class="mb-0">
+                                                        <span class="text-danger fw-bold">Uncompleted: 
+                                                            <span id="uncompletedPercentage<?= ucfirst($subject_detail['name']) ?>">0.00%</span>
+                                                        </span>
+                                                    </h6>
+                                                    <input type="hidden" id="countuncompletedPercentage<?= ucfirst($subject_detail['name']) ?>" name="today_uncompleted_percentage[]" value="0">
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
-                                <?php } ?>
-
-                                <div><button type="submit" class="btn btn-info pull-right button-right"><?php echo $this->lang->line('final_submit'); ?></button></div>
+                                </div>
                             <?php } ?>
+                        </div>
+
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-info"><?php echo $this->lang->line('final_submit'); ?></button>
+                        </div>
+                    <?php } ?>
+
+
+
                             </div>
                             </form>
                     </div>
@@ -190,13 +247,13 @@ $url = '?subject_id=' . $subject_ids . '&class_id=' . $class_id . '&today_work_i
 
             let completedPercentage = totalStudents > 0 ? ((completedStudents / totalStudents) * 100).toFixed(2) : 0;
             let uncompletedPercentage = totalStudents > 0 ? ((uncompletedStudents / totalStudents) * 100).toFixed(2) : 0;
-            $('#'+totalStudentsId).text(totalStudents);
+            $('#' + totalStudentsId).text(totalStudents);
             $('#' + completedWorkId).text(completedStudents);
             $('#' + uncompletedWorkId).text(uncompletedStudents);
             $('#' + completedPercentageId).text(completedPercentage + '%');
             $('#' + uncompletedPercentageId).text(uncompletedPercentage + '%');
 
-            $('#count'+totalStudentsId).val(totalStudents);
+            $('#count' + totalStudentsId).val(totalStudents);
             $('#count' + completedWorkId).val(completedStudents);
             $('#count' + uncompletedWorkId).val(uncompletedStudents);
             $('#count' + completedPercentageId).val(completedPercentage);
