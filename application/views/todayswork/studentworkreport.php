@@ -57,7 +57,8 @@ $url = '?subject_id=' . $subject_ids . '&class_id=' . $class_id . '&today_work_i
                                             <th></th>
                                             <th colspan="2" style="text-align: center;">Discipline</th>
                                            
-                                            <?php foreach ($subject_details as $subject_detail) { ?>
+                                            <?php  //echo "<pre>";print_r($subject_details);die();
+                                            foreach ($subject_details as $subject_detail) { ?>
                                                 <th colspan="3" style="text-align: center;"><?= $subject_detail['name']; ?></th>
                                             <?php } ?>
                                             <th></th>
@@ -98,10 +99,11 @@ $url = '?subject_id=' . $subject_ids . '&class_id=' . $class_id . '&today_work_i
                                                         <input type="hidden" name="conduct[<?= $key ?>]" value="0" />
                                                         <input type="checkbox" class="custom-checkbox" checked name="conduct[<?= $key ?>]" value="1" style="pointer-events: none;" />
                                                     </td>
-                                                    <?php foreach ($subject_details as $student_key => $subject_detail) { ?>
-
+                                                    <?php //print_r($subject_details); die();
+                                                        foreach ($subject_details as $student_key => $subject_detail) { ?>
                                                         <td>
-                                                            <input type="hidden" name="subject_id[<?= $key ?>][<?= $subject_key ?>]" value="<?= $students['id'] ?>" />
+                                                            <input type="hidden" name="subject_id[<?= $key ?>][<?= $subject_key ?>]" value="<?= $subject_detail['subject_id'] ?>" />
+                                                            <input type="hidden" name="todayWorkId[<?= $key ?>][<?= $subject_key ?>]" value="<?= $subject_detail['today_work_id'] ?>" />
                                                             <input type="hidden" name="subject_name[<?= $key ?>][<?= $subject_key ?>]" value="<?= $subject_detail['name'] ?>" />
                                                             <input type="hidden" name="fair_copy[<?= $key ?>][<?= $student_key ?>]" value="0" />
                                                             <input type="checkbox" class="<?= trim(strtolower($subject_detail['name'])) ?>" checked name="fair_copy[<?= $key ?>][<?= $student_key ?>]" value="1" />
@@ -136,6 +138,7 @@ $url = '?subject_id=' . $subject_ids . '&class_id=' . $class_id . '&today_work_i
                                     <div class="col-md-2">
                                         <strong>Today Student: <span id="totalStudents<?= ucfirst($subject_detail['name']) ?>"><?= count($student_data) ?></span></strong></br>
                                         <input type="hidden" id="counttotalStudents<?= ucfirst($subject_detail['name']) ?>" name="total_student[]" value="<?= count($student_data) ?>">
+                                        <input type="hidden" id="" name="report_subject_id[]" value="<?=$subject_detail['subject_id'] ?>">
 
                                         <strong>Complete work: <span id="completedWork<?= ucfirst($subject_detail['name']) ?>"><?= count($student_data) ?></span></strong></br>
                                         <input type="hidden" id="countcompletedWork<?= ucfirst($subject_detail['name']) ?>" name="today_completed_work[]" value="<?= count($student_data) ?>">
