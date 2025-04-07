@@ -173,11 +173,9 @@ $url = '?subject_id=' . $subject_ids . '&class_id=' . $class_id . '&today_work_i
                                                         <span id="totalStudents<?= ucfirst($subject_detail['name']) ?>"><?= count($student_data) ?></span>
                                                     </p>
                                                     <input type="hidden" id="counttotalStudents<?= ucfirst($subject_detail['name']) ?>" name="total_student[]" value="<?= count($student_data) ?>">
+                                                    <input type="hidden"  name="report_today_work_id[]" value="<?=$subject_detail['today_work_id'] ?>">
+                                                    <input type="hidden"  name="report_subject_id[]" value="<?=$subject_detail['subject_id'] ?>">
 
-                                    <div class="col-md-2">
-                                        <strong>Today Student: <span id="totalStudents<?= ucfirst($subject_detail['name']) ?>"><?= count($student_data) ?></span></strong></br>
-                                        <input type="hidden" id="counttotalStudents<?= ucfirst($subject_detail['name']) ?>" name="total_student[]" value="<?= count($student_data) ?>">
-                                        <input type="hidden" id="" name="report_subject_id[]" value="<?=$subject_detail['subject_id'] ?>">
                                                     <p><strong>Completed Work:</strong>
                                                         <span id="completedWork<?= ucfirst($subject_detail['name']) ?>"><?= count($student_data) ?></span>
                                                     </p>

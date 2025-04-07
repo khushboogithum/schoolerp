@@ -334,7 +334,7 @@ class Todayswork extends Admin_Controller
             $insertTodayReport= array(
                 'class_id'                     =>  $postdata['class_id'],
                 'subject_id'                   =>  $postdata['report_subject_id'][$rkey],
-                'today_work_id'                 => $postdata['todayWorkId'][$rkey][$rkey],
+                'today_work_id'                 => $postdata['report_today_work_id'][$rkey],
                 'total_student'                 => $total_student,
                 'today_completed_work'          => $postdata['today_completed_work'][$rkey],
                 'today_uncompleted_work'        => $postdata['today_uncompleted_work'][$rkey],
