@@ -180,7 +180,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <input type="text" name="old_class_id" value="<?=$todaysWork[0]['class_id'] ?>">
+                            <input type="hidden" name="old_class_id" value="<?=$todaysWork[0]['class_id'] ?>">
                             <div class="box-footer">
                                 <button type="submit" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('add'); ?></button>
                             </div>

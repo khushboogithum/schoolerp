@@ -301,23 +301,10 @@ class Todayswork extends Admin_Controller
         $data['subject_name'] =$subject_name= $this->input->get('subject_name');
         $data['subject_id'] =$subject_id= $this->input->get('subject_id');
         $data['student_data'] = $this->Todayswork_model->getStudents($class_id,$subject_id);
-        $data['subject_details'] = $this->Todayswork_model->getSubjectDetails($subject_id);
-
-
-      
-    //  $result = $this->Todayswork_model->todaysWorkList();
-    //     if (!empty($result)) {
-    //         $classid = $result[0]['class_id'];
-    //         $subjectname = $result[0]['subject_name'];
-    //         $subjectid = $result[0]['subject_id'];
-    //     }
-
-//    echo "<pre>";
-//     print_r($_POST);
-//     die();
+        $data['subject_details'] = $this->Todayswork_model->getSubjectDetails($subject_id,$today_work_id);
 
         $postdata = $this->input->post();
-       
+        
         $insertData = [];
         foreach ($postdata['studentId'] as $key => $studentId) {
             foreach ($postdata['subject_id'][$key] as $subKey => $subjectId) {
@@ -326,6 +313,7 @@ class Todayswork extends Admin_Controller
                     'student_id'         => $studentId,
                     'subject_id'         => $subjectId,
                     'subject_name'       => $postdata['subject_name'][$key][$subKey],
+                    'today_work_id'       => $postdata['todayWorkId'][$key][$subKey],
                     'class_id'           => $postdata['class_id'],
                     'discipline_dress'   => $postdata['dress'][$key],
                     'discipline_conduct' => $postdata['conduct'][$key],
@@ -336,35 +324,29 @@ class Todayswork extends Admin_Controller
                 );
             }
         }
-       
        $resultData = $this->Todayswork_model->insertTodayStudentReport($insertData);
-        // echo "<pre>";
-      
 
-       // $student_data = $postdata['student_name'];
-       // $today_completed_work = $postdata['today_completed_work'];
-       // $today_uncompleted_work = $postdata['today_uncompleted_work'];
-       // $today_completed_percentage = $postdata['today_completed_percentage'];
-       // $today_uncompleted_percentage = $postdata['today_uncompleted_percentage'];
        $total_students = $postdata['total_student'];
+       $insertTodayReport=array();
         foreach($total_students as $rkey=>$total_student){
 
             $today = date('Y-m-d');
-            $insertTodayReport = array(
+            $insertTodayReport= array(
                 'class_id'                     =>  $postdata['class_id'],
-                'subject_id'                   =>  $postdata['studentId'][$rkey],
+                'subject_id'                   =>  $postdata['report_subject_id'][$rkey],
+                'today_work_id'                 => $postdata['report_today_work_id'][$rkey],
                 'total_student'                 => $total_student,
                 'today_completed_work'          => $postdata['today_completed_work'][$rkey],
                 'today_uncompleted_work'        => $postdata['today_uncompleted_work'][$rkey],
                 'today_completed_percentage'    => $postdata['today_completed_percentage'][$rkey],
                 'today_uncompleted_percentage'  => $postdata['today_uncompleted_percentage'][$rkey],
                 'today_date'  => $today,
-            );
-            
-           $todayData= $this->Todayswork_model->insertTodayWorkReport($insertTodayReport);
-           
-
+            );  
+         $todayData= $this->Todayswork_model->insertTodayWorkReport($insertTodayReport);
         }
+        
+
+
         if (!empty($resultData)) {
             $result=$this->Todayswork_model->goForStudentWorkReport($today_work_id);
             
@@ -375,6 +357,79 @@ class Todayswork extends Admin_Controller
         } else {
             $this->load->view('layout/header', $data);
             $this->load->view('todayswork/studentworkreport', $data);
+            $this->load->view('layout/footer', $data);
+        }
+    }
+
+    public function todayStudentWorkReportEdit()
+    {
+        $this->session->set_userdata('top_menu', 'todayswork');
+        $this->session->set_userdata('sub_menu', 'todayswork/index');
+        $data['title']      = 'Student Work Report';
+        $data['title_list'] = 'Student Work Report';
+        $subject_id = $this->input->get('subject_id');
+        $class_id = $this->input->get('class_id');
+        $today_work_id = $this->input->get('today_work_id');
+        $data['class_id']=$class_id = $this->input->get('class_id');
+        $data['subject_name'] =$subject_name= $this->input->get('subject_name');
+        $data['subject_id'] =$subject_id= $this->input->get('subject_id');
+        $data['student_data'] = $this->Todayswork_model->getStudents($class_id,$subject_id);
+        $data['subject_details'] = $this->Todayswork_model->getSubjectDetails($subject_id,$today_work_id);
+
+        $data['getreportdata'] = $this->Todayswork_model->getSubjectWiseReportEdit($today_work_id);
+        $data['getTodayWorkReport'] = $this->Todayswork_model->getTodayWorkReportSubjectWise($today_work_id);
+
+        $postdata = $this->input->post();
+        
+            foreach ($postdata['student_id'] as $key => $student_id) {
+                $student_work_report_id=$postdata['student_work_report_id'][$key];
+                $updatetData= array(
+                    'student_id'         => $student_id,
+                    'student_name'       => $postdata['student_name'][$key],
+                    'subject_id'         => $postdata['subject_id'][$key],
+                    'subject_name'       => $postdata['subject_name'][$key],
+                    'today_work_id'       => $postdata['today_work_id'][$key],
+                    'class_id'           => $postdata['class_id'][$key],
+                    'discipline_dress'   => $postdata['discipline_dress'][$key],
+                    'discipline_conduct' => $postdata['discipline_conduct'][$key],
+                    'fair_copy'          => $postdata['fair_copy'][$key],
+                    'writing_work'       => $postdata['writing_work'][$key],
+                    'learning_work'      => $postdata['learning_work'][$key],
+                    'remarks'            => $postdata['remarks'][$key],
+                );
+                $resultData = $this->Todayswork_model->updateTodayStudentReport($updatetData,$student_work_report_id);
+
+            }
+        
+
+            $updateTodayReport= array(
+                'class_id'                     =>  $postdata['report_class_id'],
+                'subject_id'                   =>  $postdata['report_subject_id'],
+                'today_work_id'                   =>  $postdata['report_today_work_id'],
+                'total_student'                 => $postdata['total_student'],
+                'today_completed_work'          => $postdata['today_completed_work'],
+                'today_uncompleted_work'        => $postdata['today_uncompleted_work'],
+                'today_completed_percentage'    => $postdata['today_completed_percentage'],
+                'today_uncompleted_percentage'  => $postdata['today_uncompleted_percentage'],
+            );
+            
+        // echo "<pre>";
+        // print_r($insertTodayReport);
+        // die();
+         $todayData= $this->Todayswork_model->updateTodayWorkReport($updateTodayReport,$postdata['today_work_report_id']);
+        //}
+
+
+        if (!empty($resultData)) {
+            $result=$this->Todayswork_model->goForStudentWorkReport($today_work_id);
+            
+           // $classSubjectID = '?subject_id=' . $subject_id . '&class_id=' . $class_id. '&today_work_id=' . $today_work_id;
+
+            $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
+            redirect('todaysworkreport/index');
+        } else {
+            $this->load->view('layout/header', $data);
+            $this->load->view('todayswork/studentworkreportedit', $data);
             $this->load->view('layout/footer', $data);
         }
     }

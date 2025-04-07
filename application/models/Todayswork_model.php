@@ -419,8 +419,8 @@ class Todayswork_model extends MY_model
             ->where('student_session.class_id', $class_id)
             ->where('students.is_active', 'yes')
             ->where("students.id NOT IN (SELECT student_id FROM student_work_report where date(created_at)='" . date('Y-m-d') . "' and subject_name in(" . $subject_id . "))", NULL, FALSE)
-            ->order_by('students.firstname', 'ASC')
-             ->limit(2);
+            ->order_by('students.firstname', 'ASC');
+            //  ->limit(2);
         $query = $this->db->get();
         // echo $this->db->last_query();
         // die();
@@ -428,12 +428,15 @@ class Todayswork_model extends MY_model
         return $query->result_array();
     }
 
-    public function getSubjectDetails($subject_id){
+    public function getSubjectDetails($subject_id,$today_work_id){
         $subject_id=explode(",",$subject_id);
+        $today_work_id=explode(",",$today_work_id);
 
-        $this->db->select('subjects.id AS `subject_id`,subjects.name')
+        $this->db->select('subjects.id AS `subject_id`,subjects.name,today_work.today_work_id')
+            ->join('today_work', 'today_work.subject_id = subjects.id')
             ->from('subjects')
             ->where_in('subjects.id', $subject_id)
+            ->where_in('today_work.today_work_id', $today_work_id)
             ->order_by('subjects.name', 'ASC');
         $query = $this->db->get();
         return $query->result_array();
@@ -470,10 +473,6 @@ class Todayswork_model extends MY_model
 
     public function insertTodayWorkReport($data)
     {
-        $this->db->trans_start();
-        $this->db->trans_strict(false);
-
-        // Since $data is a single record, use insert() instead of insert_batch()
        $this->db->insert('today_work_report', $data);
       
         // echo $this->db->last_query();
@@ -518,5 +517,85 @@ class Todayswork_model extends MY_model
         $query = $this->db->get();
         $result = $query->row_array();
         return $result['lesson_id'];
+    }
+
+    public function getSubjectWiseReportEdit($today_work_id)
+    {
+
+
+        $finaldata = array();
+        $this->db->select('student_work_report.*');
+        $this->db->from('student_work_report');
+        $this->db->where('student_work_report.today_work_id', $today_work_id);
+        $query = $this->db->get();
+        $results = $query->result_array();
+        $subject_array = [];
+
+        foreach ($results as $result) {
+            $student_name = trim($result['student_name']);
+            $subject_name = trim($result['subject_name']);
+            if (!isset($subject_array[$subject_name])) {
+                $subject_array[$subject_name] = $subject_name;
+            }
+
+            $finaldata[$student_name][$subject_array[$subject_name]] = [
+                'fair_copy' => $result['fair_copy'],
+                'learning_work' => $result['learning_work'],
+                'writing_work' => $result['writing_work'],
+                'student_work_report_id' => $result['student_work_report_id'],
+                'today_work_id' => $result['today_work_id'],
+                'student_name' => $result['student_name'],
+                'student_id' => $result['student_id'],
+                'subject_id' => $result['subject_id'],
+                'subject_name' => $result['subject_name'],
+                'class_id' => $result['class_id'],
+            ];
+
+            $finaldata[$student_name]['discipline'] = [
+                'dress' => $result['discipline_dress'],
+                'conduct' => $result['discipline_conduct'],
+            ];
+        }
+        return $finaldata;
+    }
+    public function getTodayWorkReportSubjectWise($today_work_id){
+
+        $this->db->select('today_work_report.*');
+        $this->db->from('today_work_report');
+        $this->db->where('today_work_report.today_work_id', $today_work_id);
+        $query = $this->db->get();
+        $results = $query->result_array();
+        return $results;
+
+    }
+
+    public function updateTodayStudentReport($updatetData,$student_work_report_id){
+
+        if (isset($student_work_report_id) && $student_work_report_id != '') {
+            $this->db->where('student_work_report_id', $student_work_report_id);
+            $result = $this->db->update('student_work_report', $updatetData);
+
+            $message   = UPDATE_RECORD_CONSTANT . " On today_work in today_work_id " . $student_work_report_id;
+            $action    = "Update";
+            $record_id = $student_work_report_id;
+            $this->log($message, $record_id, $action);
+            return $result;
+        }
+
+    }
+
+    public function updateTodayWorkReport($updateTodayReport,$today_work_report_id){
+
+        if (isset($today_work_report_id) && $today_work_report_id != '') {
+            $this->db->where('today_work_report_id', $today_work_report_id);
+            $result = $this->db->update('today_work_report', $updateTodayReport);
+
+            $message   = UPDATE_RECORD_CONSTANT . " On today_work_report in today_work_report_id " . $today_work_report_id;
+            $action    = "Update";
+            $record_id = $today_work_report_id;
+            $this->log($message, $record_id, $action);
+            return $result;
+        }
+
     }
 }
