@@ -45,6 +45,7 @@ class Site extends Public_Controller
 
     public function login()
     {
+       
         $app_name = $this->setting_model->get();
         $app_name = $app_name[0]['name'];
 
@@ -149,6 +150,9 @@ class Site extends Public_Controller
                                                     ],
                         'superadmin_restriction' => $setting_result[0]['superadmin_restriction'],
                     );
+                    // echo "<pre>";
+                    // print_r($session_data);
+                    // die();
                     $this->session->set_userdata('admin', $session_data);
 
                     $role      = $this->customlib->getStaffRole();

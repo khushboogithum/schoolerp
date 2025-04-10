@@ -8,6 +8,11 @@
 
         </h1>
     </section>
+    <style>
+    .col-md-2 {
+        width: 16.24% !important;
+    }
+    </style>
 
     <!-- Main content -->
     <section class="content">
@@ -180,9 +185,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <input type="hidden" name="old_class_id" value="<?=$todaysWork[0]['class_id'] ?>">
                             <div class="box-footer">
-                                <button type="submit" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('add'); ?></button>
+                            <input type="hidden" name="old_class_id" id="old_class_id" value="<?=$todaysWork[0]['class_id'] ?>">
+                                <button type="button" id="btnhide" class="btn btn-info pull-right" onclick="return alert('Please submit this class data after adding another class data.')" style="margin-left:5px !important; display:none;"><?php echo $this->lang->line('add'); ?></button>
+                                <button type="submit" id="submit" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('add'); ?></button>
                             </div>
                         </form>
                     </div>
@@ -323,6 +329,19 @@
     });
 
     function getSectionByClass(class_id, section_id, select_control) {
+        let old_class_id=$("#old_class_id").val() ?? '';
+       // alert(old_class_id);
+        
+         if(old_class_id!='' && old_class_id!=class_id){
+            $('#btnhide').show();
+            $('#submit').hide();
+         }else{
+            $('#btnhide').hide();
+            $('#submit').show();
+
+
+         }
+
         if (class_id != "") {
             $('#' + select_control).html("");
             var base_url = '<?php echo base_url() ?>';

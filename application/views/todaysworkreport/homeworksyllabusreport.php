@@ -125,8 +125,8 @@
                             <tbody>
                                 <?php
                                // $todayWorkId = $todaysWork[0]['today_work_id'];
-                                // echo "<pre>";
-                                // print_r($todayWorkId);
+                                //  echo "<pre>";
+                                //  print_r($todaysWork);
                                 if (!empty($todaysWork)) {
                                     foreach ($todaysWork as $todayLists) {
                                 ?>
@@ -136,6 +136,8 @@
                                                 <input type="hidden" class="form-control" name="classid[]" value="<?= $todayLists['class_id'] ?>"/>
                                                 <input type="hidden" class="form-control" name="subjectid[]" value="<?= $todayLists['subject_id'] ?>"/>
                                                 <input type="hidden" class="form-control" name="staffid[]" value="<?= $todayLists['staff_id'] ?>"/>
+                                                <input type="hidden" class="form-control" name="work_date[]" value="<?= $todayLists['work_date'] ?>"/>
+                                                <input type="hidden" class="form-control" name="today_work_id[]" value="<?= $todayLists['today_work_id'] ?>"/>
                                         </td>
                                             <td><?= $todayLists['total_lessons'] ?></td>
                                             <td><?= $todayLists['lesson_number'] ?>-<?= $todayLists['lesson_name'] ?></td>
@@ -195,12 +197,9 @@
                         </table>
                     </div>
                     <?php if (!empty($todaysWork)) { ?>
-                            <input type="hidden" class="form-control" name="today_work_id" value="<?= $todayWorkId ?>"/>
-                            <!-- <div> <button type="submit"  class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('final_submit'); ?></button></div><br><br> -->
+                            <!-- <input type="hidden" class="form-control" name="today_work_id" value="<?= $todayWorkId ?>"/> -->
                             <div> <button type="submit"  class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('go_for_all_student_work_report'); ?></button></div><br><br>
                        
-
-                        <!-- <div><a href="<?php echo site_url('todaysworkreport/allstudentworkreports'); ?>" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('go_for_all_student_work_report'); ?></a></div> -->
                     <?php } ?>
                 </div>
                 </form>

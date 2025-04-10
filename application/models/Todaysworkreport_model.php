@@ -79,8 +79,6 @@ class Todaysworkreport_model extends MY_model
       
         if (!empty($todays_date)) {
             $this->db->where('DATE(today_work.work_date)', $todays_date);
-        }else{
-            $this->db->where('DATE(today_work.work_date)', $today);
         }
 
         if (!empty($class_id)) {
@@ -136,11 +134,14 @@ class Todaysworkreport_model extends MY_model
             foreach ($data as $key => $value) {
                 $class_id = $value['class_id'];
                 $subject_id = $value['subject_id'];
+                $today_work_id = $value['today_work_id'];
+                $today_date = $value['today_date'];
                 $this->db->select('class_teacher_report.class_id');
                 $this->db->from('class_teacher_report');
                 $this->db->where('class_teacher_report.class_id', $class_id);
                 $this->db->where('class_teacher_report.subject_id', $subject_id);
-                $this->db->where('class_teacher_report.today_date', date('Y-m-d'));
+                $this->db->where('class_teacher_report.today_work_id', $today_work_id);
+                $this->db->where('class_teacher_report.today_date', $today_date);
                 $query = $this->db->get();
                 $num_rows = $query->num_rows();
 
@@ -221,15 +222,31 @@ class Todaysworkreport_model extends MY_model
         return $query->result_array();
     }
 
-    public function getTodayReportData()
+    public function getTodayReportData($classId,$subject_id,$today_work_id)
     {
 
         $finaldata = array();
         $this->db->select('student_work_report.*');
         $this->db->from('student_work_report');
+
+       
+        if (!empty($classId)) {
+            $this->db->where('student_work_report.class_id', $classId);
+        }
+       
+        if (!empty($subject_id)) {
+            
+            $this->db->where_in('student_work_report.subject_id', explode(',',$subject_id));
+        }
+        if (!empty($today_work_id)) {
+            $this->db->where_in('student_work_report.today_work_id', explode(',',$today_work_id));
+        }
+
         // $this->db->where('student_work_report.status', 1);
-        $this->db->where('date(created_at)', date('Y-m-d'));
+       // $this->db->where('date(created_at)', date('Y-m-d'));
         $query = $this->db->get();
+        // echo $this->db->last_query();
+        // die();
 
         $results = $query->result_array();
         $subject_array = [];
@@ -258,12 +275,23 @@ class Todaysworkreport_model extends MY_model
         return $finaldata;
     }
 
-    public function getSubjectWiseReport()
+    public function getSubjectWiseReport($classId,$subject_id,$today_work_id)
     {
         $this->db->select('student_work_report.*');
         $this->db->from('student_work_report');
+        if (!empty($classId)) {
+            $this->db->where('student_work_report.class_id', $classId);
+        }
+       
+        if (!empty($subject_id)) {
+            
+            $this->db->where_in('student_work_report.subject_id', explode(',',$subject_id));
+        }
+        if (!empty($today_work_id)) {
+            $this->db->where_in('student_work_report.today_work_id', explode(',',$today_work_id));
+        }
         // $this->db->where('student_work_report.status', 2);
-        $this->db->where('date(created_at)', date('Y-m-d'));
+       // $this->db->where('date(created_at)', date('Y-m-d'));
 
         $query = $this->db->get();
         $results = $query->result_array();
@@ -277,6 +305,7 @@ class Todaysworkreport_model extends MY_model
             $subjectName = $result['subject_name'];
             $subject_id = $result['subject_id'];
             $class_id = $result['class_id'];
+            $today_work_id = $result['today_work_id'];
             if (!isset($resultArray[$subjectName])) {
                 $Complete = 0;
                 $totalstudent = 0;
@@ -291,10 +320,14 @@ class Todaysworkreport_model extends MY_model
             $resultArray[$subjectName] = [
                 'subject_id' => $subject_id,
                 'class_id' => $class_id,
+                'today_work_id' => $today_work_id,
                 'complete' => $Complete,
                 'totalstudent' => $totalstudent,
             ];
         }
+            // echo "<pre>";
+            // print_r($resultArray);
+            // die();
         return $resultArray;
     }
     public function studentWorkPerstange($class_id, $subject_id, $date)
@@ -325,16 +358,19 @@ class Todaysworkreport_model extends MY_model
         return $result;
     }
 
-    public function ApproveStudentWorkReport($class_id, $data)
+    public function ApproveStudentWorkReport($class_id,$today_work_id, $data)
     {
 
-        $this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+      //  $this->db->trans_start(); # Starting Transaction
+      //  $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         if (isset($class_id) && $class_id != '') {
             $this->db->where('class_id', $class_id);
-            $this->db->where('date(created_at)', date('Y-m-d'));
+            $this->db->where_in('today_work_id', $today_work_id);
+            // $this->db->where('date(created_at)', date('Y-m-d'));
             $query     = $this->db->update('student_work_report', $data);
+            // echo $this->db->last_query();
+            // die();
             $insert_id = $class_id;
             $message   = UPDATE_RECORD_CONSTANT . " On student_work_report id " . $insert_id;
             $action    = "update";
@@ -366,11 +402,13 @@ class Todaysworkreport_model extends MY_model
             foreach ($data as $key => $value) {
                 $class_id = $value['class_id'];
                 $subject_id = $value['subject_id'];
+                $today_work_id = $value['today_work_id'];
                 $this->db->select('subject_wise_report.class_id');
                 $this->db->from('subject_wise_report');
                 $this->db->where('subject_wise_report.class_id', $class_id);
                 $this->db->where('subject_wise_report.subject_id', $subject_id);
-                $this->db->where('subject_wise_report.today_date', date('Y-m-d'));
+                $this->db->where('subject_wise_report.today_work_id', $today_work_id);
+                // $this->db->where('subject_wise_report.today_date', date('Y-m-d'));
                 $query = $this->db->get();
                 $num_rows = $query->num_rows();
 
@@ -398,8 +436,8 @@ class Todaysworkreport_model extends MY_model
     {
       
         $class_id = $data['class_id'];
-        $this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+       // $this->db->trans_start(); # Starting Transaction
+       // $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         $this->db->select('class_wise_report.class_id');
         $this->db->from('class_wise_report');
