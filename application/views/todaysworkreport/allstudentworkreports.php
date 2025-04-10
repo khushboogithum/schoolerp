@@ -1,4 +1,9 @@
-<?php $currency_symbol = $this->customlib->getSchoolCurrencyFormat(); ?>
+<?php $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
+        $class_id=$_GET['class_id'];
+        $subject_id=$_GET['subject_id'];
+        $today_work_id=$_GET['today_work_id'];
+        $url="?class_id=".$class_id."&subject_id=".$subject_id."&today_work_id=".$today_work_id;
+?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
 
@@ -189,7 +194,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <form method="post" action="<?= site_url('todaysworkreport/allstudentworkreports') ?>">
+                        <form method="post" action="<?= site_url('todaysworkreport/allstudentworkreports'.$url) ?>">
                             <?php
                             if (!empty($getreportdata)) { ?>
                                 <div class="subject_wise_home"><b><?= $this->lang->line('subject_wise_home_work_percentage') ?></b></div>
@@ -218,6 +223,7 @@
                                         <input type="hidden" name="complate_student[]" value="<?= $subjecttatus['complete'] ?>" />
                                         <input type="hidden" name="incomplate_student[]" value="<?= $incomplete_student ?>" />
                                         <input type="hidden" name="subject_percentage[]" value="<?= round($percentage, 2, 2) ?>" />
+                                        <input type="hidden" name="today_work_id[]" value="<?=$subjecttatus['today_work_id'] ?>" />
 
                                     <?php }
                                     $class_percentage = ($subjectCount > 0) ? ($totalPercentage / $subjectCount) : 0;

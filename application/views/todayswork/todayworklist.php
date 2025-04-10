@@ -187,7 +187,7 @@
                             </div>
                             <div class="box-footer">
                             <input type="hidden" name="old_class_id" id="old_class_id" value="<?=$todaysWork[0]['class_id'] ?>">
-                                <button type="button" id="btnhide" class="btn btn-info pull-right" onclick="return alert('Please submit report this class after add another class data')" style="margin-left:5px !important; display:none;"><?php echo $this->lang->line('add'); ?></button>
+                                <button type="button" id="btnhide" class="btn btn-info pull-right" onclick="return alert('Please submit this class data after adding another class data.')" style="margin-left:5px !important; display:none;"><?php echo $this->lang->line('add'); ?></button>
                                 <button type="submit" id="submit" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('add'); ?></button>
                             </div>
                         </form>
@@ -332,7 +332,7 @@
         let old_class_id=$("#old_class_id").val() ?? '';
        // alert(old_class_id);
         
-         if(old_class_id!='' && old_class_id==class_id){
+         if(old_class_id!='' && old_class_id!=class_id){
             $('#btnhide').show();
             $('#submit').hide();
          }else{
