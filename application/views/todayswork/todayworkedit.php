@@ -323,11 +323,11 @@
                                                     <?php
                                                     $class_work = $todayLists['class_work'];
                                                     foreach ($class_work as $class_works) {
-                                                        echo "<div><b>" . ucfirst($class_works['teaching_activity_title']) . "</b></div>";
+                                                        echo "<div class='text-success'><b>" . ucfirst($class_works['teaching_activity_title']) . "</b></div>";
                                                     }
                                                     $class_notebook = $todayLists['class_notebook'];
                                                     foreach ($class_notebook as $class_notebooks) {
-                                                        echo "<div>" . ucfirst($class_notebooks['note_book_title']) . "</div>";
+                                                        echo "<div class='text-success'><b>" . ucfirst($class_notebooks['note_book_title']) . "</b></div>";
                                                     }
                                                     ?>
                                                 </td>
@@ -335,11 +335,11 @@
                                                     <?php
                                                     $home_work = $todayLists['home_work'];
                                                     foreach ($home_work as $home_works) {
-                                                        echo "<div><b>" . ucfirst($home_works['teaching_activity_title']) . "</b></div>";
+                                                        echo "<div class='text-success'><b>" . ucfirst($home_works['teaching_activity_title']) . "</b></div>";
                                                     }
                                                     $home_notebook = $todayLists['home_notebook'];
                                                     foreach ($home_notebook as $home_notebooks) {
-                                                        echo "<div>" . ucfirst($home_notebooks['note_book_title']) . "</div>";
+                                                        echo "<div class='text-warning'><b>" . ucfirst($home_notebooks['note_book_title']) . "</b></div>";
                                                     }
                                                     ?>
                                                 </td>

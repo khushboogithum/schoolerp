@@ -130,7 +130,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label>Students</label><small class="req"> *</small>
+                                        <label><?= $this->lang->line('student') ?></label><small class="req"> *</small>
                                         <select id="student_id" name="student_id" class="form-control">
                                             <option value=""><?php echo $this->lang->line('select'); ?></option>
                                         </select>
@@ -139,14 +139,14 @@
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">From Date</label>
+                                        <label for="exampleInputEmail1"><?= $this->lang->line('from_date') ?></label>
                                         <input autofocus="" id="work_date" name="from_date" placeholder="" type="date" class="form-control" value="<?=@$from_date?>" autocomplete="off">
                                         <span class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">To Date</label>
+                                        <label for="exampleInputEmail1"><?= $this->lang->line('to_date') ?></label>
                                         <input autofocus="" id="work_date" name="to_date" placeholder="" type="date" class="form-control" value="<?=@$to_date   ?>" autocomplete="off">
                                         <span class="text-danger"></span>
                                     </div>
@@ -155,9 +155,9 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <button type="submit" name="search" value="search_filter" class="btn btn-primary btn-sm" style="margin-top: 21px;">
-                                            <i class="fa fa-search"></i> Search
+                                            <i class="fa fa-search"></i> <?= $this->lang->line('search') ?>
                                         </button>
-                                        <a href="<?= base_url() ?>/ptmreport/index" type="reset" name="reset" value="reset_filter" class="btn btn-primary btn-sm" style=" margin-top: 21px;"><i class="fa fa-filter"></i> Reset</a>
+                                        <a href="<?= base_url() ?>/ptmreport/index" type="reset" name="reset" value="reset_filter" class="btn btn-primary btn-sm" style=" margin-top: 21px;"><i class="fa fa-filter"></i> <?= $this->lang->line('reset') ?></a>
                                     </div>
                                 </div>
                             </div>
@@ -169,7 +169,7 @@
         </div>
         <div class="row">
             <div class="col-md-10 text-center">
-                <h1 class="text-danger">Pt.R.N.S. Public school, Lahchore Baghpat</h1>
+                <h1 class="text-danger"><?= $this->lang->line('school_name') ?></h1>
             </div>
             <div class="col-md-2">
                 <img src="" alt="">
@@ -177,19 +177,19 @@
         </div>
         <div class="row m-1 mt-2">
             <div class="col-md-4">
-                <p>Admission No.-  <?=$studentDetails[0]['admission_no'] ?></p>
-                <p>Class Name - <?=$studentDetails[0]['class'] ?></p>
-                <p>Roll No. - <?=$studentDetails[0]['roll_no'] ?></p>  
+                <p><?= $this->lang->line('admission_no') ?>.-  <?=$studentDetails[0]['admission_no'] ?></p>
+                <p><?= $this->lang->line('class_name') ?> - <?=$studentDetails[0]['class'] ?></p>
+                <p><?= $this->lang->line('roll_no') ?>. - <?=$studentDetails[0]['roll_no'] ?></p>  
 
             </div>
             <div class="col-md-4">
-                <p>Student's Name -  <?=$studentDetails[0]['firstname'] ?></p>
-                <p>Father's Name - <?=$studentDetails[0]['father_name'] ?></p>
-                <p>Address - <?=$studentDetails[0]['current_address'] ?></p>  
+                <p><?= $this->lang->line('student_name') ?> -  <?=$studentDetails[0]['firstname'] ?></p>
+                <p><?= $this->lang->line('father_name') ?> - <?=$studentDetails[0]['father_name'] ?></p>
+                <p><?= $this->lang->line('address') ?> - <?=$studentDetails[0]['current_address'] ?></p>  
             </div>
             <div class="col-md-4">
-                <p>Mother's Name - <?=$studentDetails[0]['mother_name'] ?></p>
-                <p>DOB - <?=$studentDetails[0]['dob'] ?></p>
+                <p><?= $this->lang->line('mother_name') ?> - <?=$studentDetails[0]['mother_name'] ?></p>
+                <p><?= $this->lang->line('dob') ?> - <?=$studentDetails[0]['dob'] ?></p>
             </div>
         </div>
         <div class="row">
@@ -245,7 +245,6 @@
                                     $i = 1;
                                     foreach ($getreportdata as $date => $data) {
 
-
                                     ?>
                                         <tr>
                                             <td><?= $i++ ?></td>
@@ -265,9 +264,7 @@
                                                 }
                                             }
 
-
                                             ?>
-
 
                                         </tr>
                                     <?php } ?>
@@ -309,10 +306,7 @@
                         </div>
                         <div class="report-container">
                             <span class="ml-2 subject-label">3. <?= $this->lang->line('work_summary') ?></span>
-                            <!-- <div>
-                                <span class="">Hindi</span>
-                                <div class="subject-box-student highlight">45/50</div>
-                            </div> -->
+                            
                             <?php $percentage=array();
                             foreach ($getsubjectwisestatus['subjectReport'] as $key => $subjectStatus) { 
                                 if($subjectStatus['complete']>0){
@@ -330,7 +324,7 @@
                             ?>
                             
                             <div>
-                                <span class="">Grade</span>
+                                <span class=""><?= $this->lang->line('grade') ?></span>
                                 <div class="grade-box">
 
                                 <?php echo !empty($percentage) ? getGrade(array_sum($percentage) / count($percentage)) : 'NA';?>

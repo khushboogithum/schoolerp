@@ -241,7 +241,7 @@
                                             <tr>
                                                 <td><?= $todayLists['subject_name'] ?></td>
                                                 <td><?= $todayLists['total_lessons'] ?></td>
-                                                <td>Lesson-<?= $todayLists['lesson_number'] ?> <?= $todayLists['lesson_name'] ?></td>
+                                                <td><?= $this->lang->line('lesson') ?>-<?= $todayLists['lesson_number'] ?> <?= $todayLists['lesson_name'] ?></td>
                                                 <td>
                                                     <?php
                                                     $class_work = $todayLists['class_work'];

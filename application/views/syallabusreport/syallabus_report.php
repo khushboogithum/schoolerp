@@ -33,8 +33,8 @@
                         <!-- <h3 class="box-title"><?php //echo $this->lang->line('syllabus_report'); 
                                                     ?></h3> -->
                     </div><!-- /.box-header -->
-                    
-                    
+
+
                     <div class="box-body">
                         <form method="post" action="<?php echo base_url('syallabusreport/index'); ?>">
                             <?php echo $this->customlib->getCSRF(); ?>
@@ -159,7 +159,7 @@
                                             foreach ($subjectlist as $subjects) {
                                             ?>
                                                 <option value="<?php echo $subjects['id'] ?>"
-                                                    <?php if ($subject_id==$subjects["id"]) {
+                                                    <?php if ($subject_id == $subjects["id"]) {
                                                         echo "selected";
                                                     } ?>><?php echo $subjects['name'] ?></option>
                                             <?php
@@ -222,9 +222,7 @@
 
 
                     if ($report_type == 'teacher_wise') {
-                        //     echo "reporting hello";
-                        //      print_r($teacherwisereport);
-                        // die();
+
                         foreach ($teacherwisereport as $item) {
                             $date = $item['work_date'];
                             $subject = $item['subject_name'];
@@ -268,7 +266,7 @@
                                         }
                                     } else {
                                         foreach ($subjects as $subject) {
-                                            echo "<th>{$subject}-{$syllabusPerArray[$subject]} % <br>{$className[$subject]}</th>";
+                                            echo "<th>{$subject}-<span class='text-green'>{$syllabusPerArray[$subject]} % </span><br><span class='text-warning'><b>{$className[$subject]}</b></span></th>";
                                         }
                                     }
 
@@ -319,37 +317,52 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="subject-grids" style="display: <?= ($report_type == 'class_wise') ? 'block' : 'none'; ?>;">
-                        <div>Today Class Performance</div>
-                        <div class="subject-boxs">
-                            <div><?=$get_winning_class['final_percentage'] ?>%</div>
+                    <div class="row col-md-12 slybuss_report" style="display: <?= ($report_type == 'class_wise') ? 'block' : 'none'; ?>;">
+                        <div class="col-md-4">
+                            <p><b><?= $this->lang->line('today_class_performance') ?></b></p>
+                            <div class="subject-boxs">
+                                <div><?= $get_winning_class['final_percentage'] ?>%</div>
+                            </div>
                         </div>
-                        <div>Today Winner Class</div>
-                        <div class="subject-boxs">
-                            <div><?=$get_winning_class['final_class_name'] ?></div>
+                        <div class="col-md-4">
+                            <p><b><?= $this->lang->line('today_winner_class') ?></b></p>
+                            <div class="subject-boxs">
+                                <div><?= $get_winning_class['final_class_name'] ?></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row col-md-12 slybuss_report" style="display: <?= ($report_type == 'subject_wise') ? 'block' : 'none'; ?>;">
+                        <div class="col-md-4">
+                            <p><b><?= $this->lang->line('today_subject_performance') ?><p><b>
+                            <div class="subject-boxs">
+                                <div><?= $get_winning_subjectwise['percentage'] ?>%</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <p><b><?= $this->lang->line('today_winner_subject') ?><p><b>
+                            <div class="subject-boxs">
+                                <div><?= $get_winning_subjectwise['name'] ?></div>
+                            </div>
                         </div>
 
                     </div>
-                    <div class="subject-grids" style="display: <?= ($report_type == 'subject_wise') ? 'block' : 'none'; ?>;">
-                        <div>Today Subject Performance</div>
-                        <div class="subject-boxs">
-                            <div><?=$get_winning_subjectwise['percentage'] ?>%</div>
+                    <!-- Teacher Wise Report -->
+                    <div class="row slybuss_report" style="display: <?= ($report_type == 'teacher_wise') ? 'flex' : 'none'; ?>; gap: 20px;">
+                        <div class="col-md-4">
+                            <p><b><?= $this->lang->line('today_marks') ?></b></p>
+                            <div class="subject-boxs">
+                                <div class="display-6"><?= $get_winning_teacher['percentage'] ?>%</div>
+                            </div>
                         </div>
-                        <div>Today Winner Subject</div>
-                        <div class="subject-boxs">
-                            <div><?=$get_winning_subjectwise['name'] ?></div>
+                        <div class="col-md-4">
+                            <p><b><?= $this->lang->line('today_winner') ?></b></p>
+                            <div class="subject-boxs">
+                                <?php if ($get_winning_teacher['image'] != '') { ?>
+                                    <img src="<?= $get_winning_teacher['image'] ?>" alt="Teacher Image" class="img-fluid rounded mb-2" height="100">
+                                <?php } ?>
+                                <div class="h5"><?= $get_winning_teacher['name'] ?></div>
+                            </div>
                         </div>
-
-                    </div>
-
-                    <div class="subject-grids" style="display: <?= ($report_type == 'teacher_wise') ? 'block' : 'none'; ?>;">
-                        <div>Today Marks: <?=$get_winning_teacher['percentage'] ?>%</div>
-                        <?php if($get_winning_teacher['image']!=''){ ?>
-                            <img src="<?=$get_winning_teacher['image'] ?>" alt="" height="100">
-                        <?php } ?>
-                        <div>Today Winner- <?=$get_winning_teacher['name'] ?></div>
-                        
-
                     </div>
                 </div>
             </div>
