@@ -187,7 +187,14 @@
                             </div>
                             <div class="box-footer">
                             <input type="hidden" name="old_class_id" id="old_class_id" value="<?=$todaysWork[0]['class_id'] ?>">
-                                <button type="button" id="btnhide" class="btn btn-info pull-right" onclick="return alert('Please submit this class data after adding another class data.')" style="margin-left:5px !important; display:none;"><?php echo $this->lang->line('add'); ?></button>
+                            <button 
+                                type="button" 
+                                id="btnhide" 
+                                class="btn btn-info pull-right" 
+                                onclick="alert('<?php echo $this->lang->line('error_popup_message'); ?>'); return false;" 
+                                style="margin-left: 5px !important; display: none;">
+                                <?php echo $this->lang->line('add'); ?>
+                            </button>
                                 <button type="submit" id="submit" class="btn btn-info pull-right" style="margin-left:5px !important;"><?php echo $this->lang->line('add'); ?></button>
                             </div>
                         </form>
@@ -239,11 +246,11 @@
                                                     <?php
                                                     $class_work = $todayLists['class_work'];
                                                     foreach ($class_work as $class_works) {
-                                                        echo "<div><b>" . ucfirst($class_works['teaching_activity_title']) . "</b></div>";
+                                                        echo "<div class='text-green'><b>" . ucfirst($class_works['teaching_activity_title']) . "</b></div>";
                                                     }
                                                     $class_notebook = $todayLists['class_notebook'];
                                                     foreach ($class_notebook as $class_notebooks) {
-                                                        echo "<div>" . ucfirst($class_notebooks['note_book_title']) . "</div>";
+                                                        echo "<div class='text-warning'><b>" . ucfirst($class_notebooks['note_book_title']) . "</b></div>";
                                                     }
                                                     ?>
                                                 </td>
@@ -251,11 +258,11 @@
                                                     <?php
                                                     $home_work = $todayLists['home_work'];
                                                     foreach ($home_work as $home_works) {
-                                                        echo "<div><b>" . ucfirst($home_works['teaching_activity_title']) . "</b></div>";
+                                                        echo "<div class='text-green'><b>" . ucfirst($home_works['teaching_activity_title']) . "</b></div>";
                                                     }
                                                     $home_notebook = $todayLists['home_notebook'];
                                                     foreach ($home_notebook as $home_notebooks) {
-                                                        echo "<div>" . ucfirst($home_notebooks['note_book_title']) . "</div>";
+                                                        echo "<div class='text-warning'><b>" . ucfirst($home_notebooks['note_book_title']) . "</b></div>";
                                                     }
                                                     ?>
                                                 </td>

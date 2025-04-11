@@ -15,9 +15,9 @@ class TodaysworkReport extends Admin_Controller
 
     public function index()
     {
-        if (!$this->rbac->hasPrivilege('todaysworkreport', 'can_view')) {
-            access_denied();
-        }
+        // if (!$this->rbac->hasPrivilege('todaysworkreport', 'can_view')) {
+        //     access_denied();
+        // }
         $this->session->set_userdata('top_menu', 'todaysworkreport');
         $this->session->set_userdata('sub_menu', 'todaysworkreport/index');
         $data['title']      = 'Student Home Work Report';
@@ -104,9 +104,6 @@ class TodaysworkReport extends Admin_Controller
             }
 
             $url="?class_id=".$class_id.'&subject_id='.implode(',',$subject_ids).'&today_work_id='.implode(',',$today_work_id);
-            // echo "<pre>";
-            // print_r($insertData);
-            // die();
             $result = $this->Todaysworkreport_model->insertWorkReport($insertData);
             redirect('todaysworkreport/allstudentworkreports'.$url);
             //   $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('submit_message') . '</div>');

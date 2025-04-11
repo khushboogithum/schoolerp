@@ -83,7 +83,7 @@ $url = '?subject_id=' . $subject_ids . '&class_id=' . $class_id . '&today_work_i
                                             <th></th>
                                             <th colspan="2" style="text-align: center;">Discipline</th>
                                            
-                                            <?php  //echo "<pre>";print_r($subject_details);die();
+                                            <?php 
                                             foreach ($subject_details as $subject_detail) { ?>
                                                 <th colspan="3" style="text-align: center;"><?= $subject_detail['name']; ?></th>
                                             <?php } ?>
@@ -91,7 +91,7 @@ $url = '?subject_id=' . $subject_ids . '&class_id=' . $class_id . '&today_work_i
                                         </tr>
                                         <tr>
                                             <th><?php echo $this->lang->line('s_no'); ?></th>
-                                            <th><?php echo $this->lang->line('student_name'); ?></th>
+                                            <th class="text-left"><?php echo $this->lang->line('student_name'); ?></th>
                                             <th><?php echo $this->lang->line('dress'); ?></th>
                                             <th><?php echo $this->lang->line('conduct'); ?></th>
                                             <?php foreach ($subject_details as $subject_detail) { ?>
@@ -112,7 +112,7 @@ $url = '?subject_id=' . $subject_ids . '&class_id=' . $class_id . '&today_work_i
                                         ?>
                                                 <tr>
                                                     <td><?= $key + 1 ?></td>
-                                                    <td>
+                                                    <td class="text-left">
                                                         <input type="hidden" name="studentId[]" value="<?= $students['id'] ?>" />
                                                         <input type="hidden" name="student_name[]" value="<?= $students['firstname'] ?> <?= $students['middlename'] ?> <?= $students['lastname'] ?>" />
                                                         <?= $students['firstname'] ?> <?= $students['middlename'] ?> <?= $students['lastname'] ?>
