@@ -54,9 +54,6 @@ class Todayswork extends Admin_Controller
 
             $workData[] = $work;
         }
-        // echo "<pre>";
-        // print_r($workData);
-        // die();
         $data['todaysWork'] = $workData;
 
         $this->form_validation->set_rules('work_date', $this->lang->line('work_date'), 'trim|required|xss_clean');
@@ -271,8 +268,7 @@ class Todayswork extends Admin_Controller
         $subject_id = $this->input->post('subject_id');
         $class_id = $this->input->post('class_id');
         $today_work_id = $this->input->post('today_work_id');
-        // print_r($today_work_id);
-        // die();
+        
         $data = ['today_status' => 1];
         $result=$this->Todayswork_model->goForStudentWorkReport($today_work_id, $data);
         if ($result) {
@@ -352,7 +348,7 @@ class Todayswork extends Admin_Controller
             
            // $classSubjectID = '?subject_id=' . $subject_id . '&class_id=' . $class_id. '&today_work_id=' . $today_work_id;
 
-            $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
+            $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('submitmessage') . '</div>');
             redirect('todaysworkreport/index');
         } else {
             $this->load->view('layout/header', $data);
@@ -401,7 +397,6 @@ class Todayswork extends Admin_Controller
 
             }
         
-
             $updateTodayReport= array(
                 'class_id'                     =>  $postdata['report_class_id'],
                 'subject_id'                   =>  $postdata['report_subject_id'],
@@ -413,19 +408,14 @@ class Todayswork extends Admin_Controller
                 'today_uncompleted_percentage'  => $postdata['today_uncompleted_percentage'],
             );
             
-        // echo "<pre>";
-        // print_r($insertTodayReport);
-        // die();
          $todayData= $this->Todayswork_model->updateTodayWorkReport($updateTodayReport,$postdata['today_work_report_id']);
-        //}
-
 
         if (!empty($resultData)) {
             $result=$this->Todayswork_model->goForStudentWorkReport($today_work_id);
             
            // $classSubjectID = '?subject_id=' . $subject_id . '&class_id=' . $class_id. '&today_work_id=' . $today_work_id;
 
-            $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
+            $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('submitmessage') . '</div>');
             redirect('todaysworkreport/index');
         } else {
             $this->load->view('layout/header', $data);

@@ -19,6 +19,18 @@
                         <!-- <h3 class="box-title"><?php echo $this->lang->line('todays_work_syllubus_report'); ?></h3> -->
                     </div><!-- /.box-header -->
                     <div class="box-body">
+                    <?php
+                        if ($this->session->flashdata('msg')) {
+                            echo $this->session->flashdata('msg');
+                            $this->session->unset_userdata('msg');
+                        }
+                        ?>
+
+                        <?php
+                        if (isset($error_message)) {
+                            echo "<div class='alert alert-danger'>" . $error_message . "</div>";
+                        }
+                        ?>
                         <form method="post" action="<?php echo base_url('todaysworkreport/index'); ?>">
                             <?php echo $this->customlib->getCSRF(); ?>
                             <div class="row">
@@ -63,7 +75,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label><?php echo $this->lang->line('subject_group'); ?></label><small class="req"> *</small>
+                                        <label><?php echo $this->lang->line('subject_group'); ?></label>
                                         <select id="subject_group_id" name="subject_group_id" class="form-control">
                                             <option value=""><?php echo $this->lang->line('select'); ?></option>
                                         </select>
@@ -72,7 +84,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label><?php echo $this->lang->line('subject'); ?></label><small class="req"> *</small>
+                                        <label><?php echo $this->lang->line('subject'); ?></label>
                                         <select id="subid" name="subject_id" class="form-control">
                                             <option value=""><?php echo $this->lang->line('select'); ?></option>
                                         </select>
@@ -125,8 +137,7 @@
                             <tbody>
                                 <?php
                                // $todayWorkId = $todaysWork[0]['today_work_id'];
-                                //  echo "<pre>";
-                                //  print_r($todaysWork);
+                                
                                 if (!empty($todaysWork)) {
                                     foreach ($todaysWork as $todayLists) {
                                 ?>
@@ -145,11 +156,11 @@
                                                 <?php
                                                 $class_work = $todayLists['class_work'];
                                                 foreach ($class_work as $class_works) {
-                                                    echo "<div><b>" . ucfirst($class_works['teaching_activity_title']) . "</b></div>";
+                                                    echo "<div class='text-green'><b>" . ucfirst($class_works['teaching_activity_title']) . "</b></div>";
                                                 }
                                                 $class_notebook = $todayLists['class_notebook'];
                                                 foreach ($class_notebook as $class_notebooks) {
-                                                    echo "<div>" . ucfirst($class_notebooks['note_book_title']) . "</div>";
+                                                    echo "<div class='text-warning'><b>" . ucfirst($class_notebooks['note_book_title']) . "</b></div>";
                                                 }
                                                 ?>
                                             </td>
@@ -157,11 +168,11 @@
                                                 <?php
                                                 $home_work = $todayLists['home_work'];
                                                 foreach ($home_work as $home_works) {
-                                                    echo "<div><b>" . ucfirst($home_works['teaching_activity_title']) . "</b></div>";
+                                                    echo "<div class='text-green'><b>" . ucfirst($home_works['teaching_activity_title']) . "</b></div>";
                                                 }
                                                 $home_notebook = $todayLists['home_notebook'];
                                                 foreach ($home_notebook as $home_notebooks) {
-                                                    echo "<div>" . ucfirst($home_notebooks['note_book_title']) . "</div>";
+                                                    echo "<div class='text-warning'><b>" . ucfirst($home_notebooks['note_book_title']) . "</b></div>";
                                                 }
                                                 ?>
                                             </td>
