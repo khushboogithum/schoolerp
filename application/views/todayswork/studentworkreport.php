@@ -169,19 +169,19 @@ $url = '?subject_id=' . $subject_ids . '&class_id=' . $class_id . '&today_work_i
                                             <div class="row align-items-center">
                                                 <!-- Left Side: Student Counts -->
                                                 <div class="col-md-6">
-                                                    <p><strong>Total Students:</strong>
+                                                    <p><strong><?= $this->lang->line('total_students') ?>: </strong>
                                                         <span id="totalStudents<?= ucfirst($subject_detail['name']) ?>"><?= count($student_data) ?></span>
                                                     </p>
                                                     <input type="hidden" id="counttotalStudents<?= ucfirst($subject_detail['name']) ?>" name="total_student[]" value="<?= count($student_data) ?>">
                                                     <input type="hidden"  name="report_today_work_id[]" value="<?=$subject_detail['today_work_id'] ?>">
                                                     <input type="hidden"  name="report_subject_id[]" value="<?=$subject_detail['subject_id'] ?>">
 
-                                                    <p><strong>Completed Work:</strong>
+                                                    <p><strong><?= $this->lang->line('completed_work') ?>: </strong>
                                                         <span id="completedWork<?= ucfirst($subject_detail['name']) ?>"><?= count($student_data) ?></span>
                                                     </p>
                                                     <input type="hidden" id="countcompletedWork<?= ucfirst($subject_detail['name']) ?>" name="today_completed_work[]" value="<?= count($student_data) ?>">
 
-                                                    <p><strong>Uncompleted Work:</strong>
+                                                    <p><strong><?= $this->lang->line('uncompleted_work') ?>: </strong>
                                                         <span id="uncompletedWork<?= ucfirst($subject_detail['name']) ?>">0</span>
                                                     </p>
                                                     <input type="hidden" id="countuncompletedWork<?= ucfirst($subject_detail['name']) ?>" name="today_uncompleted_work[]" value="0">
@@ -191,7 +191,7 @@ $url = '?subject_id=' . $subject_ids . '&class_id=' . $class_id . '&today_work_i
                                                 <!-- Completed Percentage -->
                                                 <div class="p-3 mb-3 rounded bg-light">
                                                     <h6 class="mb-0">
-                                                        <span class="text-success fw-bold">Completed: 
+                                                        <span class="text-success fw-bold"><?= $this->lang->line('completed') ?>: 
                                                             <span id="completedPercentage<?= ucfirst($subject_detail['name']) ?>">100.00%</span>
                                                         </span>
                                                     </h6>
@@ -201,7 +201,7 @@ $url = '?subject_id=' . $subject_ids . '&class_id=' . $class_id . '&today_work_i
                                                 <!-- Uncompleted Percentage -->
                                                 <div class="p-3 rounded bg-light">
                                                     <h6 class="mb-0">
-                                                        <span class="text-danger fw-bold">Uncompleted: 
+                                                        <span class="text-danger fw-bold"><?= $this->lang->line('uncompleted') ?>: 
                                                             <span id="uncompletedPercentage<?= ucfirst($subject_detail['name']) ?>">0.00%</span>
                                                         </span>
                                                     </h6>

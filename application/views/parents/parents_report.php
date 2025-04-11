@@ -63,7 +63,7 @@
                             <div class="row">
                             <div class="col-md-2">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1"> Date</label><small class="req"> *</small>
+                                        <label for="exampleInputEmail1"> <?= $this->lang->line('date') ?></label><small class="req"> *</small>
                                         <input autofocus="" id="tdate" name="tdate" placeholder="" type="date" class="form-control" value="<?=@$tdate?>" autocomplete="off">
                                         <span class="text-danger"><?php echo form_error('tdate'); ?></span>
                                     </div>
@@ -103,7 +103,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label>Students</label><small class="req"> *</small>
+                                        <label><?= $this->lang->line('student') ?></label><small class="req"> *</small>
                                         <select id="student_id" name="student_id" class="form-control">
                                             <option value=""><?php echo $this->lang->line('select'); ?></option>
                                         </select>
@@ -114,9 +114,9 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <button type="submit" name="search" value="search_filter" class="btn btn-primary btn-sm" style="margin-top: 21px;">
-                                            <i class="fa fa-search"></i> Search
+                                            <i class="fa fa-search"></i> <?= $this->lang->line('search') ?>
                                         </button>
-                                        <a href="<?= base_url() ?>/parentsreport/index" type="reset" name="reset" value="reset_filter" class="btn btn-primary btn-sm" style=" margin-top: 21px;"><i class="fa fa-filter"></i> Reset</a>
+                                        <a href="<?= base_url() ?>/parentsreport/index" type="reset" name="reset" value="reset_filter" class="btn btn-primary btn-sm" style=" margin-top: 21px;"><i class="fa fa-filter"></i> <?= $this->lang->line('reset') ?></a>
                                     </div>
                                 </div>
                             </div>
@@ -128,7 +128,7 @@
         </div>
         <div class="row">
             <div class="col-md-10 text-center">
-                <h1 class="text-danger">Pt.R.N.S. Public school, Lahchore Baghpat</h1>
+                <h1 class="text-danger"><?= $this->lang->line('school_name') ?></h1>
             </div>
             <div class="col-md-2">
                 <img src="" alt="">
@@ -136,19 +136,19 @@
         </div>
         <div class="row m-1 mt-2">
             <div class="col-md-4">
-                <p>Admission No.- <?= $studentDetails[0]['admission_no'] ?></p>
-                <p>Class Name - <?= $studentDetails[0]['class'] ?></p>
-                <p>Roll No. - <?= $studentDetails[0]['roll_no'] ?></p>
+                <p><?= $this->lang->line('admission_no') ?>.-  <?=$studentDetails[0]['admission_no'] ?></p>
+                <p><?= $this->lang->line('class_name') ?> - <?=$studentDetails[0]['class'] ?></p>
+                <p><?= $this->lang->line('roll_no') ?>. - <?=$studentDetails[0]['roll_no'] ?></p>  
 
             </div>
             <div class="col-md-4">
-                <p>Student's Name - <?= $studentDetails[0]['firstname'] ?></p>
-                <p>Father's Name - <?= $studentDetails[0]['father_name'] ?></p>
-                <p>Address - <?= $studentDetails[0]['current_address'] ?></p>
+                <p><?= $this->lang->line('student_name') ?> -  <?=$studentDetails[0]['firstname'] ?></p>
+                <p><?= $this->lang->line('father_name') ?> - <?=$studentDetails[0]['father_name'] ?></p>
+                <p><?= $this->lang->line('address') ?> - <?=$studentDetails[0]['current_address'] ?></p>  
             </div>
             <div class="col-md-4">
-                <p>Mother's Name - <?= $studentDetails[0]['mother_name'] ?></p>
-                <p>DOB - <?= $studentDetails[0]['dob'] ?></p>
+                <p><?= $this->lang->line('mother_name') ?> - <?=$studentDetails[0]['mother_name'] ?></p>
+                <p><?= $this->lang->line('dob') ?> - <?=$studentDetails[0]['dob'] ?></p>
             </div>
         </div>
         <div class="row">
@@ -234,13 +234,13 @@
                         <div class="report-container">
                             <h4 class="ml-2">2. <?= $this->lang->line('discipline_summary') ?></h4>
                             <div class="subject_details">
-                                <span class="">Dress</span>
+                                <span class=""><?= $this->lang->line('dress') ?></span>
                                 <div class="d-flex text-primary">
                                     <?=$getSubjectWiseReport['dreessStatus'] ?>
                                 </div>
                             </div>
                             <div class="subject_details">
-                                <span class="">Conduct</span>
+                                <span class=""><?= $this->lang->line('conduct') ?></span>
                                 <div class="d-flex text-primary">
                                 <?=$getSubjectWiseReport['conductStatus'] ?>
 
@@ -260,16 +260,16 @@
                                 </div>
                             <?php } ?>
                             <div>
-                                <span class="">Grade</span>
+                                <span class=""><?= $this->lang->line('grade') ?></span>
                                 <div class="grade-box"><?=$getSubjectWiseReport['grade'] ?></div>
                             </div>
                         </div>
 
                         <div class="info">
-                            <div><span style="background: green; padding: 2px 5px;">&nbsp;</span> Green box means student performance is good.</div>
-                            <div><span style="background: yellow; padding: 2px 5px;">&nbsp;</span> Yellow box means student performance is low.</div>
-                            <div><span style="background: orange; padding: 2px 5px;">&nbsp;</span> Orange box means student performance needs attention.</div>
-                            <div><span style="background: red; padding: 2px 5px;">&nbsp;</span> Red box means student performance is critical, meet principal immediately.</div>
+                            <div><span style="background: green; padding: 2px 5px;">&nbsp;</span><?= $this->lang->line('green_box') ?> </div>
+                            <div><span style="background: yellow; padding: 2px 5px;">&nbsp;</span><?= $this->lang->line('yellow_box') ?> </div>
+                            <div><span style="background: orange; padding: 2px 5px;">&nbsp;</span><?= $this->lang->line('orange_box') ?> </div>
+                            <div><span style="background: red; padding: 2px 5px;">&nbsp;</span><?= $this->lang->line('red_box') ?> </div>
                         </div>
 
                         <button type="submit" class="btn btn-info pull-right" style="margin-top:2%;margin-right: 10px;"><?php echo $this->lang->line('message'); ?></button>

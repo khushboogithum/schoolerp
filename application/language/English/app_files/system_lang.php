@@ -234,6 +234,7 @@ $lang['attachment'] = "Attachment";
 $lang['attachments'] = "Attachments";	
 $lang['attempt'] = "Attempt";	
 $lang['attempted'] = "Attempted";	
+$lang['dob'] = "DOB";	
 $lang['attendance'] = "Attendance";	
 $lang['attendance_already_submitted_as_holiday_you_can_edit_record'] = "Attendance Already Submitted As Holiday You Can Edit Record";	
 $lang['attendance_already_submitted_you_can_edit_record'] = "Attendance Already Submitted You Can Edit Record";	
@@ -1317,6 +1318,7 @@ $lang['multiple_choice'] = "Multiple Choice";
 $lang['my_profile'] = "My Profile";	
 $lang['my_rating'] = "My Rating";	
 $lang['n_a'] = "N/A";	
+$lang['class_name'] = "Class name";	
 $lang['name'] = "Name";	
 $lang['name_already_exists'] = "Name Already Exists";	
 $lang['name_prefix'] = "Mr/Ms";	
@@ -2457,6 +2459,25 @@ $lang['no_of_day_student_attend_the_class']= "No of days student attend theclass
 $lang['without_dress']= "Without Dress";
 $lang['bad_conduct_found']= "Bad Conduct Found";
 $lang['grade']= "Grade";
+
+$lang['today_class_performance']= "Today Class Performance";
+$lang['today_winner_class']= "Today Winner Class";
+$lang['today_subject_performance']= "Today Subject Performance";
+$lang['today_winner_subject']= "Today Winner Subject";
+
+$lang['today_marks']= "Today Marks";
+$lang['today_winner']= "Today winner";
+
+$lang['completed_work']= "Completed work";
+$lang['uncompleted_work']= "Uncompleted work";
+$lang['uncompleted']= "Uncompleted";
+
+$lang['school_name']= "Pt.R.N.S. Public school, Lahchore Baghpat";
+
+$lang['green_box']= "Green box means student performance is good.";
+$lang['yello_box']= "Yellow box means student performance is low.";
+$lang['orange_box']= "Orange box means student performance needs attention.";
+$lang['red_box']= "Red box means student performance is critical, meet principal immediately.";
 
 
 

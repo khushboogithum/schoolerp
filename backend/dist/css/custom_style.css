@@ -7,3 +7,35 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ccc !important;
+    /* padding: 10px 12px !important; */
+    text-align: left !important;
+    vertical-align: top !important;
+}
+
+thead th {
+    /* background-color:rgb(207, 212, 207) !important; */
+    background-color:#0d225b !important;
+    color: white !important;
+    /* font-size: 16px; */
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9 !important;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1 !important ;
+    transition: 0.3s;
+}
+
+.slybuss_report{
+    border: 1px solid black;
+    padding: 10px;
+}

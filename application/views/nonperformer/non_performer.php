@@ -46,96 +46,11 @@
                                 </div>
                             </a>
                         <?php  } ?>
-
-                        <!-- <div>
-                                <span class="ml-2">Class K.G</span>
-                                <div class="subject-box d-flex">
-                                     84.21%
-                                </div>
-                            </div>
-                            <div>
-                                <span class="ml-2">Class 2</span>
-                                <div class="subject-box d-flex" >
-                                     78.95%
-                                </div>
-                            </div>
-                            <div>
-                                <span class="ml-2">Class 4</span>
-                                <div class="subject-box d-flex">
-                                     95%
-                                </div>
-                            </div>
-                            <div>
-                                <span class="ml-2">Class 6</span>
-                                <div class="subject-box d-flex">
-                                     90%
-                                </div>
-                            </div>
-                            <div>
-                                <span class="ml-2">Class 8</span>
-                                <div class="subject-box d-flex">
-                                     92%
-                                </div>
-                            </div>
-                            <div>
-                                <span class="ml-2">Class 10</span>
-                                <div class="subject-box d-flex">
-                                     70%
-                                </div>
-                            </div>
-                            <div>
-                                <span class="ml-2">Class 12</span>
-                                <div class="subject-box d-flex">
-                                     70%
-                                </div>
-                            </div>
-                            <div>
-                                <span class="ml-2">Class Nursery</span>
-                                <div class="subject-box d-flex">
-                                     70%
-                                </div>
-                            </div>
-                            <div>
-                                <span class="ml-2">Class 1</span>
-                                <div class="subject-box d-flex">
-                                     70%
-                                </div>
-                            </div>
-                            <div>
-                                <span class="ml-2">Class 2</span>
-                                <div class="subject-box d-flex">
-                                     90%
-                                </div>
-                            </div>
-                            <div>
-                                <span class="ml-2">Class 5</span>
-                                <div class="subject-box d-flex">
-                                     70%
-                                </div>
-                            </div>
-                            <div>
-                                <span class="ml-2">Class 7</span>
-                                <div class="subject-box d-flex">
-                                     70%
-                                </div>
-                            </div>
-                            <div>
-                                <span class="ml-2">Class 9</span>
-                                <div class="subject-box d-flex">
-                                     70%
-                                </div>
-                            </div>
-                            <div>
-                                <span class="ml-2">Class 11</span>
-                                <div class="subject-box d-flex">
-                                     70%
-                                </div>
-                            </div> -->
                     </div>
                 </div>
 
             </div>
-            <?php //} 
+            <?php 
             ?>
             <div class="col-md-12">
                 <div class="box box-primary">
@@ -185,44 +100,6 @@
                                     </div>
                                 </div>
                             <?php } ?>
-
-                            <!-- <div>
-                                <span class="ml-2">Mathmatics</span>
-                                <div class="subject-box d-flex">
-                                    84.21%
-                                </div>
-                            </div>
-                            <div>
-                                <span class="ml-2">Hindi</span>
-                                <div class="subject-box d-flex">
-                                    78.95%
-                                </div>
-                            </div>
-                            <div>
-                                <span class="ml-2">Science</span>
-                                <div class="subject-box d-flex">
-                                    95%
-                                </div>
-                            </div>
-                            <div>
-                                <span class="ml-2">SST</span>
-                                <div class="subject-box d-flex">
-                                    90%
-                                </div>
-                            </div>
-
-                            <div>
-                                <span class="ml-2">Drawing</span>
-                                <div class="subject-box d-flex">
-                                    92%
-                                </div>
-                            </div>
-                            <div>
-                                <span class="ml-2">Computer</span>
-                                <div class="subject-box d-flex">
-                                    70%
-                                </div>
-                            </div> -->
                         </div>
 
                         <button type="submit" class="btn btn-info pull-right" style="margin-top:2%;margin-right: 10px;"><?php echo $this->lang->line('message'); ?></button>
