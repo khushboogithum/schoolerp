@@ -172,18 +172,6 @@ class Syallabusreport_model extends MY_model
 
     public function getSubjectWiseReport($from_date=null, $to_date=null, $subject_id=null){
 
-            
-        $this->db->select('subjects.*');
-        $this->db->from('subjects');
-        $this->db->order_by('name','ASC');
-        $query = $this->db->get();
-        $subjectresult = $query->result_array();
-        $subjectArray=array();
-        foreach($subjectresult as $key=>$subjectdata){
-                $subjectArray[]=$subjectdata['name'];
-
-        }
-
         $this->db->select('student_work_report.*');
         $this->db->from('student_work_report');
         if (!empty($from_date)) {
@@ -200,26 +188,28 @@ class Syallabusreport_model extends MY_model
         $results = $query->result_array();
         $resultArray = [];
         foreach ($results as $result) {
-            $subjectName = $result['subject_name'];
+            $class_id = $result['class_id'];
             $dateData = date("Y-m-d", strtotime($result['created_at']));
-            if (!isset($resultArray[$dateData][$subjectName])) {
-                $resultArray[$dateData][$subjectName] = [
+            if (!isset($resultArray[$dateData][$class_id])) {
+                $resultArray[$dateData][$class_id] = [
                     'complete' => 0,
                     'totalstudent' => 0,
                     'incomplete' => 0
                 ];
             }
         
-            $resultArray[$dateData][$subjectName]['totalstudent']++;
+            $resultArray[$dateData][$class_id]['totalstudent']++;
             if ($result['fair_copy'] == 1 && $result['writing_work'] == 1 && $result['learning_work'] == 1) {
-                $resultArray[$dateData][$subjectName]['complete']++;
+                $resultArray[$dateData][$class_id]['complete']++;
             } else {
-                $resultArray[$dateData][$subjectName]['incomplete']++;
+                $resultArray[$dateData][$class_id]['incomplete']++;
             }
         }
         
-        
-        return array('subjectdata'=>$subjectArray,'subjectReport'=>$resultArray);
+        // echo "<pre>";
+        // print_r($resultArray);
+        // die();
+        return array('subjectReport'=>$resultArray);
     }
 
     public function get_winning_class() {
@@ -234,8 +224,8 @@ class Syallabusreport_model extends MY_model
         $todayMax = $todayQuery->result_array();
         if (empty($todayMax)) {
             return [
-                'final_class_name' => null,
-                'final_percentage' => null
+                'final_class_name' => 'NA',
+                'final_percentage' => '0'
             ];
         }
 
@@ -289,8 +279,9 @@ class Syallabusreport_model extends MY_model
         // print_r($todayMax);
         if (empty($todayMax)) {
             return [
-                'final_teacher_name' => null,
-                'final_percentage' => null
+                'name' => 'NA',
+                'img' => '',
+                'percentage'=>'0'
             ];
         }
 
@@ -342,8 +333,8 @@ class Syallabusreport_model extends MY_model
         // print_r($todayMax);
         if (empty($todayMax)) {
             return [
-                'final_teacher_name' => null,
-                'final_percentage' => null
+                'name' => 'NA',
+                'percentage' => '0'
             ];
         }
 

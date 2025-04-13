@@ -245,8 +245,9 @@
 
 
                     if ($report_type == 'subject_wise') {
-
-                        $subjectdata = $subjectWiseReport['subjectdata'];
+                        // echo "<pre>";
+                        // print_r($classlist);
+                        // die();
                         $subjectReport = $subjectWiseReport['subjectReport'];
                     }
                     ?>
@@ -259,10 +260,9 @@
 
 
                                     if ($report_type == 'subject_wise') {
-
                                         $subjectdata = $subjectWiseReport['subjectdata'];
-                                        foreach ($subjectdata as $subject) {
-                                            echo "<th>$subject</th>";
+                                        foreach ($classlist as $class_list) {
+                                            echo "<th>".$class_list['class']."</th>";
                                         }
                                     } else {
                                         foreach ($subjects as $subject) {
@@ -275,16 +275,16 @@
                             </thead>
                             <tbody>
                                 <?php if ($report_type == 'subject_wise') {
-
-                                    foreach ($subjectReport as $date => $subjectreports) {
+                                      foreach ($subjectReport as $date => $subjectreports) {
                                         echo "<tr>";
                                         echo "<td>$date</td>"; // Date Column
 
-                                        foreach ($subjectdata as $subject) {
-                                            if (isset($subjectreports[$subject])) {
-                                                $comp = $subjectreports[$subject]['complete'];
-                                                $tot = $subjectreports[$subject]['totalstudent'];
-                                                $incomp = $subjectreports[$subject]['incomplete'];
+                                        foreach ($classlist as $class_list) {
+                                            $class_id=$class_list['id'];
+                                            if (isset($subjectreports[$class_id])) {
+                                                $comp = $subjectreports[$class_id]['complete'];
+                                                $tot = $subjectreports[$class_id]['totalstudent'];
+                                                $incomp = $subjectreports[$class_id]['incomplete'];
                                                 $percent = ($tot > 0) ? round(($comp / $tot) * 100, 2) : 0;
                                                 echo "<td>Total: $tot <br> Complete: $comp <br> Incomplate: $incomp <br> Percentage: $percent %  </td>";
                                             } else {
@@ -475,6 +475,7 @@
                 error: function(xhr) { // if error occured
                     alert("<?php echo $this->lang->line('error_occurred_please_try_again'); ?>");
 
+                    
                 },
                 complete: function() {
                     $('#' + subject_group_target).removeClass('dropdownloading');
