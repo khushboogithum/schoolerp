@@ -89,6 +89,7 @@ class Syallabusreport extends Admin_Controller
                 }
             }
 
+            
             if ($report_type == 'teacher_wise') {
                 $teacher_id = $this->input->post('teacher_id');
 
